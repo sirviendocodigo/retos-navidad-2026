@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24 Commits | Muerte en la cena de Navidad</title>
+<meta name="description" content="24 retos de código, uno cada día del 1 al 24 de diciembre. Organizan Next Digital, Lean Mind y sirviendo código;">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c1726;
+    --surface: #13233a;
+    --surface-2: #1a2f4b;
+    --line: #26405f;
+    --text: #eef3f8;
+    --muted: #9db1c7;
+    --gold: #f4c95d;
+    --red: #e8604c;
+    --green: #5ccb9c;
+    --radius: 16px;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Space Grotesk', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: var(--bg); }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    color: var(--text);
+    background:
+      radial-gradient(1px 1px at 10% 20%, #ffffff55 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 70% 10%, #ffffff44 50%, transparent 51%),
+      radial-gradient(1px 1px at 40% 60%, #ffffff33 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 85% 75%, #ffffff33 50%, transparent 51%),
+      radial-gradient(1px 1px at 25% 85%, #ffffff44 50%, transparent 51%),
+      radial-gradient(ellipse at top, #18304f 0%, var(--bg) 60%);
+        background-size: 260px 260px, 340px 340px, 300px 300px, 420px 420px, 380px 380px, 100% 100%;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  a { color: var(--gold); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  .demo-banner {
+    background: var(--gold); color: #1b1300; text-align: center;
+    font-size: 14px; font-weight: 500; padding: 8px 16px;
+  }
+
+  header.wrap { padding: 64px 20px 32px; text-align: center; }
+  .kicker { font-family: var(--mono); color: var(--green); font-size: 14px; letter-spacing: .08em; }
+  h1 {
+    font-size: clamp(48px, 9vw, 96px); line-height: 1; margin: 12px 0 16px; letter-spacing: -.03em;
+  }
+  h1 .num { color: var(--gold); }
+  .lead { color: var(--muted); font-size: 19px; max-width: 620px; margin: 0 auto; }
+  .orgs { margin-top: 28px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; align-items: center; }
+  .orgs span.lbl { color: var(--muted); font-size: 14px; margin-right: 4px; }
+  .chip {
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 8px; background: #ffffff08;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+  .countdown {
+    margin: 36px auto 0; display: inline-flex; gap: 12px; align-items: center;
+    font-family: var(--mono); font-size: 15px; background: var(--surface); border: 1px solid var(--line);
+    padding: 10px 18px; border-radius: 999px;
+  }
+  .countdown b { color: var(--gold); }
+
+  section { padding: 40px 0; }
+  h2 { font-size: 30px; margin: 0 0 20px; letter-spacing: -.01em; }
+  h2 small { font-family: var(--mono); font-size: 14px; color: var(--muted); font-weight: 400; margin-left: 10px; }
+
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 520px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  .day {
+    position: relative; aspect-ratio: 1 / 1.05; border-radius: var(--radius); border: 1px solid var(--line);
+    background: var(--surface); color: var(--text); font-family: var(--sans); text-align: left;
+    padding: 14px; display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer; transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    overflow: hidden;
+  }
+  .day::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--brand, var(--line));
+  }
+  .day .n { font-size: 34px; font-weight: 700; line-height: 1; }
+  .day .brand { font-size: 12px; color: var(--muted); }
+  .day .state { font-family: var(--mono); font-size: 12px; }
+  .day.open:hover { transform: translateY(-3px); border-color: var(--brand); background: var(--surface-2); }
+  .day.open .state { color: var(--gold); }
+  .day.done { background: linear-gradient(160deg, #1d3a35, var(--surface)); }
+  .day.done .state { color: var(--green); }
+  .day.locked { cursor: default; opacity: .55; }
+  .day.locked .n { color: var(--muted); }
+  .day.today { box-shadow: 0 0 0 2px var(--gold); }
+
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .how { grid-template-columns: 1fr; } }
+  .how div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .how b { display: block; font-family: var(--mono); color: var(--gold); font-size: 13px; margin-bottom: 6px; }
+  .how p { margin: 0; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); font-size: 15px; }
+  th { font-size: 13px; color: var(--muted); font-weight: 500; background: var(--surface-2); }
+  tr:last-child td { border-bottom: 0; }
+  td.pos { font-family: var(--mono); color: var(--muted); width: 48px; }
+  tr:nth-child(1) td.pos { color: var(--gold); font-weight: 700; }
+  td.alias { font-weight: 500; }
+  td.num { font-family: var(--mono); }
+  .stars { display: flex; gap: 3px; flex-wrap: wrap; }
+  .stars i { width: 8px; height: 8px; border-radius: 2px; background: var(--line); display: inline-block; }
+  .stars i.on { background: var(--green); }
+  @media (max-width: 640px) { .col-stars { display: none; } }
+  .empty { color: var(--muted); padding: 24px; text-align: center; }
+
+  dialog {
+    width: min(760px, calc(100vw - 24px)); max-height: calc(100vh - 32px); padding: 0;
+    border: 1px solid var(--line); border-radius: 20px; background: var(--surface); color: var(--text);
+  }
+  dialog::backdrop { background: #050b14cc; backdrop-filter: blur(3px); }
+  .dlg-head { padding: 22px 26px 0; display: flex; justify-content: space-between; gap: 16px; align-items: start; }
+  .dlg-head h3 { margin: 6px 0 0; font-size: 26px; line-height: 1.2; }
+  .close { background: none; border: 1px solid var(--line); color: var(--text); border-radius: 10px; width: 38px; height: 38px; font-size: 20px; cursor: pointer; flex: none; }
+  .dlg-body { padding: 18px 26px 26px; }
+  .enunciado p { margin: 0 0 12px; }
+  .enunciado code { font-family: var(--mono); background: var(--surface-2); padding: 1px 6px; border-radius: 6px; font-size: .92em; }
+  .input-box { margin: 18px 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .input-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--surface-2); font-size: 13px; color: var(--muted); }
+  .input-bar button { margin-left: 6px; }
+  pre { margin: 0; padding: 14px; font-family: var(--mono); font-size: 13px; max-height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-word; background: #0b1524; }
+
+  form { display: grid; gap: 12px; margin-top: 8px; }
+  label { font-size: 14px; color: var(--muted); display: grid; gap: 6px; }
+  input[type=text], input[type=email] {
+    font: inherit; font-size: 16px; color: var(--text); background: #0b1524; border: 1px solid var(--line);
+    border-radius: 10px; padding: 11px 13px;
+  }
+  textarea {
+    font-family: var(--mono); font-size: 13px; color: var(--text); background: #0b1524; border: 1px solid var(--line);
+    border-radius: 10px; padding: 11px 13px; resize: vertical; tab-size: 2; min-height: 140px;
+  }
+  input:focus, textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .file-row { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); margin-top: -4px; }
+  .file-btn { display: inline-block; cursor: pointer; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  .check { display: flex; gap: 10px; align-items: start; font-size: 13px; }
+  .check input { margin-top: 3px; }
+  .btn {
+    font: inherit; font-weight: 700; font-size: 16px; border: 0; border-radius: 10px; padding: 12px 18px;
+    background: var(--gold); color: #1b1300; cursor: pointer;
+  }
+  .btn:disabled { opacity: .6; cursor: wait; }
+  .btn-sm { font: inherit; font-size: 12px; background: transparent; border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+  .who { font-size: 13px; color: var(--muted); }
+  .who button { background: none; border: 0; color: var(--gold); cursor: pointer; font: inherit; text-decoration: underline; padding: 0; }
+  .msg { border-radius: 10px; padding: 12px 14px; font-size: 15px; display: none; }
+  .msg.ok { display: block; background: #1d3a35; border: 1px solid var(--green); }
+  .msg.ko { display: block; background: #3a1f22; border: 1px solid var(--red); }
+
+  .case-intro { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 20px; }
+  .case-intro .tag { font-family: var(--mono); font-size: 12px; color: var(--red); letter-spacing: .1em; }
+  .case-intro h3 { margin: 6px 0 8px; font-size: 22px; }
+  .case-intro p { margin: 0; color: var(--muted); }
+  .case-count { font-family: var(--mono); font-size: 14px; color: var(--muted); margin: 0 0 14px; }
+  .suspects { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  @media (max-width: 860px) { .suspects { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 520px) { .suspects { grid-template-columns: repeat(3, 1fr); } }
+  .suspect { border-radius: 14px; border: 1px dashed var(--line); background: #0f1d31; padding: 10px; text-align: center; font-family: var(--sans); color: var(--text); }
+  .suspect .ph { aspect-ratio: 1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 34px; color: var(--line); background: repeating-linear-gradient(45deg, #13233a, #13233a 8px, #112036 8px, #112036 16px); margin-bottom: 8px; overflow: hidden; }
+  .suspect .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .suspect .nm { font-size: 13px; font-weight: 700; line-height: 1.2; }
+  .suspect .cg { font-size: 11px; color: var(--muted); line-height: 1.3; margin-top: 2px; }
+  .suspect.on { border: 1px solid var(--line); background: var(--surface); cursor: pointer; transition: transform .15s ease, border-color .15s ease; }
+  .suspect.on:hover { transform: translateY(-3px); border-color: var(--red); }
+  .avatar { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 30px; color: #0c1726; background: linear-gradient(135deg, var(--gold), var(--red)); }
+  .reveal { display: none; margin-top: 4px; border: 1px solid var(--red); border-radius: 14px; padding: 16px; background: #1f1a26; gap: 16px; grid-template-columns: 110px 1fr; }
+  .reveal.show { display: grid; }
+  @media (max-width: 520px) { .reveal.show { grid-template-columns: 1fr; } }
+  .reveal .ph { aspect-ratio: 1; border-radius: 10px; overflow: hidden; }
+  .reveal .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .reveal .tag { font-family: var(--mono); font-size: 12px; color: var(--red); letter-spacing: .1em; }
+  .reveal h4 { margin: 4px 0 0; font-size: 20px; }
+  .reveal .cg { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+  .reveal .txt p { margin: 0 0 10px; }
+  footer.wrap { padding: 40px 20px 60px; color: var(--muted); font-size: 14px; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="demo-banner" id="demoBanner" hidden>Modo demostración: los retos y el ranking son de ejemplo. Prueba el día 1 con la respuesta 180.</div>
+
+<header class="wrap">
+  <div class="kicker">&lt;/&gt; del 1 al 24 de diciembre</div>
+  <h1><span class="num">24</span> Commits</h1>
+  <p class="lead">Un reto de código cada día y un caso navideño por resolver. Cada reto que superas destapa a una persona sospechosa y una nueva pista. ¿Sabrás quién ha sido antes de Nochebuena?</p>
+  <div class="orgs" id="orgs"><span class="lbl">Organizan</span></div>
+  <div class="countdown" id="countdown" hidden></div>
+</header>
+
+<main class="wrap">
+  <section id="calendario">
+    <h2>Calendario</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="caso">
+    <h2>El expediente</h2>
+    <div class="case-intro">
+      <div class="tag">CASO ABIERTO</div>
+      <h3 id="caseTitle"></h3>
+      <p id="caseIntro"></p>
+    </div>
+    <p class="case-count" id="caseCount"></p>
+    <div class="suspects" id="suspects"></div>
+  </section>
+
+  <section id="como">
+    <h2>Cómo funciona</h2>
+    <div class="how">
+      <div><b>01 Abre el reto</b><p>Cada día a las 10:00 se desbloquea un reto nuevo, creado por una de las tres comunidades organizadoras.</p></div>
+      <div><b>02 Resuélvelo a tu manera</b><p>Copia la entrada y resuélvelo en tu ordenador con el lenguaje que prefieras. Envía tu código y el resultado que te da.</p></div>
+      <div><b>03 Destapa el caso</b><p>Cada acierto revela a una persona sospechosa y una pista nueva. Además sumas en el ranking: gana quien más retos resuelva y, si hay empate, quien menos tarde.</p></div>
+    </div>
+  </section>
+
+  <section id="ranking">
+    <h2>Ranking <small id="rankUpd"></small></h2>
+    <div id="rankWrap"><div class="empty">Cargando ranking...</div></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  Una iniciativa de Next Digital, Lean Mind y sirviendo código; <br>
+  <a href="#" id="privLink">Política de privacidad</a>
+</footer>
+
+<dialog id="dlg">
+  <div class="dlg-head">
+    <div>
+      <span class="chip" id="dlgBrand"></span>
+      <h3 id="dlgTitle"></h3>
+    </div>
+    <button class="close" id="dlgClose" aria-label="Cerrar">&times;</button>
+  </div>
+  <div class="dlg-body">
+    <div class="enunciado" id="dlgText"></div>
+    <div class="input-box">
+      <div class="input-bar">
+        <span>Tu entrada</span>
+        <span><button class="btn-sm" id="btnCopy">Copiar</button><button class="btn-sm" id="btnDown">Descargar .txt</button></span>
+      </div>
+      <pre id="dlgInput"></pre>
+    </div>
+    <form id="form" autocomplete="on">
+      <div id="identity">
+        <div class="row2">
+          <label>Alias público (sale en el ranking)<input type="text" id="fAlias" maxlength="30" required></label>
+          <label>Email (no se publica)<input type="email" id="fEmail" required></label>
+        </div>
+        <label class="check" style="margin-top:12px"><input type="checkbox" id="fConsent" required><span>Acepto la <a href="#" class="privLink2">política de privacidad</a> y que mi alias aparezca en el ranking público.</span></label>
+      </div>
+      <div class="who" id="who" hidden></div>
+      <label>Tu código
+        <textarea id="fCode" rows="9" required spellcheck="false" placeholder="Pega aquí el código con el que has resuelto el reto, en el lenguaje que quieras"></textarea>
+      </label>
+      <div class="file-row">
+        <label class="btn-sm file-btn">Subir archivo<input type="file" id="fFile" hidden></label>
+        <span id="fileName">o pega el código arriba</span>
+      </div>
+      <label>El resultado que te da tu código<input type="text" id="fAnswer" required autocomplete="off" spellcheck="false"></label>
+      <button class="btn" id="btnSend" type="submit">Enviar respuesta</button>
+      <div class="msg" id="msg"></div>
+      <div class="reveal" id="reveal"></div>
+    </form>
+  </div>
+</dialog>
+
+<dialog id="dlgCase">
+  <div class="dlg-head">
+    <div class="tag" style="font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:.1em">EXPEDIENTE</div>
+    <button class="close" id="caseClose" aria-label="Cerrar">&times;</button>
+  </div>
+  <div class="dlg-body"><div class="reveal show" id="caseBody" style="border:0;background:none;padding:0"></div></div>
+</dialog>
+
+<script>
+/* ======================= CONFIGURACIÓN ======================= */
+const CONFIG = {
+  // Pega aquí la URL de la aplicación web de Apps Script (termina en /exec).
+  // Si se deja vacía, la web funciona en modo demostración con datos de ejemplo.
+  API_URL: '',
+  URL_PRIVACIDAD: '#',
+  CASO: {
+    titulo: 'Muerte en la cena de Navidad',
+    intro: 'El sábado 28 de noviembre, el equipo de Madrid voló a Canarias para celebrar por primera vez la cena de Navidad con la oficina de Lean Mind. Casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 lo encontraron muerto junto al árbol. Esa noche un temporal cortó la carretera, y nadie pudo entrar ni salir hasta el lunes. Para entonces, ya no era el único. Hay 24 expedientes. Uno es de quien lo hizo.'
+  },
+  // Cambia estos colores por los de cada manual de marca.
+  MARCAS: {
+    'Next Digital':       '#f4c95d',
+    'Lean Mind':          '#5ccb9c',
+    'sirviendo código;':  '#44C1F0'
+  }
+};
+/* ============================================================= */
+
+const DEMO = !CONFIG.API_URL;
+const $ = s => document.querySelector(s);
+const store = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+
+/* ---------- Datos de demostración ---------- */
+const DEMO_RETOS = [
+ {
+  "dia": 1,
+  "marca": "Next Digital",
+  "titulo": "La lista de invitados",
+  "solucion": "180",
+  "enunciado": "Antes de la cena, la organización mandó un formulario para apuntarse. Como siempre, hubo quien se apuntó dos veces, y hasta tres, por si acaso.\n\nLa entrada es la lista de inscripciones, una persona por línea. **¿Cuántas personas distintas se apuntaron a la cena?**\n\nEjemplo: con las líneas `Ana Ruiz`, `Luis Pérez` y `Ana Ruiz`, la respuesta es `2`.",
+  "entrada": "Víctor Hernández\nAcoran Padrón\nDiego Ruiz\nIrene Afonso\nIrene Cabrera\nAlba Suárez\nDácil Rodríguez\nAcoran Castro\nRocío Sosa\nRubén León\nBeatriz Martín\nAlejandro Medina\nIván Castro\nTania García\nAiram González\nIballa González\nAlejandro Ramos\nAlejandro Martín\nAna Rivero\nIrene Ruiz\nBeatriz Medina\nTania Sosa\nHugo Morales\nJonay Pérez\nYaiza Martín\nAcoran Díaz\nNoelia Expósito\nAna Rodríguez\nNerea Morales\nLucía Sosa\nDácil Medina\nVíctor Pérez\nClara González\nRubén Martín\nPaula Delgado\nSara Ramos\nDiego Santana\nIballa Expósito\nAiram Torres\nClara Rivero\nRocío Ruiz\nAna Rodríguez\nLuis Castro\nÓscar Hernández\nGara Torres\nRubén Ramos\nIrene Cabrera\nMario Expósito\nGara Ruiz\nGara Torres\nDaniel García\nPablo Medina\nMario Torres\nDaniel Torres\nYaiza Cabrera\nGara Medina\nRaúl Padrón\nYaiza Padrón\nAlba González\nSara Afonso\nRubén Díaz\nJonay Torres\nIván Medina\nRaúl García\nVíctor León\nLaura Expósito\nAlba Afonso\nDaniel Ruiz\nVíctor González\nRubén Díaz\nLuis Torres\nAna Medina\nHugo Medina\nRocío Delgado\nAna Navarro\nIballa García\nRaúl Pérez\nDiego Ruiz\nCristina Medina\nNoelia Expósito\nIballa Morales\nGara Suárez\nJavier León\nPablo Medina\nPablo Ramos\nMario González\nLaura Hernández\nTania García\nNoelia Afonso\nPaula Delgado\nYaiza Morales\nMarta Díaz\nLaura Suárez\nJavier León\nAdrián Santana\nPaula Expósito\nAdrián Afonso\nGara Suárez\nPaula Delgado\nCristina Expósito\nDiego Expósito\nJavier Sosa\nGara Ruiz\nNoelia León\nAdrián Morales\nAna Rivero\nSara Ramos\nLaura Hernández\nMarta Ramos\nRocío Delgado\nDaniel Martín\nLucía Pérez\nNerea Delgado\nYaiza García\nAlejandro Castro\nNayra Martín\nIrene Hernández\nAiram González\nCarmen Ruiz\nNerea Delgado\nCristina Pérez\nAna Medina\nGara León\nIrene Castro\nJonay Pérez\nIballa Sosa\nCristina Navarro\nIván Díaz\nNoelia Castro\nCristina Pérez\nMarta Suárez\nLuis León\nSara León\nDaniel Morales\nAiram Hernández\nLuis Martín\nHugo Expósito\nAdrián Morales\nBeatriz Expósito\nClara Delgado\nNoelia Medina\nIballa Torres\nAlejandro Ramos\nIrene Afonso\nCristina Suárez\nDiego Hernández\nMarta Medina\nIballa Morales\nRubén León\nMarta Suárez\nLuis Martín\nAiram Cabrera\nPablo Ramos\nDaniel Rodríguez\nRaúl Navarro\nAlejandro Morales\nJonay Navarro\nHugo Hernández\nNoelia Hernández\nLaura Suárez\nAdrián Morales\nClara Delgado\nPaula Martín\nBeatriz Padrón\nNoelia Hernández\nJavier Cabrera\nJavier Cabrera\nAiram Cabrera\nAcoran Hernández\nVíctor Medina\nNayra Navarro\nMarta Torres\nLuis León\nRubén Rodríguez\nTania Martín\nRocío Rivero\nIrene Ruiz\nClara Afonso\nLaura Martín\nRaúl García\nIballa Expósito\nAcoran García\nNoelia Medina\nClara León\nJavier Cabrera\nDaniel Martín\nRocío Rivero\nMarta León\nLuis Ruiz\nDiego Navarro\nNoelia León\nDaniel García\nVíctor Navarro\nRaúl Navarro\nAcoran Padrón\nAlejandro Ramos\nJonay Suárez\nYaiza García\nAna Pérez\nLuis Castro\nLucía Morales\nYaiza Cabrera\nNayra Martín\nIrene Afonso\nPaula Martín\nAcoran Santana\nYaiza Morales\nLucía Morales\nSergio Padrón\nMarta León\nRocío Morales\nIballa González\nGara Torres\nBeatriz Rivero\nGara Delgado\nRaúl Padrón\nClara León\nIván Castro\nLaura Hernández\nAiram Cabrera\nPaula Martín\nPaula Expósito\nYaiza Santana\nGara Torres\nGara León\nIván Medina\nHugo Hernández\nSergio Padrón\nIrene Castro\nBeatriz Padrón\nAcoran Santana\nIrene Navarro\nHugo Delgado\nTania Martín\nNoelia Expósito\nCristina Navarro\nVíctor León\nRaúl Ramos\nLuis Ruiz\nMario Martín\nCristina Medina\nRocío Ruiz\nJonay Torres\nRubén Díaz\nVíctor Medina\nDácil Rodríguez\nLucía Sosa\nHugo Hernández\nCarmen Ruiz\nLuis León\nIván Hernández\nAlba González\nAiram Cabrera\nDaniel Rodríguez\nDiego Santana\nAcoran García\nLaura Martín\nIván Medina\nSara Ramos\nPaula Delgado\nDiego Expósito\nTania Sosa\nVíctor Medina\nMarta Torres\nClara González\nVíctor González\nIrene Suárez\nMarta Afonso\nPablo Hernández\nSara Medina\nJonay Pérez\nDaniel Castro\nClara González\nCristina Rodríguez\nYaiza Navarro\nNoelia Medina\nNoelia Medina\nNerea Padrón\nSara Ramos\nGara Delgado\nMarta León\nDiego Santana\nYaiza Santana\nElena Morales\nVíctor Medina\nPablo García\nLaura Expósito\nClara Rivero\nAiram Hernández\nDácil Ruiz\nVíctor Hernández\nDiego Padrón\nGara Padrón\nNerea Sosa\nIballa Torres\nÓscar Hernández\nMario Delgado\nRubén Navarro\nIballa Sosa\nCarmen Ruiz\nRocío Rivero\nAcoran Díaz\nDaniel Rodríguez\nDácil Ruiz\nAlba González\nIrene León\nIballa García\nDaniel Castro\nSara Rodríguez\nJavier Cabrera\nAlba Hernández\nCristina Navarro\nIván Castro\nTania García\nCarmen Ruiz\nPaula Delgado\nCristina Expósito\nVíctor Medina\nAcoran Padrón\nJonay Suárez"
+ },
+ {
+  "dia": 2,
+  "marca": "Lean Mind",
+  "titulo": "El ron miel",
+  "solucion": "10",
+  "enunciado": "En la cena no faltó el ron miel. Cada chupito quedó apuntado en la libreta de la barra con el nombre de quien lo tomó y los mililitros servidos.\n\nLas botellas son de **700 ml** y no se abre una nueva hasta acabar la anterior. **¿Cuántas botellas se abrieron en toda la noche?**\n\nEjemplo: con `Ana Ruiz 400`, `Luis Pérez 250` y `Ana Ruiz 100` se sirven 750 ml, así que se abrieron `2` botellas.",
+  "entrada": "Jonay Hernández 40\nIrene Díaz 20\nNayra Martín 35\nYaiza Castro 40\nIván Ruiz 40\nIballa Afonso 25\nYaiza Castro 40\nLuis Delgado 20\nJonay Hernández 50\nAiram León 40\nPablo González 25\nCristina Medina 25\nLucía Rivero 30\nAiram Ramos 30\nAlejandro Martín 40\nNoelia Martín 50\nDaniel Pérez 40\nNayra Martín 20\nDaniel Pérez 50\nRaúl Afonso 30\nÓscar Ramos 50\nLuis Delgado 25\nMario Navarro 30\nÓscar Rivero 40\nPablo Afonso 30\nCarmen Rodríguez 40\nIballa García 50\nAlba Medina 50\nCristina García 40\nIrene Díaz 25\nCarmen Rodríguez 40\nPablo Afonso 35\nGara Pérez 20\nLaura Hernández 50\nAna Delgado 50\nJonay Hernández 20\nYaiza Rivero 30\nPablo Medina 50\nAlejandro Díaz 30\nPablo Cabrera 20\nLuis Delgado 50\nCristina Medina 40\nHugo Ruiz 40\nSergio Ruiz 25\nGara González 50\nNerea Hernández 30\nIrene Díaz 20\nIván Castro 50\nCarmen Torres 40\nIván Castro 20\nDaniel García 20\nCristina Suárez 20\nIván Ramos 50\nMarta Medina 35\nDaniel Delgado 35\nBeatriz Expósito 30\nPablo Santana 35\nIballa Afonso 35\nMarta Martín 25\nMario Navarro 25\nÓscar Torres 30\nCarmen Rodríguez 25\nSara Navarro 40\nLaura Hernández 50\nDácil León 25\nMario Navarro 35\nRubén Díaz 40\nYaiza Castro 20\nMario Afonso 25\nSergio Navarro 20\nIván Ruiz 40\nAlba Martín 50\nLucía Rivero 20\nAlba León 50\nNoelia González 50\nBeatriz León 30\nLaura Afonso 25\nRubén Díaz 25\nCarmen Delgado 50\nCarmen Torres 40\nLucía Morales 30\nIván Ramos 35\nAlejandro Martín 50\nAcoran Castro 25\nRubén García 40\nMario Santana 35\nAlba Medina 40\nSergio Ruiz 25\nNerea Hernández 35\nIballa Afonso 50\nIballa González 25\nYaiza Afonso 20\nCarmen Delgado 20\nÓscar Rivero 40\nJavier Hernández 20\nLuis Santana 35\nBeatriz Cabrera 20\nDaniel Ramos 25\nAiram Ramos 20\nMarta Martín 35\nYaiza Rivero 40\nTania Rivero 50\nPaula Expósito 50\nGara González 30\nSergio Ruiz 30\nHugo Medina 50\nRaúl Afonso 20\nAiram Santana 20\nMario Santana 20\nMarta Ramos 20\nSara Expósito 25\nAcoran Morales 20\nAlba Martín 40\nPablo González 20\nYaiza Afonso 40\nElena García 25\nRocío Cabrera 40\nIballa González 35\nMarta Medina 50\nAlba Martín 20\nPablo Cabrera 25\nÓscar Ramos 25\nSergio Navarro 50\nGara Pérez 25\nÓscar Rivero 30\nAlejandro Navarro 25\nBeatriz Martín 20\nYaiza Afonso 30\nAna Delgado 20\nRocío Cabrera 50\nCristina Torres 20\nRubén García 40\nMarta Ramos 20\nSara Expósito 35\nVíctor León 50\nRaúl Afonso 25\nLuis Pérez 25\nRocío Afonso 40\nCarmen Torres 40\nLaura Afonso 20\nAlejandro Martín 35\nBeatriz Cabrera 25\nAcoran Castro 20\nIván Ruiz 30\nJavier Hernández 50\nVíctor Delgado 35\nLuis Pérez 40\nRubén García 30\nNoelia Martín 35\nLaura Díaz 25\nMarta Martín 30\nBeatriz Martín 35\nLucía Torres 35\nTania Rivero 40\nBeatriz Martín 50\nBeatriz Expósito 20\nAna Delgado 35\nPablo González 40\nVíctor León 35\nLucía Morales 50\nDaniel García 40\nNoelia González 30\nMario Hernández 40\nClara Delgado 35\nMarta Medina 20\nLucía Torres 50\nRubén Torres 50\nMarta Ramos 25\nCristina Suárez 35\nElena García 40\nGara Pérez 35\nBeatriz Expósito 25\nAiram Santana 25\nLaura Hernández 40\nLucía Rivero 20\nRaúl González 35\nPablo Santana 50\nHugo Cabrera 30\nLucía Morales 25\nRubén Torres 30\nÓscar Torres 40\nLuis Santana 20\nÓscar Torres 40\nLuis Santana 50\nAiram León 25\nElena García 30\nPablo Afonso 35\nLucía Torres 25\nLaura Díaz 30"
+ },
+ {
+  "dia": 3,
+  "marca": "sirviendo código;",
+  "titulo": "Exceso de equipaje",
+  "solucion": "1968",
+  "enunciado": "El equipo de Madrid voló a Canarias con maletas llenas de turrones. La aerolínea permite **23 kg** por maleta y cobra **12 € por cada kilo o fracción** que pase de ahí.\n\nLa entrada tiene una línea por maleta con el nombre y su peso. **¿Cuántos euros se pagaron en total por exceso de equipaje?**\n\nEjemplo: una maleta de `24,3` kg pasa 1,3 kg, que cuentan como 2 kilos: 24 €. Una de `23,0` kg no paga nada.",
+  "entrada": "Acoran González 19,6\nAcoran Padrón 22,9\nAdrián Martín 20,5\nAdrián Morales 24,2\nAiram Rivero 17,5\nAlejandro Cabrera 24,0\nAlejandro Díaz 25,5\nAlejandro Expósito 15,2\nAlejandro Hernández 25,3\nAlejandro Sosa 14,8\nAlejandro Suárez 23,1\nAna Cabrera 28,0\nBeatriz Castro 27,0\nBeatriz Ramos 20,1\nBeatriz Torres 29,7\nClara Martín 26,9\nClara Ramos 28,2\nCristina Afonso 30,5\nCristina Pérez 21,2\nCristina Rodríguez 19,7\nCristina Santana 17,9\nDiego Navarro 19,8\nDiego Ramos 21,8\nElena Afonso 28,2\nElena Medina 22,6\nElena Santana 28,2\nHugo Padrón 22,9\nIballa Suárez 28,9\nIrene García 17,2\nIrene Hernández 28,6\nIrene Martín 29,0\nIrene Morales 26,5\nIván González 26,2\nIván Navarro 27,9\nJavier León 16,4\nJavier Medina 29,5\nJavier Rodríguez 29,8\nJonay Rodríguez 15,7\nLaura León 24,8\nLucía Cabrera 26,7\nLucía Castro 25,2\nLucía Hernández 28,0\nLuis Ruiz 29,2\nMario Padrón 23,5\nMarta Expósito 27,1\nMarta González 24,0\nMarta Medina 15,1\nNayra Cabrera 25,6\nNayra Delgado 25,1\nNerea González 14,1\nNerea Navarro 25,2\nNerea Suárez 16,5\nPablo Suárez 24,0\nPaula Afonso 17,6\nPaula Hernández 19,6\nPaula Santana 20,6\nRaúl Cabrera 22,0\nRocío Expósito 19,6\nRubén Cabrera 14,2\nRubén Rodríguez 19,3\nSara Castro 15,8\nSara García 18,4\nSara Rodríguez 17,4\nSergio García 30,9\nSergio González 18,0\nTania Pérez 30,7\nTania Ruiz 30,2\nVíctor Martín 17,6\nVíctor Morales 14,0\nVíctor Pérez 23,4"
+ }
+];
+const DEMO_REVELACIONES = {
+  1: { dia: 1, persona: 'Persona de ejemplo 1', cargo: 'Papá Noel de la cena', foto: '',
+       historia: 'Era el Papá Noel de la cena y llevaba toda la semana presumiendo de su lista de traviesos: «Este año hay sorpresas». A las 23:00 salió del salón para preparar su gran entrada.\n\nA las 23:40 la encontraron junto al árbol, con la barba torcida y un plato de galletas vacío al lado. La lista de traviesos no aparece por ninguna parte.' },
+  2: { dia: 2, persona: 'Persona de ejemplo 2', cargo: 'Anfitriona de la noche', foto: '',
+       historia: 'Se encargó del ron miel. A las 22:55 le sirvió un chupito a Papá Noel «para los nervios».\n\nNadie más bebió de esa botella, porque ella la guardó en su bolso. Dice que era una botella especial de su pueblo y no quería que se acabara.' },
+  3: { dia: 3, persona: 'Persona de ejemplo 3', cargo: 'Papá Noel del año pasado', foto: '',
+       historia: 'Fue el Papá Noel de las últimas tres cenas. Este año le quitaron el papel sin avisar y se enteró por el grupo de WhatsApp.\n\nTiene el traje del año pasado en la maleta. Dice que lo trajo por si acaso.' }
+};
+const DEMO_RANKING = [
+  { alias: 'turron_driven_dev', resueltos: 3, minutos: 41, dias: [1,2,3] },
+  { alias: 'polvoron404', resueltos: 3, minutos: 97, dias: [1,2,3] },
+  { alias: 'reno.js', resueltos: 2, minutos: 30, dias: [1,2] },
+  { alias: 'git_merge_navidad', resueltos: 2, minutos: 188, dias: [1,3] },
+  { alias: 'la_del_wifi', resueltos: 1, minutos: 12, dias: [1] }
+];
+const MARCAS_ORDEN = Object.keys(CONFIG.MARCAS);
+function aperturaDia(d) { return new Date(`2026-12-${String(d).padStart(2, '0')}T10:00:00+01:00`); }
+
+/* ---------- API ---------- */
+async function apiRetos() {
+  if (DEMO) {
+    return {
+      ahora: new Date().toISOString(),
+      retos: Array.from({ length: 24 }, (_, i) => {
+        const dia = i + 1;
+        const r = DEMO_RETOS.find(x => x.dia === dia);
+        const base = { dia, marca: MARCAS_ORDEN[i % 3], apertura: aperturaDia(dia).toISOString(), abierto: !!r };
+        return r ? Object.assign(base, { titulo: r.titulo, enunciado: r.enunciado, entrada: r.entrada }) : base;
+      })
+    };
+  }
+  const r = await fetch(CONFIG.API_URL + '?accion=retos');
+  return r.json();
+}
+async function apiRanking() {
+  if (DEMO) return { actualizado: new Date().toISOString(), ranking: DEMO_RANKING };
+  const r = await fetch(CONFIG.API_URL + '?accion=ranking');
+  return r.json();
+}
+async function apiEnviar(datos) {
+  if (DEMO) {
+    await new Promise(res => setTimeout(res, 500));
+    const r = DEMO_RETOS.find(x => x.dia === datos.dia);
+    const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase().replace(/\s+/g, ' ');
+    const ok = norm(datos.respuesta) === norm(r.solucion);
+    return ok ? { ok: true, correcto: true, alias: datos.alias, revelacion: DEMO_REVELACIONES[datos.dia] } : { ok: true, correcto: false, alias: datos.alias };
+  }
+  // Sin cabecera Content-Type para que Apps Script lo acepte sin preflight CORS
+  const r = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ accion: 'enviar' }, datos)) });
+  return r.json();
+}
+
+/* ---------- Utilidades ---------- */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+function mini(md) {
+  return esc(md).split(/\n\s*\n/).map(p =>
+    '<p>' + p.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>') + '</p>'
+  ).join('');
+}
+function fmtMin(m) {
+  if (m < 60) return m + ' min';
+  const h = Math.floor(m / 60), r = m % 60;
+  if (h < 24) return h + ' h ' + r + ' min';
+  return Math.floor(h / 24) + ' d ' + (h % 24) + ' h';
+}
+const colorMarca = m => CONFIG.MARCAS[m] || 'var(--line)';
+const fechaCorta = iso => new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', timeZone: 'Europe/Madrid' });
+
+/* ---------- Estado ---------- */
+let RETOS = [];
+let ACTUAL = null;
+const perfil = () => store.get('perfil', null);
+const resueltos = () => store.get('resueltos', []);
+const revelaciones = () => store.get('revelaciones', {});
+function guardarRevelacion(r) { if (!r) return; const all = revelaciones(); all[r.dia] = r; store.set('revelaciones', all); }
+
+function fotoHTML(r) {
+  if (r.foto) return `<img src="${esc(r.foto)}" alt="${esc(r.persona)}" loading="lazy">`;
+  const ini = String(r.persona || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+  return `<div class="avatar">${esc(ini)}</div>`;
+}
+function revelacionHTML(r, nueva) {
+  return `<div class="ph">${fotoHTML(r)}</div>
+    <div>
+      <div class="tag">${nueva ? 'NUEVA PISTA | ' : ''}EXPEDIENTE Nº ${r.dia}</div>
+      <h4>${esc(r.persona)}</h4>
+      <div class="cg">${esc(r.cargo)}</div>
+      <div class="txt">${mini(r.historia)}</div>
+    </div>`;
+}
+function pintarCaso() {
+  $('#caseTitle').textContent = CONFIG.CASO.titulo;
+  $('#caseIntro').textContent = CONFIG.CASO.intro;
+  const rev = revelaciones();
+  const n = Object.keys(rev).length;
+  $('#caseCount').textContent = n ? `${n} de 24 personas sospechosas en tu expediente` : 'Tu expediente está vacío. Resuelve el primer reto para abrirlo.';
+  const cont = $('#suspects');
+  cont.innerHTML = '';
+  for (let d = 1; d <= 24; d++) {
+    const r = rev[d];
+    const el = document.createElement(r ? 'button' : 'div');
+    el.className = 'suspect' + (r ? ' on' : '');
+    el.innerHTML = r
+      ? `<div class="ph">${fotoHTML(r)}</div><div class="nm">${esc(r.persona)}</div><div class="cg">${esc(r.cargo)}</div>`
+      : `<div class="ph">?</div><div class="nm">Nº ${d}</div><div class="cg">sin identificar</div>`;
+    if (r) el.addEventListener('click', () => { $('#caseBody').innerHTML = revelacionHTML(r, false); $('#dlgCase').showModal(); });
+    cont.appendChild(el);
+  }
+}
+$('#caseClose').onclick = () => $('#dlgCase').close();
+$('#dlgCase').addEventListener('click', e => { if (e.target.id === 'dlgCase') $('#dlgCase').close(); });
+
+/* ---------- Pintar ---------- */
+function pintarOrgs() {
+  const cont = $('#orgs');
+  MARCAS_ORDEN.forEach(m => {
+    const c = document.createElement('span');
+    c.className = 'chip';
+    c.innerHTML = `<span class="dot" style="background:${colorMarca(m)}"></span>${esc(m)}`;
+    cont.appendChild(c);
+  });
+}
+
+function pintarGrid() {
+  const grid = $('#grid');
+  grid.innerHTML = '';
+  const hecho = resueltos();
+  const abiertos = RETOS.filter(r => r.abierto).map(r => r.dia);
+  const hoy = abiertos.length ? Math.max(...abiertos) : 0;
+  RETOS.forEach(r => {
+    const b = document.createElement('button');
+    const done = hecho.includes(r.dia);
+    b.className = 'day ' + (r.abierto ? (done ? 'open done' : 'open') : 'locked') + (r.dia === hoy && !done ? ' today' : '');
+    b.style.setProperty('--brand', colorMarca(r.marca));
+    b.innerHTML = `<span class="n">${r.dia}</span>
+      <span><span class="brand">${esc(r.marca)}</span><br>
+      <span class="state">${r.abierto ? (done ? 'resuelto ✓' : 'abierto') : 'se abre el ' + fechaCorta(r.apertura)}</span></span>`;
+    if (r.abierto) b.addEventListener('click', () => abrirReto(r));
+    else b.disabled = true;
+    b.setAttribute('aria-label', `Día ${r.dia}, ${r.abierto ? 'abierto' : 'bloqueado'}`);
+    grid.appendChild(b);
+  });
+}
+
+function pintarCountdown() {
+  const prox = RETOS.find(r => !r.abierto);
+  const el = $('#countdown');
+  if (!prox) { el.hidden = true; return; }
+  const tick = () => {
+    const ms = new Date(prox.apertura) - new Date();
+    if (ms <= 0) { location.reload(); return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
+    el.innerHTML = `Día ${prox.dia} en <b>${d ? d + 'd ' : ''}${h}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s</b>`;
+  };
+  el.hidden = false;
+  tick();
+  setInterval(tick, 1000);
+}
+
+async function pintarRanking() {
+  try {
+    const data = await apiRanking();
+    const lista = data.ranking || [];
+    $('#rankUpd').textContent = 'actualizado ' + new Date(data.actualizado).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    if (!lista.length) { $('#rankWrap').innerHTML = '<div class="empty">Todavía nadie ha resuelto un reto. ¿Serás la primera persona?</div>'; return; }
+    const filas = lista.map((p, i) => `<tr>
+      <td class="pos">${i + 1}</td>
+      <td class="alias">${esc(p.alias)}</td>
+      <td class="num">${p.resueltos}</td>
+      <td class="num">${fmtMin(p.minutos)}</td>
+      <td class="col-stars"><span class="stars">${Array.from({ length: 24 }, (_, d) => `<i class="${p.dias.includes(d + 1) ? 'on' : ''}"></i>`).join('')}</span></td>
+    </tr>`).join('');
+    $('#rankWrap').innerHTML = `<table><thead><tr><th>#</th><th>Alias</th><th>Retos</th><th>Tiempo</th><th class="col-stars">Días</th></tr></thead><tbody>${filas}</tbody></table>`;
+  } catch (e) {
+    $('#rankWrap').innerHTML = '<div class="empty">No se ha podido cargar el ranking. Prueba a recargar en un rato.</div>';
+  }
+}
+
+/* ---------- Diálogo del reto ---------- */
+function pintarIdentidad() {
+  const p = perfil();
+  $('#identity').hidden = !!p;
+  ['#fAlias', '#fEmail', '#fConsent'].forEach(s => $(s).required = !p);
+  const who = $('#who');
+  if (p) {
+    who.hidden = false;
+    who.innerHTML = `Participas como <strong>${esc(p.alias)}</strong>. <button type="button" id="btnChange">No soy yo</button>`;
+    $('#btnChange').onclick = () => { store.set('perfil', null); store.set('resueltos', []); store.set('revelaciones', {}); pintarIdentidad(); pintarGrid(); pintarCaso(); };
+  } else {
+    who.hidden = true;
+  }
+}
+
+function abrirReto(r) {
+  ACTUAL = r;
+  const brand = $('#dlgBrand');
+  brand.innerHTML = `<span class="dot" style="background:${colorMarca(r.marca)}"></span>Día ${r.dia} | reto de ${esc(r.marca)}`;
+  $('#dlgTitle').textContent = r.titulo;
+  $('#dlgText').innerHTML = mini(r.enunciado);
+  $('#dlgInput').textContent = r.entrada;
+  $('#fAnswer').value = '';
+  $('#fCode').value = store.get('codigo-' + r.dia, '');
+  $('#fFile').value = '';
+  $('#fileName').textContent = 'o pega el código arriba';
+  const msg = $('#msg'); msg.className = 'msg'; msg.textContent = '';
+  const rv = $('#reveal'); rv.className = 'reveal'; rv.innerHTML = '';
+  if (resueltos().includes(r.dia)) {
+    msg.className = 'msg ok'; msg.textContent = 'Este ya lo tienes resuelto. ¡Bien hecho!';
+    const prev = revelaciones()[r.dia];
+    if (prev) { rv.innerHTML = revelacionHTML(prev, false); rv.className = 'reveal show'; }
+  }
+  pintarIdentidad();
+  $('#dlg').showModal();
+}
+
+$('#dlgClose').onclick = () => $('#dlg').close();
+$('#dlg').addEventListener('click', e => { if (e.target.id === 'dlg') $('#dlg').close(); });
+$('#btnCopy').onclick = async () => {
+  try { await navigator.clipboard.writeText(ACTUAL.entrada); $('#btnCopy').textContent = 'Copiado'; setTimeout(() => $('#btnCopy').textContent = 'Copiar', 1500); } catch (e) {}
+};
+$('#btnDown').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ACTUAL.entrada], { type: 'text/plain' }));
+  a.download = `dia-${ACTUAL.dia}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+// El archivo se lee como texto en el navegador: no se sube ningún archivo, solo su contenido
+$('#fFile').addEventListener('change', () => {
+  const f = $('#fFile').files[0];
+  if (!f) return;
+  if (f.size > 40000) { $('#fileName').textContent = 'El archivo es demasiado grande (máximo 40 KB)'; return; }
+  const lector = new FileReader();
+  lector.onload = () => {
+    const txt = String(lector.result);
+    if (txt.includes('\u0000')) { $('#fileName').textContent = 'Ese archivo no parece de texto'; return; }
+    $('#fCode').value = txt;
+    store.set('codigo-' + ACTUAL.dia, txt);
+    $('#fileName').textContent = f.name;
+  };
+  lector.readAsText(f);
+});
+$('#fCode').addEventListener('input', () => { if (ACTUAL) store.set('codigo-' + ACTUAL.dia, $('#fCode').value); });
+
+$('#form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const msg = $('#msg');
+  if ($('#fCode').value.trim().length < 10) { msg.className = 'msg ko'; msg.textContent = 'Pega tu código o sube el archivo con tu solución.'; return; }
+  const p = perfil() || { alias: $('#fAlias').value.trim(), email: $('#fEmail').value.trim(), consentimiento: $('#fConsent').checked };
+  const btn = $('#btnSend');
+  btn.disabled = true; btn.textContent = 'Comprobando...';
+  try {
+    const res = await apiEnviar({ dia: ACTUAL.dia, alias: p.alias, email: p.email, consentimiento: true, respuesta: $('#fAnswer').value, codigo: $('#fCode').value });
+    if (!res.ok) { msg.className = 'msg ko'; msg.textContent = res.error; return; }
+    store.set('perfil', { alias: res.alias || p.alias, email: p.email, consentimiento: true });
+    if (res.correcto) {
+      const r = resueltos(); if (!r.includes(ACTUAL.dia)) { r.push(ACTUAL.dia); store.set('resueltos', r); }
+      msg.className = 'msg ok';
+      msg.textContent = res.yaResuelto ? 'Este reto ya lo tenías resuelto.' : '¡Correcto! 🎄 Ya cuenta para el ranking y tienes una nueva pista.';
+      if (res.revelacion) {
+        guardarRevelacion(res.revelacion);
+        const rv = $('#reveal'); rv.innerHTML = revelacionHTML(res.revelacion, !res.yaResuelto); rv.className = 'reveal show';
+        setTimeout(() => rv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+      }
+      pintarGrid(); pintarRanking(); pintarCaso();
+    } else {
+      msg.className = 'msg ko';
+      msg.textContent = 'Esa no es la respuesta. Revisa tu solución y vuelve a probar en un minuto.';
+    }
+    pintarIdentidad();
+  } catch (err) {
+    msg.className = 'msg ko'; msg.textContent = 'No hemos podido enviar tu respuesta. Comprueba tu conexión y prueba otra vez.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Enviar respuesta';
+  }
+});
+
+document.querySelectorAll('#privLink, .privLink2').forEach(a => { a.href = CONFIG.URL_PRIVACIDAD; a.target = '_blank'; });
+
+/* ---------- Arranque ---------- */
+(async function init() {
+  if (DEMO) $('#demoBanner').hidden = false;
+  pintarOrgs();
+  pintarCaso();
+  try {
+    const data = await apiRetos();
+    RETOS = data.retos.sort((a, b) => a.dia - b.dia);
+    pintarGrid();
+    pintarCountdown();
+  } catch (e) {
+    $('#grid').innerHTML = '<div class="empty">No se han podido cargar los retos. Prueba a recargar en un rato.</div>';
+  }
+  pintarRanking();
+})();
+</script>
+</body>
+</html>
