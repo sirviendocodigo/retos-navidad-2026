@@ -33,6 +33,8 @@
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
   img { max-width: 100%; display: block; }
 
+  /* Textos justificados, con guiones para que no queden huecos grandes */
+  p, .enunciado, .txt, .base p { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
   .demo-banner { background: var(--nd-yellow); color: #2a1d00; text-align: center; font-size: 14px; font-weight: 500; padding: 8px 16px; }
 
   /* Cabecera con logos */
@@ -505,7 +507,7 @@
 
 <dialog id="dlgCase">
   <div class="dlg-head">
-    <div class="dlg-tag">PISTA</div>
+    <div class="dlg-tag" id="caseTag">PISTA</div>
     <button class="close" id="caseClose" aria-label="Cerrar">&times;</button>
   </div>
   <div class="dlg-body"><div class="reveal show" id="caseBody" style="border:0;background:none;padding:0"></div></div>
@@ -675,16 +677,24 @@ function pintarAcusacion() {
       <button class="btn btn-main" type="submit" style="margin-top:12px">${actual ? 'Cambiar mi acusación' : 'Acusar'}</button>
       <div class="msg" id="msgAcusar" style="margin-top:12px"></div>
     </form>`;
+  // La acusación se enseña al momento y se guarda en la hoja por detrás; si falla, se deshace
   $('#formAcusar').addEventListener('submit', async e => {
     e.preventDefault();
-    const msg = $('#msgAcusar');
+    const dia = Number($('#selAcusar').value);
+    const anterior = store.get('acusacion', null);
+    store.set('acusacion', { dia, persona: pistasVisibles()[dia].persona });
+    pintarAcusacion();
+    const aviso = (clase, texto) => { const m = $('#msgAcusar'); if (m) { m.className = 'msg ' + clase; m.textContent = texto; } };
+    aviso('ok', 'Acusación guardada. Puedes cambiarla hasta el 24 a medianoche.');
     try {
-      const res = await apiAcusar(Number($('#selAcusar').value));
-      if (!res.ok) { msg.className = 'msg ko'; msg.textContent = res.error; return; }
+      const res = await apiAcusar(dia);
+      if (!res.ok) throw new Error(res.error);
       store.set('acusacion', res.acusacion);
+    } catch (err) {
+      store.set('acusacion', anterior);
       pintarAcusacion();
-      $('#msgAcusar').className = 'msg ok'; $('#msgAcusar').textContent = 'Acusación guardada. Puedes cambiarla hasta el 24 a medianoche.';
-    } catch (err) { msg.className = 'msg ko'; msg.textContent = 'No hemos podido guardar tu acusación. Prueba otra vez.'; }
+      aviso('ko', (err && err.message && err.message !== 'Failed to fetch' ? err.message : 'No hemos podido guardar tu acusación.') + ' Prueba otra vez.');
+    }
   });
 }
 
@@ -793,7 +803,11 @@ function notaHTML(dia) {
     <ul>${linea(true, 'Solución correcta: +1', '')}${linea(n.funciona, 'Tu código funciona: +1', 'Tu código no funcionó al ejecutarlo: 0')}${linea(n.cleanCode, 'Clean code: +1', 'Clean code: 0')}</ul>
     ${n.comentario ? `<p class="coment"><b>Comentario del equipo:</b> ${esc(n.comentario)}</p>` : ''}</div>`;
 }
-function verPista(r) { $('#caseBody').innerHTML = revelacionHTML(r, false) + notaHTML(r.dia); $('#dlgCase').showModal(); }
+function verPista(r, nueva) {
+  $('#caseTag').textContent = nueva ? '¡Correcto! Has desbloqueado una pista' : 'PISTA';
+  $('#caseBody').innerHTML = revelacionHTML(r, nueva) + notaHTML(r.dia);
+  $('#dlgCase').showModal();
+}
 
 const retoDeHoy = () => RETOS.find(r => r.estado === 'abierto');
 
@@ -1087,8 +1101,9 @@ $('#form').addEventListener('submit', async e => {
       msg.textContent = res.yaResuelto ? 'Este reto ya lo tenías resuelto.' : '¡Correcto! Ya cuenta para el ranking y tienes una pista nueva.';
       if (res.revelacion) {
         guardarRevelacion(res.revelacion);
-        const rv = $('#reveal'); rv.innerHTML = revelacionHTML(res.revelacion, !res.yaResuelto); rv.className = 'reveal show';
-        setTimeout(() => rv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+        // Al acertar se cierra el reto y se abre directamente la tarjeta de la pista
+        $('#dlg').close();
+        verPista(res.revelacion, !res.yaResuelto);
       }
       pintarGrid(); pintarRanking(); pintarCaso(); pintarYo();
     } else {
