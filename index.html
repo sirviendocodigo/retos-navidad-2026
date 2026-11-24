@@ -72,6 +72,9 @@
   .btn { font: inherit; font-weight: 600; font-size: 15px; border: 0; border-radius: 12px; padding: 13px 22px; cursor: pointer; text-decoration: none; display: inline-block; }
   .btn-main { background: var(--sc-navy); color: #fff; }
   .btn-main:hover { background: var(--lm-deep); }
+  .btn-main:disabled, .btn-main:disabled:hover { background: #E3EAED; color: #8A9AA2; cursor: not-allowed; }
+  .espera { margin: 8px 0 0; text-align: center; font-size: 14px; color: var(--ink-soft); }
+  .espera b { font-family: var(--mono, monospace); color: var(--ink); }
   .btn:disabled { opacity: .6; cursor: wait; }
   .btn-sec { background: var(--card); color: var(--sc-navy); border: 1px solid var(--line); }
   .btn-sec:hover { border-color: var(--lm-teal); }
@@ -268,7 +271,7 @@
 </head>
 <body>
 
-<div class="demo-banner" id="demoBanner" hidden>Modo demostración: los retos y el ranking son de ejemplo. El día 1 aparece como ya resuelto (pulsa en su puerta para abrir la pista), el 2 está cerrado y el 3 abierto: prueba con 1692 y descubre a otra persona sospechosa.</div>
+<div class="demo-banner" id="demoBanner" hidden>Modo demostración: los retos y el ranking son de ejemplo. El día 1 aparece como ya resuelto (pulsa en su puerta para abrir la pista), el 2 está cerrado y el 3 abierto para que pruebes a enviar.</div>
 
 <header class="topbar">
   <div class="wrap">
@@ -463,6 +466,7 @@
       <p class="who" style="margin:-6px 0 0">Lo ejecutaremos tal cual con tu entrada. Indica la versión y las dependencias si hacen falta. <a href="#bases" class="linkbtn" data-cerrar>Ver las bases</a></p>
       <label>El resultado que te da tu código<input type="text" id="fAnswer" required autocomplete="off" spellcheck="false"></label>
       <button class="btn btn-main" id="btnSend" type="submit">Enviar respuesta</button>
+      <p class="espera" id="espera" hidden></p>
       <div class="msg" id="msg"></div>
       <div class="reveal" id="reveal"></div>
     </form>
@@ -522,52 +526,8 @@ const store = {
 const color = n => PALETA[(n - 1) % PALETA.length];
 
 /* ---------- Datos de demostración ---------- */
-const DEMO_RETOS = [
- {
-  "dia": 1,
-  "titulo": "La lista de invitados",
-  "solucion": "180",
-  "enunciado": "Antes de la cena, cada oficina mandó su lista de inscripciones y alguien las juntó a mano. Hay gente apuntada dos y hasta tres veces, y cada vez escrita de una manera.\n\nDos líneas son la misma persona si coinciden **sin tener en cuenta mayúsculas ni espacios de más**. **¿Cuántas personas distintas se apuntaron?**\n\nEjemplo: `Ana Ruiz`, `ANA  RUIZ` y ` ana ruiz` son la misma persona.",
-  "entrada": "Diego   García \n Rocío León\n  MARIO   RODRÍGUEZ  \nCRISTINA MEDINA \n Iballa   García\n Alba   Pérez \ndiego sosa\njavier  santana  \n diego  santana \nADRIÁN  GONZÁLEZ  \nPablo   Ruiz  \n  marta castro  \n  MARTA  RIVERO \n  DÁCIL TORRES\n diego santana\n Víctor Torres \n  rubén díaz \n  GARA  SOSA\n Clara Delgado \nDiego Afonso \nSARA  TORRES \n  clara garcía\npablo  gonzález\n JAVIER   MORALES  \n Beatriz Ramos \nCARMEN TORRES\n  Iván  León\nIBALLA   GARCÍA\n Pablo   Castro \nNOELIA   SANTANA\n  Rocío Rodríguez  \nDaniel González\n  Acoran  Torres  \nJavier  Santana  \n HUGO MEDINA  \n  MARIO   RUIZ\nRAÚL CASTRO\nluis león\n Lucía Torres\n Laura Martín  \nsara  pérez\n  Pablo Martín\nAIRAM EXPÓSITO\n Clara García  \n  CRISTINA  MORALES \n  ROCÍO   RAMOS \n elena torres  \n  iván  león  \n Noelia   Ruiz \nDaniel León\nlaura santana \nMarta León  \n  ROCÍO  LEÓN\nNAYRA SOSA  \nLaura   Martín\nhugo  rodríguez  \n  AIRAM  EXPÓSITO\nMarta  Castro \n Dácil   Delgado  \n  Lucía   Suárez  \n  DIEGO SUÁREZ  \n  alejandro león\nrocío  castro\n  Óscar   Medina \n  daniel cabrera\nVÍCTOR  PÉREZ\n  marta  sosa \n CLARA  NAVARRO  \n DANIEL CABRERA  \n Sergio  Castro\nbeatriz   ramos  \n Hugo   Sosa  \n  Adrián   Delgado \nAlejandro Pérez\n  VÍCTOR   GARCÍA  \n  Noelia Rodríguez\nLaura Morales\n  LUCÍA  RIVERO  \nvíctor pérez\nACORAN  TORRES \n  dácil   castro \nadrián   delgado\n víctor   hernández  \njonay  padrón \n  marta ramos \nIballa   Santana\nairam pérez  \n Beatriz  Delgado \n  marta   león  \n  Clara  García  \n Víctor  Hernández \nHUGO   MORALES \nCRISTINA   EXPÓSITO\nPaula  Hernández\n  airam   torres\nIRENE  RAMOS \nLuis   León  \nIballa  Ruiz  \n Daniel González \n LAURA   DELGADO\n CLARA GONZÁLEZ  \n  pablo   rodríguez  \n TANIA PADRÓN\n MARTA   SOSA\n  Tania   Morales  \ntania  morales \n  Iballa Santana  \nalba   castro\nPaula Hernández  \n  Alba  Medina\n  Clara   Navarro\n  alba  padrón\n  sergio castro \n  carmen   medina\nDiego   García  \n  tania pérez  \n  Hugo   León  \n Carmen  Ruiz\n NAYRA   NAVARRO  \nhugo   medina  \nAiram   Expósito \nSara González  \n RUBÉN   EXPÓSITO\n Diego  Rodríguez  \n  Carmen   Morales\n Víctor Hernández\n  NAYRA TORRES\nÓscar  Morales  \n  Nayra   Hernández  \nRubén Delgado \n  Marta   Medina \nDácil   León  \n  tania  hernández \nAlba Navarro \n Sara González \n  Carmen   Morales \nsara   gonzález\n elena   torres\nCarmen Ruiz \n Óscar Morales\n  IRENE RAMOS  \n Iballa Rivero  \n marta   martín\n Beatriz Expósito  \nmario martín  \ntania rodríguez  \n PAULA   LEÓN \ncristina expósito \n  Noelia Santana \nÓscar   Morales\n  dácil  morales\n  ALBA  CABRERA\nRAÚL MORALES  \n TANIA  LEÓN \n  Gara  Sosa  \n óscar  rivero\nDácil  Santana \n Tania   Ruiz\n YAIZA RAMOS \n óscar  torres \n  Laura Morales  \n hugo   sosa  \nLAURA   MARTÍN \n iballa  rivero \nÓscar Medina\n YAIZA TORRES\n CARMEN  LEÓN  \ncarmen medina\n  Carmen   Medina\n  Rubén Santana\n  Rocío Ramos\n  CLARA  CASTRO \n  adrián   torres\n ELENA  RODRÍGUEZ \n hugo expósito \n Clara   Castro\n  Dácil   Castro \n  Rubén Sosa \n Paula   León \n ANA CABRERA \n MARIO  RAMOS\n CLARA   GARCÍA  \nAiram  Navarro  \n Pablo   Expósito\n  Mario  Rodríguez \nnoelia   ruiz \n MARTA   SOSA\n  Adrián Delgado\n LUCÍA HERNÁNDEZ \n  TANIA MORALES\n ADRIÁN RODRÍGUEZ\n  Dácil León  \nPablo Martín  \nLucía   González \n  IBALLA   GARCÍA \n Rubén Díaz\n Pablo   Ruiz\n Sergio  Castro  \n  irene   medina  \n ACORAN   MORALES\n  Carmen León  \n GARA AFONSO \n Elena   Torres  \n adrián león  \nClara Navarro\n  noelia  ruiz  \n  Iballa García  \n  javier   morales  \n  mario   navarro  \n  ÓSCAR  RAMOS \ntania   navarro\n mario  delgado  \n  Nerea  García\n  sergio   rivero\nMARIO   RUIZ\n  hugo hernández \nDácil  León \nelena  rodríguez  \n ELENA RODRÍGUEZ  \n  Dácil  León  \n NEREA   HERNÁNDEZ \nPaula Cabrera \nIrene   Medina  \nIballa Medina\n diego   afonso\nNayra Pérez  \nAlba  Navarro  \n Rubén  Rivero\n  Sergio Rivero  \nYaiza Torres\n  MARIO   RAMOS  \n  Paula  León  \n  Iballa  Ruiz  \nDiego Afonso \n  yaiza pérez\n Alejandro   León\nNayra   Torres \n VÍCTOR  EXPÓSITO \n  irene   ruiz \n  SARA   PÉREZ  \nLucía  Hernández  \nNerea  Hernández  \nIBALLA MEDINA  \nÓscar   Rivero  \n  Acoran  Padrón \n Alejandro  Medina \n AIRAM   PÉREZ \n Acoran Pérez \n javier santana \nHugo  Afonso  \n GARA   CASTRO  \nDaniel   León  \nIBALLA TORRES \n  jonay  sosa  \niballa   martín\n  Sara   García \n  carmen   delgado \n  Iballa Sosa \nhugo   expósito\nGara   Morales  \n  SARA PÉREZ\nRocío Rodríguez\n  Elena   Torres\n nerea garcía\nNayra  León\n  Daniel González \n YAIZA   GARCÍA\n Noelia Torres \n mario   navarro  \n  NAYRA  PÉREZ \nTania  Hernández\n Sara  Medina  \nsara  morales  \n  Daniel  León \n iballa  torres  \n  Airam   Navarro\n Yaiza Ramos  \n sara garcía  \n  JONAY   SOSA\n  beatriz  expósito\n NOELIA   DÍAZ \nLuis Ramos \n  Marta   Rivero \n  LAURA NAVARRO\n Víctor  Expósito  \n  Tania  Morales \n  Óscar  Torres \n  Javier   Morales\n Rocío   Rodríguez  \n  sara  pérez  \n  carmen  morales\n Iballa Sosa \n Javier Ramos  \n  Airam Pérez  \niballa   rivero  \nMARIO RODRÍGUEZ  \n  sergio navarro  \nTANIA LEÓN\n  NEREA  GARCÍA  \ndácil  santana  \nRocío León  \n Daniel Ramos  \n  Daniel   León  \n  Pablo  Rodríguez \nrocío   ramos\n  mario  delgado  \n  diego   suárez \n Nayra  León  \n tania  navarro  \nAlba Pérez\nMarta Medina  \nAiram  Navarro  \n  LUIS  LEÓN \niballa  medina  \nRUBÉN DELGADO\n TANIA   DELGADO\nDIEGO CASTRO  \n  gara  morales  \n  Beatriz  González \n DIEGO  CASTRO"
- },
- {
-  "dia": 2,
-  "titulo": "El ron miel",
-  "solucion": "9",
-  "enunciado": "En la cena no faltó el ron miel. Cada chupito quedó apuntado en la libreta de la barra: quién lo tomó y cuántos mililitros.\n\nLas botellas son de **700 ml** y no se abre una nueva hasta acabar la anterior. **¿Cuántas botellas se abrieron?**\n\nEjemplo: con `Ana Ruiz 400`, `Luis Pérez 250` y `Ana Ruiz 100` se sirven 750 ml, así que se abrieron `2` botellas.",
-  "entrada": "Adrián Díaz 50\nIballa Pérez 25\nÓscar Torres 50\nNoelia Santana 30\nGara Cabrera 50\nRubén García 30\nAdrián Díaz 20\nDiego Medina 40\nDaniel Pérez 35\nSergio García 20\nAna Pérez 25\nIván Rivero 20\nAdrián Díaz 40\nNayra Ramos 35\nAlba Torres 20\nMarta Padrón 35\nVíctor Díaz 30\nAlejandro Santana 20\nLuis Santana 50\nDaniel Morales 30\nRaúl Torres 40\nRocío García 50\nCarmen Padrón 35\nDaniel Morales 35\nVíctor Pérez 35\nRaúl Ramos 40\nAlejandro Santana 35\nAna Pérez 35\nAiram Medina 40\nJavier García 35\nDiego Sosa 25\nJonay Navarro 20\nDiego Sosa 20\nIrene Suárez 20\nLucía Afonso 25\nCarmen Afonso 50\nAna Castro 50\nAiram Medina 25\nRubén Sosa 20\nDiego Medina 35\nLucía Afonso 35\nGara Afonso 25\nSergio Sosa 40\nDaniel Navarro 35\nSergio García 50\nCristina Delgado 35\nRaúl Torres 20\nJavier Ruiz 25\nMarta Padrón 25\nDaniel Rodríguez 40\nMario Morales 25\nAdrián Medina 25\nJavier García 30\nNoelia Delgado 25\nElena Cabrera 20\nNayra Cabrera 30\nIballa Padrón 20\nVíctor Santana 30\nDácil Pérez 40\nVíctor Pérez 35\nHugo Santana 50\nIballa Pérez 35\nVíctor Díaz 20\nNayra Martín 35\nNoelia Castro 50\nDiego Medina 35\nTania Rodríguez 25\nVíctor Padrón 35\nClara Delgado 25\nNayra Afonso 30\nAdrián Medina 35\nRaúl Martín 40\nGara León 40\nAlejandro Sosa 25\nNayra Ramos 25\nSara León 25\nRocío García 20\nVíctor Medina 50\nJonay León 20\nCarmen Rivero 20\nÓscar Díaz 50\nNoelia Santana 30\nIván Martín 50\nRubén García 40\nGara León 50\nDiego Morales 20\nIrene Morales 30\nCristina Delgado 30\nIván Rivero 20\nRaúl Martín 20\nVíctor Díaz 30\nHugo Medina 20\nRubén García 35\nDácil Ruiz 30\nClara Afonso 30\nCristina Delgado 50\nAlba Torres 20\nDácil Navarro 20\nAna Castro 20\nDiego Ruiz 30\nIballa Padrón 40\nElena Cabrera 35\nMario Morales 40\nPaula Afonso 35\nNoelia Castro 50\nPablo Torres 30\nPaula Afonso 50\nJonay León 30\nSara Ruiz 35\nPaula Morales 50\nRaúl Torres 40\nSara Ruiz 35\nTania Rodríguez 40\nIballa Padrón 50\nLaura Pérez 40\nDaniel Navarro 40\nMario Morales 35\nClara Delgado 20\nMario Sosa 40\nIván Martín 25\nLuis Santana 20\nVíctor Medina 20\nMarta Navarro 35\nJonay Sosa 50\nAiram Navarro 35\nYaiza Hernández 35\nMarta Padrón 20\nLaura Pérez 30\nNayra Ramos 25\nCarmen Rivero 50\nRaúl Martín 20\nDácil Castro 30\nSara León 40\nSergio García 40\nAlejandro Sosa 50\nJavier García 50\nVíctor Pérez 20\nRubén Sosa 50\nCarmen Afonso 25\nÓscar Torres 35\nVíctor Medina 30\nLucía Afonso 40\nJonay León 50\nDácil Ruiz 25\nÓscar García 20\nPablo Torres 20\nMarta Navarro 30\nHugo Morales 50\nRocío García 50\nDaniel Navarro 25\nClara Afonso 20\nÓscar Díaz 50\nPaula Morales 25\nAlba Torres 35\nClara Medina 40\nDiego Sosa 50\nTania Rodríguez 40\nDaniel Morales 35\nIrene Morales 30\nAlba Castro 40\nSergio Delgado 25\nClara Medina 30\nDácil Pérez 20\nNoelia Santana 40\nPablo Torres 20\nIván Medina 30\nElena Expósito 25\nMario Delgado 30\nCarmen Padrón 25\nNayra Martín 35\nDácil Ruiz 30\nElena Cabrera 20\nYaiza Hernández 40\nMario Sosa 30\nÓscar García 20\nDácil Pérez 20\nAlejandro Santana 20\nJavier Santana 20\nNoelia Castro 30\nMarta Torres 40\nGara León 20\nSara Ruiz 30\nDácil Castro 50\nVíctor Santana 20\nClara Afonso 50\nDácil Castro 40"
- },
- {
-  "dia": 3,
-  "titulo": "Exceso de equipaje",
-  "solucion": "1692",
-  "enunciado": "El equipo de Madrid voló a Canarias con las maletas llenas de turrones. La aerolínea permite **23 kg** por maleta y cobra **12 € por cada kilo o fracción** que pase de ahí.\n\n**¿Cuántos euros se pagaron en total por exceso de equipaje?**\n\nEjemplo: una maleta de `24,3` kg se pasa 1,3 kg, que cuentan como 2 kilos: 24 €. Una de `23,0` kg no paga nada.",
-  "entrada": "Acoran Navarro 22,0\nAcoran Padrón 19,3\nAcoran Ruiz 30,2\nAdrián Navarro 15,2\nAdrián Santana 25,4\nAdrián Suárez 24,0\nAdrián Torres 30,2\nAiram Torres 20,6\nAlba Díaz 24,4\nAlba García 16,6\nAlba León 26,2\nAlba Ruiz 25,0\nAlejandro Ramos 28,4\nAlejandro Sosa 28,4\nAna Castro 14,8\nBeatriz Padrón 25,9\nClara Padrón 15,9\nCristina Martín 18,2\nCristina Rodríguez 18,0\nDaniel Martín 25,6\nDaniel Pérez 28,4\nDaniel Rodríguez 16,0\nDiego Medina 26,9\nDiego Ramos 28,7\nDiego Rivero 26,7\nDácil Padrón 25,5\nGara Afonso 21,4\nGara Navarro 22,3\nHugo Cabrera 23,4\nHugo Morales 29,0\nIballa González 24,0\nIrene García 26,2\nIván Cabrera 20,7\nIván Castro 19,1\nIván Rivero 22,5\nJavier García 20,1\nJavier Hernández 20,6\nJavier Navarro 17,6\nJonay Navarro 14,4\nJonay Sosa 15,5\nLaura Expósito 16,0\nLaura Rodríguez 28,4\nLucía Díaz 21,1\nLucía Hernández 28,0\nLuis Sosa 16,0\nMario Padrón 14,6\nMario Suárez 22,8\nMarta Cabrera 24,9\nMarta Santana 19,0\nNayra Martín 22,7\nNerea Expósito 23,5\nNerea León 29,6\nNerea Rodríguez 26,9\nPablo Castro 15,3\nPaula Suárez 22,1\nRaúl Morales 25,8\nRocío Delgado 27,0\nRocío Morales 21,7\nRocío Santana 29,9\nRubén Santana 14,4\nRubén Torres 24,1\nSergio Padrón 25,9\nSergio Ramos 25,4\nTania García 16,3\nTania Pérez 27,2\nVíctor Castro 22,3\nVíctor Hernández 25,2\nVíctor Sosa 21,2\nÓscar Hernández 18,5\nÓscar Santana 27,7"
- }
-];
-const DEMO_REVELACIONES = {
- "1": {
-  "dia": 1,
-  "persona": "Persona de ejemplo 1",
-  "cargo": "Papá Noel de la cena",
-  "foto": "",
-  "historia": "Era el Papá Noel de la cena y llevaba toda la semana presumiendo de su lista de traviesos: «Este año hay sorpresas». A las 23:00 salió del salón para preparar su gran entrada.\n\nA las 23:40 la encontraron junto al árbol, con la barba torcida y un plato de galletas vacío al lado. La lista de traviesos no aparece por ninguna parte."
- },
- "2": {
-  "dia": 2,
-  "persona": "Persona de ejemplo 2",
-  "cargo": "Anfitriona de la noche",
-  "foto": "",
-  "historia": "Fue la anfitriona de la noche y se encargó del ron miel. A las 22:55 le sirvió un chupito a Papá Noel «para los nervios».\n\nNadie más bebió de esa botella, porque ella la guardó en su bolso. Dice que era una botella especial de su pueblo y no quería que se acabara."
- },
- "3": {
-  "dia": 3,
-  "persona": "Persona de ejemplo 3",
-  "cargo": "Papá Noel del año pasado",
-  "foto": "",
-  "historia": "Fue el Papá Noel de las últimas tres cenas. Este año le quitaron el papel sin avisar y se enteró por el grupo de WhatsApp. Esa noche le dijo a media mesa: «Ya veréis qué Papá Noel más soso os ha tocado».\n\nTiene el traje del año pasado en la maleta. Dice que lo trajo por si acaso."
- }
-};
+const DEMO_RETOS = [];
+const DEMO_REVELACIONES = {};
 const DEMO_RANKING = [
   { alias: 'turron_driven_dev', puntos: 32, resueltos: 3, cleanCode: 2, minutos: 41, dias: [1, 2, 3] },
   { alias: 'polvoron404', puntos: 31, resueltos: 3, cleanCode: 1, minutos: 97, dias: [1, 2, 3] },
@@ -622,7 +582,7 @@ async function apiEnviar(datos) {
     const ok = norm(datos.respuesta) === norm(r.solucion);
     const alias = datos.alias || (perfil() || {}).alias;
     const clave = datos.clave || 'demo-' + Date.now();
-    return ok ? { ok: true, correcto: true, alias, clave, revelacion: DEMO_REVELACIONES[datos.dia] } : { ok: true, correcto: false, alias, clave };
+    return ok ? { ok: true, correcto: true, alias, clave, revelacion: DEMO_REVELACIONES[datos.dia] } : { ok: true, correcto: false, alias, clave, espera: 60 };
   }
   // Sin cabecera Content-Type para que Apps Script lo acepte sin preflight CORS
   const r = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ accion: 'enviar' }, datos)) });
@@ -1006,10 +966,12 @@ function abrirReto(r) {
     if (prev) { rv.innerHTML = revelacionHTML(prev, false); rv.className = 'reveal show'; }
   }
   pintarIdentidad();
+  pintarEspera();
   $('#dlg').showModal();
 }
 
 $('#dlgClose').onclick = () => $('#dlg').close();
+$('#dlg').addEventListener('close', () => clearInterval(relojEspera));
 $('#dlg').addEventListener('click', e => { if (e.target.id === 'dlg') $('#dlg').close(); });
 $('#caseClose').onclick = () => $('#dlgCase').close();
 $('#dlgCase').addEventListener('click', e => { if (e.target.id === 'dlgCase') $('#dlgCase').close(); });
@@ -1041,6 +1003,31 @@ $('#fFile').addEventListener('change', () => {
 });
 $('#fCode').addEventListener('input', () => { if (ACTUAL) store.set('codigo-' + ACTUAL.dia, $('#fCode').value); });
 
+// Espera tras una respuesta incorrecta: el botón se bloquea y debajo sale la cuenta atrás
+let relojEspera = null;
+function pintarEspera() {
+  clearInterval(relojEspera);
+  const btn = $('#btnSend'), aviso = $('#espera');
+  const tick = () => {
+    const falta = ACTUAL ? Math.ceil((store.get('espera-' + ACTUAL.dia, 0) - Date.now()) / 1000) : 0;
+    if (falta > 0) {
+      btn.disabled = true;
+      aviso.hidden = false;
+      aviso.innerHTML = `Podrás volver a intentarlo en <b>${Math.floor(falta / 60)}:${String(falta % 60).padStart(2, '0')}</b>`;
+    } else {
+      clearInterval(relojEspera);
+      aviso.hidden = true;
+      btn.disabled = false;
+    }
+  };
+  tick();
+  relojEspera = setInterval(tick, 1000);
+}
+function iniciarEspera(segundos) {
+  store.set('espera-' + ACTUAL.dia, Date.now() + (segundos || 60) * 1000);
+  pintarEspera();
+}
+
 $('#form').addEventListener('submit', async e => {
   e.preventDefault();
   const msg = $('#msg');
@@ -1059,6 +1046,7 @@ $('#form').addEventListener('submit', async e => {
       msg.className = 'msg ko';
       msg.innerHTML = esc(res.error) + (res.codigo === 'registrado' ? ' <button type="button" class="linkbtn" data-recuperar>Recuperar mi progreso</button>' : '');
       if (res.codigo === 'clave') salir();
+      if (res.codigo === 'espera') { msg.className = 'msg'; msg.textContent = ''; iniciarEspera(res.espera); }
       return;
     }
     store.set('perfil', { alias: res.alias, clave: res.clave });
@@ -1074,13 +1062,15 @@ $('#form').addEventListener('submit', async e => {
       pintarGrid(); pintarRanking(); pintarCaso(); pintarYo();
     } else {
       msg.className = 'msg ko';
-      msg.textContent = 'Esa no es la respuesta. Revisa tu solución y vuelve a probar en un minuto.';
+      msg.textContent = 'Esa no es la respuesta. Revisa tu solución y vuelve a probarlo cuando acabe la cuenta atrás.';
+      iniciarEspera(res.espera);
     }
     pintarIdentidad();
   } catch (err) {
     msg.className = 'msg ko'; msg.textContent = 'No hemos podido enviar tu respuesta. Comprueba tu conexión y prueba otra vez.';
   } finally {
-    btn.disabled = false; btn.textContent = 'Enviar respuesta';
+    btn.textContent = 'Enviar respuesta';
+    pintarEspera();
   }
 });
 
