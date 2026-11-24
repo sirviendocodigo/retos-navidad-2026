@@ -43,7 +43,7 @@
   .logo-nd svg { height: 18px; width: auto; display: block; }
   .logo-lm img { height: 30px; width: auto; }
   .logo-sc svg { height: 22px; width: auto; display: block; }
-  .codiguito { margin-right: -16px; }
+  .codiguito { margin-right: -31px; }
   .codiguito svg { height: 46px; width: auto; display: block; }
   .nota { grid-column: 1 / -1; margin-top: 14px; font-size: 14px; background: #E6F5F3; color: #0B5A55; border-radius: 10px; padding: 10px 14px; }
   .nota.ko { background: #FFF4DB; color: #6B4B00; }
@@ -60,7 +60,7 @@
   nav.menu a:hover { color: var(--lm-deep); }
   @media (max-width: 1180px) { .logos .lbl { display: none; } }
   @media (max-width: 1040px) { nav.menu { display: none; } }
-  @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logos > span { flex-shrink: 0; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -8px; } .codiguito svg { height: 30px; } .topbar .me { display: none; } }
+  @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logos > span { flex-shrink: 0; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .me { display: none; } }
 
   .me { font-size: 13px; font-weight: 500; background: var(--wash); color: var(--lm-deep); border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
   .linkbtn { background: none; border: 0; padding: 0; font: inherit; color: var(--lm-deep); text-decoration: underline; cursor: pointer; }
@@ -121,6 +121,10 @@
   .day.locked { cursor: default; background: transparent; border-style: dashed; }
   .day.locked::after { opacity: .25; }
   .day.locked .n { color: #B9C5CB; }
+  .chip { display: inline-block; font-size: 11px; font-weight: 600; color: var(--lm-deep); background: var(--wash); border-radius: 999px; padding: 1px 8px; margin-left: 4px; white-space: nowrap; }
+  .chip.ok { color: #2a1d00; background: #FCE7B2; }
+  .day.late { background: #FAFBFB; border-style: dashed; }
+  .day.late .n { opacity: .7; }
   .day.today { outline: 3px solid var(--nd-yellow); outline-offset: 2px; }
   .day .flag { position: absolute; right: 12px; top: 16px; font-size: 11px; font-weight: 600; color: #2a1d00; background: var(--nd-yellow); border-radius: 999px; padding: 2px 8px; }
 
@@ -277,7 +281,7 @@
 </head>
 <body>
 
-<div class="demo-banner" id="demoBanner" hidden>Modo demostración: los retos y el ranking son de ejemplo. El día 1 aparece como ya resuelto (pulsa en su puerta para abrir la pista), el 2 está cerrado y el 3 abierto para que pruebes a enviar.</div>
+<div class="demo-banner" id="demoBanner" hidden>Modo demostración: los retos y el ranking son de ejemplo. El día 1 aparece como ya resuelto (pulsa en su puerta para abrir la pista), el 2 ya pasó pero aún se puede hacer y el 3 es el de hoy.</div>
 
 <header class="topbar">
   <div class="wrap">
@@ -325,7 +329,7 @@
       <div class="head">
         <div>
           <h2>Calendario</h2>
-          <p>24 regalos por abrir. Cada día a las 00:00 se abre un reto y tienes 24 horas para resolverlo. Al acertar, la puerta te descubre una persona sospechosa y su testimonio.</p>
+          <p>24 regalos por abrir. Cada día a las 00:00 se abre un reto. Puedes hacerlo cuando quieras hasta el 24 a medianoche, pero tu tiempo cuenta desde que se abrió. Al acertar, la puerta te descubre una persona sospechosa y su testimonio.</p>
           <p class="who" id="calActions"></p>
         </div>
         <div class="marcador" id="marcador" hidden></div>
@@ -351,7 +355,7 @@
     <div class="wrap">
       <div class="head"><div><h2>Cómo funciona</h2></div></div>
       <div class="steps">
-        <div class="step" style="--c: var(--sc-sky)"><div class="num">01</div><h3>Abre el reto del día</h3><p>Cada día a las 00:00 se abre un reto nuevo y el anterior se cierra. Tienes 24 horas para resolverlo.</p></div>
+        <div class="step" style="--c: var(--sc-sky)"><div class="num">01</div><h3>Abre el reto del día</h3><p>Cada día a las 00:00 se abre un reto nuevo. Si se te pasa, puedes hacerlo después, aunque tu tiempo cuenta desde que se abrió.</p></div>
         <div class="step" style="--c: var(--lm-teal)"><div class="num">02</div><h3>Resuélvelo a tu manera</h3><p>Copia la entrada, prográmalo en tu ordenador con el lenguaje que prefieras y envía tu código y el resultado.</p></div>
         <div class="step" style="--c: var(--nd-yellow)"><div class="num">03</div><h3>Destapa el caso y cuida tu código</h3><p>Cada acierto te descubre un expediente del caso. Acertar te da 1 punto. Después revisamos tu código: +1 si funciona y +1 si está limpio. Hasta 3 puntos por reto.</p></div>
       </div>
@@ -369,7 +373,7 @@
       <div class="bases">
         <article class="base">
           <h3>1. El calendario</h3>
-          <p>Del 1 al 24 de diciembre se abre un reto cada día a las <b>00:00</b> (hora peninsular; en Canarias, a las 23:00 del día anterior). Cada reto está abierto <b>24 horas</b>: cuando se abre el siguiente, el anterior se cierra y ya no se puede enviar.</p>
+          <p>Del 1 al 24 de diciembre se abre un reto cada día a las <b>00:00</b> (hora peninsular; en Canarias, a las 23:00 del día anterior). Si se te pasa un día, no pasa nada: puedes hacer cualquier reto atrasado hasta el <b>24 de diciembre a medianoche</b>. Eso sí, tu tiempo siempre cuenta desde que se abrió el reto, así que hacerlo el mismo día te ayuda en el desempate.</p>
         </article>
         <article class="base">
           <h3>2. Qué hay que enviar</h3>
@@ -385,7 +389,7 @@
         </article>
         <article class="base">
           <h3>5. Cuándo se suman los puntos</h3>
-          <p>El punto por acertar se suma en cuanto aciertas. Revisamos los códigos al día siguiente del cierre de cada reto, y los otros dos puntos y el comentario aparecen esa noche a las 00:00, junto con el reto nuevo. Por ejemplo, el reto del día 3 está abierto todo el día 3, se cierra a medianoche, lo revisamos el día 4 y la revisión sale a las 00:00 del día 5. La verás al abrir el expediente de ese día.</p>
+          <p>El punto por acertar se suma en cuanto aciertas. Cada día revisamos los códigos que nos llegaron el día anterior, y los otros dos puntos y el comentario aparecen a las 00:00, junto con el reto nuevo. Por ejemplo, si haces el reto 3 el día 3, lo revisamos el día 4 y la revisión sale a las 00:00 del día 5. Si haces un reto fuera de plazo, lo revisamos al día siguiente y la revisión aparece en cuanto está lista. La verás al abrir el expediente de ese día.</p>
         </article>
         <article class="base">
           <h3>6. Juego limpio</h3>
@@ -393,7 +397,11 @@
         </article>
         <article class="base">
           <h3>7. La acusación final</h3>
-          <p>Hasta el 24 de diciembre a medianoche puedes acusar a una de las personas sospechosas que hayas descubierto. El 25 contamos quién fue y anunciamos quién lo había adivinado.</p>
+          <p>Hasta el 24 de diciembre a medianoche puedes acusar a una de las personas sospechosas que hayas descubierto, también con retos hechos fuera de plazo. El 25 contamos quién fue.</p>
+        </article>
+        <article class="base">
+          <h3>8. Quién gana</h3>
+          <p>Gana quien más puntos tenga al final: los puntos de los retos más <b>+1</b> si aciertas quién fue. Si hay empate, gana quien menos tiempo haya tardado en total, contando desde que se abrió cada reto.</p>
         </article>
       </div>
       <div class="puntos">
@@ -405,9 +413,10 @@
             <tr><td>El código funciona al ejecutarlo</td><td class="num">+1</td></tr>
             <tr><td>Código limpio, a juicio del equipo</td><td class="num">+1</td></tr>
             <tr><td>Máximo por reto</td><td class="num">3</td></tr>
+            <tr><td>Acertar quién fue (se suma el 25)</td><td class="num">+1</td></tr>
           </tbody>
         </table>
-        <p>Con los 24 retos se pueden sumar hasta 72 puntos. Gana quien más puntos sume y, si hay empate, quien menos tiempo haya tardado en total desde que se abrió cada reto.</p>
+        <p>En total se pueden sumar hasta 73 puntos: 72 de los retos y 1 por acertar quién fue. Gana quien más puntos sume y, si hay empate, quien menos tiempo haya tardado en total desde que se abrió cada reto.</p>
       </div>
     </div>
   </section>
@@ -510,9 +519,10 @@ const CONFIG = {
   API_URL: 'https://script.google.com/macros/s/AKfycbyFS5pAY0F-6AunO0MuDjk5amJI2MKkBH_x1pTYR7p4KBzn3HpsOq-YOBz6C_MuUmAp4w/exec',
   URL_PRIVACIDAD: '#',
   ACUSACIONES_HASTA: '2026-12-25T00:00:00+01:00', // igual que en Code.gs
+  BONUS_ACUSACION: 1,        // igual que en Code.gs
   CASO: {
     titulo: 'Muerte en la cena de Navidad',
-    intro: 'El sábado 28 de noviembre, el equipo de Madrid voló a Canarias para celebrar por primera vez la cena de Navidad con la oficina de Lean Mind. Casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 lo encontraron muerto junto al árbol. Esa noche un temporal cortó la carretera, y nadie pudo entrar ni salir hasta el lunes. Para entonces, ya no era el único.',
+    intro: 'El sábado 28 de noviembre, el equipo de Next Digital y sirviendo código; voló a Canarias para celebrar por primera vez la cena de Navidad con la oficina de Lean Mind. Casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 lo encontraron muerto junto al árbol. Esa noche un temporal cortó la carretera y nadie pudo entrar ni salir hasta el lunes. Cuando por fin llegó ayuda, Papá Noel ya no era el único muerto.',
     cierre: 'Hay 24 expedientes. Uno es de quien lo hizo.',
     portada: 'Papá Noel ha aparecido muerto junto al árbol en la primera cena de Navidad que reúne a las oficinas de Madrid y Canarias. Resuelve un reto de código cada día, abre un expediente nuevo y descubre quién lo hizo antes de Nochebuena.'
   }
@@ -547,17 +557,16 @@ function cierreDia(d) { return new Date(aperturaDia(d).getTime() + 864e5); }
 /* ---------- API ---------- */
 async function apiRetos() {
   if (DEMO) {
-    // En la demo, los días 1 y 2 ya se han cerrado, el 3 está abierto y el resto aún no ha llegado
+    // En la demo, los días 1 y 2 ya pasaron (se pueden hacer fuera de plazo), el 3 es hoy y el resto aún no ha llegado
     return {
       ahora: new Date().toISOString(),
       retos: Array.from({ length: 24 }, (_, i) => {
         const dia = i + 1;
         const r = DEMO_RETOS.find(x => x.dia === dia);
-        const estado = dia < 3 ? 'cerrado' : dia === 3 ? 'abierto' : 'pendiente';
+        const estado = dia < 3 ? 'atrasado' : dia === 3 ? 'abierto' : 'pendiente';
         const cierre = dia === 3 ? new Date(Date.now() + 5 * 36e5) : cierreDia(dia);
         const base = { dia, apertura: aperturaDia(dia).toISOString(), cierre: cierre.toISOString(), estado, abierto: estado === 'abierto' };
-        if (estado === 'abierto') return Object.assign(base, { titulo: r.titulo, enunciado: r.enunciado, entrada: r.entrada });
-        if (estado === 'cerrado') return Object.assign(base, { titulo: r.titulo });
+        if (estado === 'abierto' || estado === 'atrasado') return Object.assign(base, { titulo: r.titulo, enunciado: r.enunciado, entrada: r.entrada });
         return base;
       })
     };
@@ -716,7 +725,7 @@ function pintarArbol() {
       return `<g class="node" style="animation-delay:${(p.dia * 0.37) % 2.8}s"><title>${titulo}: resuelto</title><circle cx="${p.x}" cy="${p.y}" r="21" fill="${c}" opacity=".25"/><circle cx="${p.x}" cy="${p.y}" r="14" fill="${c}"/><text x="${p.x}" y="${p.y + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Poppins, sans-serif">${p.dia}</text></g>`;
     }
     const abierto = est === 'abierto';
-    return `<g><title>${titulo}${abierto ? ': abierto' : est === 'cerrado' ? ': cerrado' : ''}</title><circle cx="${p.x}" cy="${p.y}" r="14" fill="#fff" stroke="${abierto ? '#F2A900' : c}" stroke-width="${abierto ? 3 : 2}" ${est === 'pendiente' ? 'stroke-dasharray="3 3" opacity=".7"' : ''}/><text x="${p.x}" y="${p.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="${abierto ? '#8A5A00' : '#8A9BA5'}" font-family="Poppins, sans-serif">${p.dia}</text></g>`;
+    return `<g><title>${titulo}${abierto ? ': hoy' : est === 'atrasado' ? ': sin hacer' : est === 'cerrado' ? ': cerrado' : ''}</title><circle cx="${p.x}" cy="${p.y}" r="14" fill="#fff" stroke="${abierto ? '#F2A900' : c}" stroke-width="${abierto ? 3 : 2}" ${est === 'pendiente' ? 'stroke-dasharray="3 3" opacity=".7"' : ''}/><text x="${p.x}" y="${p.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="${abierto ? '#8A5A00' : '#8A9BA5'}" font-family="Poppins, sans-serif">${p.dia}</text></g>`;
   }).join('');
   // La estrella es el día 24: se enciende al resolver el último reto
   const e24 = estadoDe(24), hecha = hechos.includes(24), ey = top - 50;
@@ -799,9 +808,10 @@ function pintarGrid() {
     const esHoy = hoy && hoy.dia === r.dia;
     let estado, texto;
     const nota = store.get('notas', {})[r.dia];
-    const etNota = nota ? `${puntosDia(r.dia)} de 3 pts` : (done && r.estado === 'cerrado' ? '1 pt<br>en revisión' : '');
+    const etNota = nota ? `${puntosDia(r.dia)} de 3 pts` : (done && r.estado !== 'abierto' ? '1 pt<br>en revisión' : '');
     const botonPista = pistasVisibles()[r.dia] ? '<br><span class="see">Abrir pista</span>' : '';
     if (r.estado === 'abierto') { estado = done ? 'open done' : 'open'; texto = done ? 'Resuelto ✓' + botonPista : esc(r.titulo || 'Abierto'); }
+    else if (r.estado === 'atrasado') { estado = done ? 'closed done' : 'open late'; texto = done ? 'Resuelto ✓' + (etNota ? '<br>' + etNota : '') + botonPista : esc(r.titulo || 'Sin hacer') + '<br><span class="lock">Aún puedes hacerlo</span>'; }
     else if (r.estado === 'cerrado') { estado = 'closed' + (done ? ' done' : ''); texto = done ? 'Resuelto ✓' + (etNota ? '<br>' + etNota : '') + botonPista : 'Cerrado<br><span class="lock">Pista bloqueada</span>'; }
     else { estado = 'locked'; texto = 'Se abre el ' + fechaCorta(r.apertura); }
     b.className = 'day ' + estado + (esHoy && !done ? ' today' : '');
@@ -810,7 +820,7 @@ function pintarGrid() {
     b.innerHTML = `${pista ? `<span class="mini" title="${esc(pista.persona)}">${fotoHTML(pista)}</span>` : ''}${r.estado === 'pendiente' ? LAZO(color(r.dia)) : ''}${esHoy ? '<span class="flag">Hoy</span>' : ''}<span class="n">${r.dia}</span>
       <span class="state">${texto}</span>`;
     // Si ya está resuelto, la puerta solo abre el expediente, aunque el reto siga abierto
-    if (r.estado === 'abierto' && !(done && pistasVisibles()[r.dia])) b.addEventListener('click', () => abrirReto(r));
+    if ((r.estado === 'abierto' || r.estado === 'atrasado') && !(done && pistasVisibles()[r.dia])) b.addEventListener('click', () => abrirReto(r));
     else if (pistasVisibles()[r.dia]) { b.addEventListener('click', () => verPista(pistasVisibles()[r.dia])); b.title = 'Abrir la pista de este día'; }
     else b.disabled = true;
     b.setAttribute('aria-label', `Día ${r.dia}, ${r.estado}`);
@@ -839,9 +849,7 @@ function pintarCountdown() {
     const ms = limite - new Date();
     if (ms <= 0) { location.reload(); return; }
     el.hidden = false;
-    el.innerHTML = hoy ? `Se cierra en <b>${cuenta(ms)}</b>` : `El día ${prox.dia} se abre en <b>${cuenta(ms)}</b>`;
-    const aviso = $('#dlgCierre');
-    if (aviso && ACTUAL && hoy && ACTUAL.dia === hoy.dia) aviso.textContent = `Se cierra en ${cuenta(ms)}`;
+    el.innerHTML = hoy ? (hoy.dia < 24 ? `El reto ${hoy.dia + 1} se abre en <b>${cuenta(ms)}</b>` : `El concurso termina en <b>${cuenta(ms)}</b>`) : `El día ${prox.dia} se abre en <b>${cuenta(ms)}</b>`;
   };
   tick();
   setInterval(tick, 1000);
@@ -855,7 +863,7 @@ async function pintarRanking() {
     if (!lista.length) { $('#rankWrap').innerHTML = '<div class="empty">Todavía nadie ha resuelto un reto. ¿Serás la primera persona?</div>'; return; }
     const filas = lista.map((p, i) => `<tr>
       <td class="pos">${i + 1}</td>
-      <td class="alias">${esc(p.alias)}</td>
+      <td class="alias">${esc(p.alias)}${p.acusacion ? ' <span class="chip ok">Acertó quién fue</span>' : ''}</td>
       <td class="num pts">${p.puntos}</td>
       <td class="num">${p.resueltos}</td>
       <td class="num col-rev">${p.funciona || 0}</td>
@@ -887,7 +895,7 @@ function pintarIdentidad() {
 
 // Quita la sesión de este dispositivo. El progreso sigue guardado en la hoja y se recupera con el email.
 function salir() {
-  ['perfil', 'resueltos', 'revelaciones', 'notas'].forEach(k => store.set(k, k === 'perfil' ? null : k === 'resueltos' ? [] : {}));
+  ['perfil', 'resueltos', 'revelaciones', 'notas', 'bonus'].forEach(k => store.set(k, k === 'perfil' ? null : k === 'resueltos' ? [] : {}));
   store.set('acusacion', null);
   pintarIdentidad(); pintarGrid(); pintarCaso();
 }
@@ -902,17 +910,20 @@ function misPuntos() {
     if (n && n.funciona) { total += 1; funciona++; }
     if (n && n.cleanCode) { total += 1; clean++; }
   });
-  return { total, funciona, clean, aciertos };
+  const bonus = store.get('bonus', {});
+  const bAcus = bonus.acusacion ? CONFIG.BONUS_ACUSACION : 0;
+  total += bAcus;
+  return { total, funciona, clean, aciertos, bAcus };
 }
 
 function pintarMarcador() {
   const p = perfil();
   const m = $('#marcador');
   if (!p || !p.alias) { m.hidden = true; return; }
-  const { total, funciona, clean, aciertos } = misPuntos();
+  const { total, funciona, clean, aciertos, bAcus } = misPuntos();
   m.hidden = false;
   m.innerHTML = `<div><div class="etq">Tus puntos</div><div class="total">${total}<small>pts</small></div></div>
-    <div class="desglose"><b>${aciertos}</b> por ${aciertos === 1 ? 'reto acertado' : 'retos acertados'}<br><b>${funciona}</b> por código que funciona<br><b>${clean}</b> por clean code</div>`;
+    <div class="desglose"><b>${aciertos}</b> por ${aciertos === 1 ? 'reto acertado' : 'retos acertados'}<br><b>${funciona}</b> por código que funciona<br><b>${clean}</b> por clean code${bAcus ? `<br><b>${bAcus}</b> por acertar quién fue` : ''}</div>`;
 }
 
 function pintarYo() {
@@ -938,6 +949,7 @@ async function cargarProgreso() {
     store.set('resueltos', res.resueltos || []);
     store.set('revelaciones', res.revelaciones || {});
     store.set('notas', res.notas || {});
+    store.set('bonus', res.bonus || {});
     store.set('acusacion', res.acusacion || null);
   } catch (e) { /* sin conexión: se usa lo guardado en este navegador */ }
 }
@@ -966,7 +978,9 @@ $('#formRec').addEventListener('submit', async e => {
 function abrirReto(r) {
   ACTUAL = r;
   $('#dlgTag').textContent = 'Día ' + r.dia;
-  $('#dlgCierre').textContent = '';
+  $('#dlgCierre').textContent = r.estado === 'atrasado'
+    ? `Fuera de plazo: tu tiempo cuenta desde el ${fechaCorta(r.apertura)} a las 00:00`
+    : 'Tu tiempo cuenta desde las 00:00 de hoy';
   $('#dlgTitle').textContent = r.titulo;
   $('#dlgText').innerHTML = mini(r.enunciado);
   $('#dlgInput').textContent = r.entrada;
