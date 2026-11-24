@@ -2,7 +2,7 @@
 
 Calendario de adviento de código del 1 al 24 de diciembre, organizado por Next Digital, Lean Mind y sirviendo código;.
 
-Cada día a las 10:00 (hora de Madrid) se abre un reto. Las personas lo resuelven con el lenguaje que quieran, pegan el resultado en la web y entran en el ranking.
+Cada día a las 00:00 (hora de Madrid; las 23:00 del día anterior en Canarias) se abre un reto y se cierra el del día anterior: cada reto está abierto exactamente 24 horas. Todo ocurre solo, según la hora; no hay que hacer nada a mano. Las personas lo resuelven con el lenguaje que quieran, pegan el resultado en la web y entran en el ranking.
 
 ## Cómo está montado
 
@@ -18,7 +18,7 @@ Cada día a las 10:00 (hora de Madrid) se abre un reto. Las personas lo resuelve
 2. Ve a **Extensiones > Apps Script**.
 3. Borra lo que haya en el editor, pega todo el contenido de `Code.gs` y guarda.
 4. En el desplegable de funciones de arriba elige `prepararHoja` y pulsa **Ejecutar**. La primera vez Google pedirá permisos: acéptalos (si sale "Google no ha verificado esta aplicación", entra en Configuración avanzada y continúa, porque el script es vuestro).
-5. Vuelve a la hoja. Tendrás tres pestañas: `Retos` (con los 24 días ya repartidos entre las tres marcas), `Envios` y `Participantes`.
+5. Vuelve a la hoja. Tendrás cuatro pestañas: `Retos` (con los 24 días ya repartidos entre las tres marcas), `Envios`, `Participantes` y `Acusaciones`.
 
 ### 1 bis. Cargar los 24 retos
 
@@ -55,7 +55,7 @@ Ahí mismo podéis cambiar los colores de cada marca por los de sus manuales.
 2. Sube `index.html`, `Code.gs` y este `README.md`. Ninguno contiene soluciones; esas solo están en la hoja.
    **No subas nunca** `retos-para-importar.csv` ni la carpeta de herramientas de la organización: ahí están todas las soluciones y la historia completa.
 3. En el repositorio ve a **Settings > Pages**, elige la rama `main` y la carpeta `/ (root)`, y guarda.
-4. En un par de minutos la web estará en `https://<usuario>.github.io/24-commits/`.
+4. En un par de minutos la web estará en `https://sirviendocodigo.github.io/retos-navidad-2026/`.
 
 ## Cómo escribe cada marca sus retos
 
@@ -95,36 +95,54 @@ Sobre las fotos:
 - Mejor en formato cuadrado, unos 400 x 400 píxeles y menos de 100 KB cada una, para que la web cargue rápido.
 - Si una fila no tiene foto, la web muestra las iniciales.
 
-## El ranking
+## Expedientes y progreso de cada persona
 
-- Gana quien más retos resuelve.
-- Si hay empate, gana quien menos tiempo haya tardado en total, contando desde que se abre cada reto hasta su primera respuesta correcta.
-- Tras un fallo hay que esperar 60 segundos para volver a intentarlo.
-- El ranking de la web se actualiza cada minuto. La pestaña `Envios` tiene el detalle completo y se puede ordenar o filtrar como cualquier hoja.
+- Cada persona solo ve los expedientes de los retos que ha acertado. La pista sale de la hoja únicamente en el momento de acertar.
+- La primera vez que alguien envía una respuesta se da de alta con alias y email, y el script le asigna una **clave personal** que se guarda en su navegador. A partir de ahí, la web la usa para identificarle: nadie puede enviar ni consultar el progreso de otra persona sabiendo solo su email.
+- Al entrar, la web pide a la hoja los retos resueltos y los expedientes conseguidos con esa clave, así que el progreso está en la hoja y no depende del navegador.
+- **Desde otro dispositivo** (o si se borra el navegador): botón "Recupera tu progreso", se escribe el email y llega un correo con un enlace que lleva la clave. Al abrirlo, ese dispositivo recupera todo. Como mucho se manda un correo cada 10 minutos por persona, y la web responde lo mismo exista o no el email, para no revelar quién participa.
+- En `Code.gs` hay que poner en `URL_WEB` la dirección de la web en GitHub Pages, para que el enlace del correo funcione.
+- Los correos salen de la cuenta de Google dueña de la hoja. Google permite unos **100 correos al día** con una cuenta de Gmail normal y unos 1.500 con Google Workspace. Para un evento así sobra, pero mejor usar una cuenta de Workspace de la empresa.
+- La primera vez que se ejecute, Google pedirá permiso para enviar correos en tu nombre: hay que aceptarlo.
 
-Algunos ajustes están al principio de `Code.gs` (hora de apertura, segundos de espera, número de personas en el ranking).
+## La acusación final
 
-## El código de cada participante
+Debajo del calendario hay una sección "¿Quién lo hizo?". Cada persona puede acusar a una de las sospechosas que ha descubierto (solo de los retos que ha acertado) y cambiar de opinión hasta el 24 de diciembre a medianoche; cuenta la última. Las acusaciones se guardan en la pestaña `Acusaciones` de la hoja, una fila por persona. La fecha límite está en `ACUSACIONES_HASTA`, en `Code.gs` y en `index.html` (tiene que ser la misma en los dos).
 
-Cada envío lleva el código con el que se ha resuelto el reto, pegado en la web o subido como archivo. El archivo se lee como texto en el navegador de la persona y se guarda como texto en la hoja: no se sube ningún archivo y nada se ejecuta.
+## Revisión diaria y puntuación
 
-Lo que corrige automáticamente es el resultado. El código sirve para revisar, y en la pestaña `Envios` tenéis tres columnas para ello:
+Cada envío lleva el código, el resultado y **cómo se ejecuta** (comando, versión y dependencias). En la pestaña `Envios` hay dos columnas para la revisión, con desplegable:
 
-- **Código**: el código tal cual lo ha enviado.
-- **Huella**: una firma del código sin espacios ni saltos de línea. Si dos personas envían el mismo código con distinto formato, tienen la misma huella.
-- **Posible copia**: se rellena sola cuando alguien envía un código idéntico al de otra persona ese mismo día, e indica de quién.
+| Columna | Qué poner |
+| --- | --- |
+| Revisión: funciona (SÍ/NO) | `SÍ` si al ejecutar el código tal cual, con sus instrucciones, da el resultado. `NO` si no arranca, da otro resultado o la respuesta está escrita a mano |
+| Revisión: +1 clean code (SÍ/NO) | `SÍ` si el código está especialmente limpio: se lee bien, buenos nombres, funciones pequeñas, sin duplicación, diseño que aguante un cambio. Los tests ayudan. Si no, `NO` o vacío |
 
-Cómo revisar sin volverse loca:
+Solo se revisa la fila de la **primera respuesta correcta** de cada persona y día (es la única fila correcta, porque después no se aceptan más envíos de ese día).
 
-1. **No se revisa todo.** Cada día basta con filtrar `Posible copia` por las filas que no estén vacías.
-2. **Al final, el top.** Antes de dar premios, alguien de Lean Mind o Next Digital lee el código de las primeras posiciones y comprueba que tiene sentido para el reto. Si hay dudas, lo ejecuta con la entrada del día y mira si da el resultado enviado.
-3. **Cambios pequeños para disimular** (renombrar variables, añadir comentarios) no los detecta la huella. Para el top, la revisión a mano del paso 2 los pilla.
+**Calendario de revisión.** El reto del día N está abierto todo el día N y se cierra a las 00:00 del día N+1. Se revisa durante el día N+1 y la revisión se publica a las 00:00 del día N+2, junto con el reto nuevo. Hasta esa hora, nada de lo que se escriba en la revisión es visible ni cuenta en el ranking, así que se puede revisar con calma.
 
-Y un extra para redes: filtrando por día y `Correcto = TRUE` tenéis todas las soluciones buenas para elegir la más corta, la más original o la del lenguaje más raro y compartirla.
+**Puntos por reto:**
+
+| Caso | Puntos |
+| --- | --- |
+| Resultado correcto (se suma al momento de acertar) | 10 |
+| Clean code (`SÍ` en la revisión) | +1 |
+| El código no funciona (`NO`) | 0, y no cuenta como resuelto |
+
+El máximo por reto es 11 y el del concurso, 264.
+
+Gana quien más puntos sume. Si hay empate, quien menos tiempo haya tardado en total. Los valores están al principio de `Code.gs` (`PUNTOS_ACIERTO`, `PUNTOS_CLEAN_CODE`, `HORAS_HASTA_NOTAS`). Para las copias, la columna `Posible copia` avisa de códigos idénticos; si se confirma, se marca `NO` en las dos filas.
+
+Cada persona ve su contador de puntos encima del calendario y en la barra de arriba. En cada puerta resuelta aparece "10 pts en revisión", "10 pts", "11 pts con clean code" o "No funcionó". No hay notas ni comentarios.
+
+**Columnas de apoyo.** `Código` guarda el código tal cual, `Huella` es una firma del código sin espacios ni saltos de línea, y `Posible copia` se rellena sola cuando alguien envía un código idéntico al de otra persona ese día.
+
+**Ayuda para revisar.** En la carpeta `organizacion` está `resolver.py` con la solución de referencia de cada reto. Claude puede preparar cada mañana una propuesta de revisión (ejecutar los códigos, métricas y una propuesta de SÍ o NO para el punto de clean code) para que el equipo solo tenga que confirmarla.
 
 ## Limitaciones a tener en cuenta
 
 - Todo el mundo recibe la misma entrada, así que alguien podría pasar la respuesta a otra persona. La columna `Posible copia` detecta los códigos idénticos y la revisión del top hace el resto.
-- No hay contraseña: un email y un alias identifican a cada persona. Si alguien borra el navegador, vuelve a entrar con el mismo email y recupera su alias.
+- No hay contraseña: la clave personal guardada en el navegador hace ese papel, y se recupera por correo. Quien tenga el enlace del correo puede participar en nombre de esa persona, por eso el correo pide no compartirlo.
 - Los emails se guardan en la hoja. Hace falta una política de privacidad enlazada en la web (`URL_PRIVACIDAD`) que explique para qué se usan y cuándo se borran.
 - Google Apps Script aguanta sin problema cientos de participantes. Si se hiciera muy viral (miles de envíos a la vez en el mismo minuto), podría ir lento en el momento de apertura.
