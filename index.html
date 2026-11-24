@@ -47,6 +47,12 @@
   .codiguito svg { height: 46px; width: auto; display: block; }
   .nota { grid-column: 1 / -1; margin-top: 14px; font-size: 14px; background: #E6F5F3; color: #0B5A55; border-radius: 10px; padding: 10px 14px; }
   .nota.ko { background: #FFF4DB; color: #6B4B00; }
+  .nota ul { list-style: none; margin: 8px 0 0; padding: 0; }
+  .nota li { padding-left: 22px; position: relative; margin: 3px 0; }
+  .nota li::before { position: absolute; left: 0; font-weight: 700; }
+  .nota li.si::before { content: '✓'; color: #0B7A55; }
+  .nota li.no::before { content: '✗'; color: #9A3B1E; }
+  .nota .coment { margin: 10px 0 0; }
   td.pts { font-weight: 700; color: var(--sc-navy); }
   .tree-cap { text-align: center; font-size: 13px; color: var(--ink-soft); margin: 4px 0 0; }
   nav.menu { display: flex; gap: 20px; font-size: 14px; font-weight: 500; white-space: nowrap; }
@@ -165,7 +171,7 @@
   .dots { display: flex; gap: 3px; flex-wrap: wrap; }
   .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: inline-block; }
   .dots i.on { background: var(--lm-teal); }
-  @media (max-width: 640px) { .col-dots { display: none; } th, td { padding: 11px 10px; font-size: 14px; } td.pos { width: 34px; } }
+  @media (max-width: 640px) { .col-dots, .col-rev { display: none; } th, td { padding: 10px 7px; font-size: 14px; } th { font-size: 11px; } td.pos { width: 34px; } }
   #rankWrap { overflow-x: auto; }
   .empty { color: var(--ink-soft); padding: 28px; text-align: center; background: var(--card); border: 1px dashed var(--line); border-radius: var(--radius); }
 
@@ -347,7 +353,7 @@
       <div class="steps">
         <div class="step" style="--c: var(--sc-sky)"><div class="num">01</div><h3>Abre el reto del día</h3><p>Cada día a las 00:00 se abre un reto nuevo y el anterior se cierra. Tienes 24 horas para resolverlo.</p></div>
         <div class="step" style="--c: var(--lm-teal)"><div class="num">02</div><h3>Resuélvelo a tu manera</h3><p>Copia la entrada, prográmalo en tu ordenador con el lenguaje que prefieras y envía tu código y el resultado.</p></div>
-        <div class="step" style="--c: var(--nd-yellow)"><div class="num">03</div><h3>Destapa el caso y cuida tu código</h3><p>Cada acierto te descubre un expediente del caso. Cada reto vale 10 puntos y revisamos todos los códigos: si el tuyo está especialmente limpio, te llevas 1 punto extra.</p></div>
+        <div class="step" style="--c: var(--nd-yellow)"><div class="num">03</div><h3>Destapa el caso y cuida tu código</h3><p>Cada acierto te descubre un expediente del caso. Acertar te da 1 punto. Después revisamos tu código: +1 si funciona y +1 si está limpio. Hasta 3 puntos por reto.</p></div>
       </div>
     </div>
   </section>
@@ -371,19 +377,19 @@
         </article>
         <article class="base">
           <h3>3. Tiene que funcionar de verdad</h3>
-          <p>Ejecutamos tu código tal cual, con tu entrada y siguiendo tus instrucciones, en una máquina limpia. "En mi máquina funciona" no vale: si no arranca, no da el resultado o el resultado está escrito a mano, ese reto no puntúa.</p>
+          <p>Ejecutamos tu código tal cual, con tu entrada y siguiendo tus instrucciones, en una máquina limpia. "En mi máquina funciona" no vale: si no arranca, no da el resultado o el resultado está escrito a mano, no te llevas el punto de que funciona (el de acertar lo mantienes).</p>
         </article>
         <article class="base">
-          <h3>4. El punto extra por clean code</h3>
-          <p>El equipo de las tres comunidades lee todos los códigos. Si el tuyo se lee bien, los nombres cuentan qué hace cada cosa, las funciones son pequeñas, no hay duplicación y el diseño aguantaría un cambio, te damos <b>+1 punto</b> en ese reto. Los tests ayudan. No ponemos notas ni comentarios: el punto se da o no se da.</p>
+          <h3>4. El punto por clean code</h3>
+          <p>El equipo de las tres comunidades lee todos los códigos. Si el tuyo se lee bien, los nombres cuentan qué hace cada cosa, las funciones son pequeñas, no hay duplicación y el diseño aguantaría un cambio, te damos <b>+1 punto</b> en ese reto. Los tests ayudan. Junto a la revisión te dejamos un comentario para que sepas por qué te lo hemos dado o no.</p>
         </article>
         <article class="base">
-          <h3>5. Cuándo se suma el punto extra</h3>
-          <p>Los 10 puntos se suman en cuanto aciertas. Revisamos los códigos al día siguiente del cierre de cada reto, y el punto extra aparece esa noche a las 00:00, junto con el reto nuevo. Por ejemplo, el reto del día 3 está abierto todo el día 3, se cierra a medianoche, lo revisamos el día 4 y el punto extra se suma a las 00:00 del día 5.</p>
+          <h3>5. Cuándo se suman los puntos</h3>
+          <p>El punto por acertar se suma en cuanto aciertas. Revisamos los códigos al día siguiente del cierre de cada reto, y los otros dos puntos y el comentario aparecen esa noche a las 00:00, junto con el reto nuevo. Por ejemplo, el reto del día 3 está abierto todo el día 3, se cierra a medianoche, lo revisamos el día 4 y la revisión sale a las 00:00 del día 5. La verás al abrir el expediente de ese día.</p>
         </article>
         <article class="base">
           <h3>6. Juego limpio</h3>
-          <p>El código tiene que ser tuyo. Si dos códigos son iguales o casi iguales, ninguno de los dos puntúa ese día. Si tienes dudas, escríbenos por las redes de cualquiera de las tres comunidades.</p>
+          <p>El código tiene que ser tuyo. Si dos códigos son iguales o casi iguales, ninguno de los dos se lleva los puntos de la revisión ese día. Si tienes dudas, escríbenos por las redes de cualquiera de las tres comunidades.</p>
         </article>
         <article class="base">
           <h3>7. La acusación final</h3>
@@ -395,13 +401,13 @@
         <table>
           <thead><tr><th>Caso</th><th>Puntos</th></tr></thead>
           <tbody>
-            <tr><td>Resultado correcto y el código funciona al ejecutarlo</td><td class="num">10</td></tr>
+            <tr><td>La solución es correcta (se suma al momento)</td><td class="num">1</td></tr>
+            <tr><td>El código funciona al ejecutarlo</td><td class="num">+1</td></tr>
             <tr><td>Código limpio, a juicio del equipo</td><td class="num">+1</td></tr>
-            <tr><td>Máximo por reto</td><td class="num">11</td></tr>
-            <tr><td>El código no funciona o es una copia</td><td class="num">0</td></tr>
+            <tr><td>Máximo por reto</td><td class="num">3</td></tr>
           </tbody>
         </table>
-        <p>Con los 24 retos se pueden sumar hasta 264 puntos. Gana quien más puntos sume y, si hay empate, quien menos tiempo haya tardado en total desde que se abrió cada reto.</p>
+        <p>Con los 24 retos se pueden sumar hasta 72 puntos. Gana quien más puntos sume y, si hay empate, quien menos tiempo haya tardado en total desde que se abrió cada reto.</p>
       </div>
     </div>
   </section>
@@ -529,11 +535,11 @@ const color = n => PALETA[(n - 1) % PALETA.length];
 const DEMO_RETOS = [];
 const DEMO_REVELACIONES = {};
 const DEMO_RANKING = [
-  { alias: 'turron_driven_dev', puntos: 32, resueltos: 3, cleanCode: 2, minutos: 41, dias: [1, 2, 3] },
-  { alias: 'polvoron404', puntos: 31, resueltos: 3, cleanCode: 1, minutos: 97, dias: [1, 2, 3] },
-  { alias: 'reno.js', puntos: 22, resueltos: 2, cleanCode: 2, minutos: 30, dias: [1, 2] },
-  { alias: 'git_merge_navidad', puntos: 20, resueltos: 2, cleanCode: 0, minutos: 188, dias: [1, 3] },
-  { alias: 'la_del_wifi', puntos: 11, resueltos: 1, cleanCode: 1, minutos: 12, dias: [1] }
+  { alias: 'turron_driven_dev', puntos: 8, resueltos: 3, funciona: 3, cleanCode: 2, minutos: 41, dias: [1, 2, 3] },
+  { alias: 'polvoron404', puntos: 7, resueltos: 3, funciona: 3, cleanCode: 1, minutos: 97, dias: [1, 2, 3] },
+  { alias: 'reno.js', puntos: 6, resueltos: 2, funciona: 2, cleanCode: 2, minutos: 30, dias: [1, 2] },
+  { alias: 'git_merge_navidad', puntos: 4, resueltos: 2, funciona: 2, cleanCode: 0, minutos: 188, dias: [1, 3] },
+  { alias: 'la_del_wifi', puntos: 3, resueltos: 1, funciona: 1, cleanCode: 1, minutos: 12, dias: [1] }
 ];
 function aperturaDia(d) { return new Date(`2026-12-${String(d).padStart(2, '0')}T00:00:00+01:00`); }
 function cierreDia(d) { return new Date(aperturaDia(d).getTime() + 864e5); }
@@ -766,11 +772,17 @@ function pintarCaso() {
   $('#heroIntro').textContent = CONFIG.CASO.intro;
   $('#heroCierre').textContent = CONFIG.CASO.cierre;
 }
+function puntosDia(dia) {
+  const n = store.get('notas', {})[dia];
+  return 1 + (n && n.funciona ? 1 : 0) + (n && n.cleanCode ? 1 : 0);
+}
 function notaHTML(dia) {
   const n = store.get('notas', {})[dia];
   if (!n) return '';
-  if (!n.funciona) return `<div class="nota ko"><b>Revisión del día ${dia}:</b> tu código no funcionó al ejecutarlo, así que este reto no puntúa.</div>`;
-  return `<div class="nota"><b>Revisión del día ${dia}:</b> funciona${n.cleanCode ? ' y te llevas <b>+1 por clean code</b>. Total del reto: 11 puntos.' : '. Total del reto: 10 puntos.'}</div>`;
+  const linea = (ok, si, no) => `<li class="${ok ? 'si' : 'no'}">${ok ? si : no}</li>`;
+  return `<div class="nota${n.funciona ? '' : ' ko'}"><b>Revisión del día ${dia}: ${puntosDia(dia)} de 3 puntos</b>
+    <ul>${linea(true, 'Solución correcta: +1', '')}${linea(n.funciona, 'Tu código funciona: +1', 'Tu código no funcionó al ejecutarlo: 0')}${linea(n.cleanCode, 'Clean code: +1', 'Clean code: 0')}</ul>
+    ${n.comentario ? `<p class="coment"><b>Comentario del equipo:</b> ${esc(n.comentario)}</p>` : ''}</div>`;
 }
 function verPista(r) { $('#caseBody').innerHTML = revelacionHTML(r, false) + notaHTML(r.dia); $('#dlgCase').showModal(); }
 
@@ -787,7 +799,7 @@ function pintarGrid() {
     const esHoy = hoy && hoy.dia === r.dia;
     let estado, texto;
     const nota = store.get('notas', {})[r.dia];
-    const etNota = nota ? (nota.funciona ? (nota.cleanCode ? '11 pts<br>con clean code' : '10 pts') : 'No funcionó') : (done && r.estado === 'cerrado' ? '10 pts<br>en revisión' : '');
+    const etNota = nota ? `${puntosDia(r.dia)} de 3 pts` : (done && r.estado === 'cerrado' ? '1 pt<br>en revisión' : '');
     const botonPista = pistasVisibles()[r.dia] ? '<br><span class="see">Abrir pista</span>' : '';
     if (r.estado === 'abierto') { estado = done ? 'open done' : 'open'; texto = done ? 'Resuelto ✓' + botonPista : esc(r.titulo || 'Abierto'); }
     else if (r.estado === 'cerrado') { estado = 'closed' + (done ? ' done' : ''); texto = done ? 'Resuelto ✓' + (etNota ? '<br>' + etNota : '') + botonPista : 'Cerrado<br><span class="lock">Pista bloqueada</span>'; }
@@ -846,11 +858,12 @@ async function pintarRanking() {
       <td class="alias">${esc(p.alias)}</td>
       <td class="num pts">${p.puntos}</td>
       <td class="num">${p.resueltos}</td>
-      <td class="num">${p.cleanCode || 0}</td>
+      <td class="num col-rev">${p.funciona || 0}</td>
+      <td class="num col-rev">${p.cleanCode || 0}</td>
       <td class="num col-dots">${fmtMin(p.minutos)}</td>
       <td class="col-dots"><span class="dots">${Array.from({ length: 24 }, (_, d) => `<i class="${p.dias.includes(d + 1) ? 'on' : ''}"></i>`).join('')}</span></td>
     </tr>`).join('');
-    $('#rankWrap').innerHTML = `<table><thead><tr><th>#</th><th>Alias</th><th>Puntos</th><th>Retos</th><th>Clean code</th><th class="col-dots">Tiempo</th><th class="col-dots">Días</th></tr></thead><tbody>${filas}</tbody></table>`;
+    $('#rankWrap').innerHTML = `<table><thead><tr><th>#</th><th>Alias</th><th>Puntos</th><th>Retos</th><th class="col-rev">Funciona</th><th class="col-rev">Clean code</th><th class="col-dots">Tiempo</th><th class="col-dots">Días</th></tr></thead><tbody>${filas}</tbody></table>`;
   } catch (e) {
     $('#rankWrap').innerHTML = '<div class="empty">No se ha podido cargar el ranking. Prueba a recargar en un rato.</div>';
   }
@@ -879,27 +892,27 @@ function salir() {
   pintarIdentidad(); pintarGrid(); pintarCaso();
 }
 
-// Puntos de la persona: 10 por reto acertado, +1 si la revisión marca clean code, 0 si el código no funcionó
+// Puntos de la persona: 1 por reto acertado, +1 si funciona y +1 por clean code (según la revisión publicada)
 function misPuntos() {
   const notas = store.get('notas', {});
-  let total = 0, clean = 0, validos = 0;
+  let total = 0, funciona = 0, clean = 0, aciertos = 0;
   resueltos().forEach(d => {
     const n = notas[d];
-    if (n && !n.funciona) return;
-    validos++; total += 10;
+    aciertos++; total += 1;
+    if (n && n.funciona) { total += 1; funciona++; }
     if (n && n.cleanCode) { total += 1; clean++; }
   });
-  return { total, clean, validos };
+  return { total, funciona, clean, aciertos };
 }
 
 function pintarMarcador() {
   const p = perfil();
   const m = $('#marcador');
   if (!p || !p.alias) { m.hidden = true; return; }
-  const { total, clean, validos } = misPuntos();
+  const { total, funciona, clean, aciertos } = misPuntos();
   m.hidden = false;
   m.innerHTML = `<div><div class="etq">Tus puntos</div><div class="total">${total}<small>pts</small></div></div>
-    <div class="desglose"><b>${validos}</b> ${validos === 1 ? 'reto acertado' : 'retos acertados'}<br><b>${clean}</b> ${clean === 1 ? 'punto extra' : 'puntos extra'} por clean code</div>`;
+    <div class="desglose"><b>${aciertos}</b> por ${aciertos === 1 ? 'reto acertado' : 'retos acertados'}<br><b>${funciona}</b> por código que funciona<br><b>${clean}</b> por clean code</div>`;
 }
 
 function pintarYo() {
@@ -1089,7 +1102,7 @@ document.querySelectorAll('#privLink, .privLink2').forEach(a => { a.href = CONFI
       store.set('perfil', { alias: 'demo', clave: 'demo' });
       store.set('resueltos', [1]);
       store.set('revelaciones', { 1: DEMO_REVELACIONES[1] });
-      store.set('notas', { 1: { funciona: true, cleanCode: true } });
+      store.set('notas', { 1: { funciona: true, cleanCode: false, comentario: 'Funciona a la primera. Para el punto de clean code, separa la lectura de la entrada del cálculo y ponle nombre a ese 24.' } });
     }
   }
   pintarGuirnalda('#garland', 0);
