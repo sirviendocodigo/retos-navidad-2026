@@ -797,15 +797,19 @@ function pintarGrid() {
     const pista = pistasVisibles()[r.dia];
     b.innerHTML = `${pista ? `<span class="mini" title="${esc(pista.persona)}">${fotoHTML(pista)}</span>` : ''}${r.estado === 'pendiente' ? LAZO(color(r.dia)) : ''}${esHoy ? '<span class="flag">Hoy</span>' : ''}<span class="n">${r.dia}</span>
       <span class="state">${texto}</span>`;
-    if (r.estado === 'abierto') b.addEventListener('click', () => abrirReto(r));
-    else if (r.estado === 'cerrado' && pistasVisibles()[r.dia]) { b.addEventListener('click', () => verPista(pistasVisibles()[r.dia])); b.title = 'Abrir la pista de este día'; }
+    // Si ya está resuelto, la puerta solo abre el expediente, aunque el reto siga abierto
+    if (r.estado === 'abierto' && !(done && pistasVisibles()[r.dia])) b.addEventListener('click', () => abrirReto(r));
+    else if (pistasVisibles()[r.dia]) { b.addEventListener('click', () => verPista(pistasVisibles()[r.dia])); b.title = 'Abrir la pista de este día'; }
     else b.disabled = true;
     b.setAttribute('aria-label', `Día ${r.dia}, ${r.estado}`);
     grid.appendChild(b);
   });
   pintarArbol();
   pintarAcusacion();
-  if (hoy) { $('#ctaHoy').textContent = 'Abrir el reto del día ' + hoy.dia; $('#ctaHoy').onclick = e => { e.preventDefault(); abrirReto(hoy); }; }
+  if (hoy && resueltos().includes(hoy.dia) && pistasVisibles()[hoy.dia]) {
+    $('#ctaHoy').textContent = 'Ver el expediente del día ' + hoy.dia;
+    $('#ctaHoy').onclick = e => { e.preventDefault(); verPista(pistasVisibles()[hoy.dia]); };
+  } else if (hoy) { $('#ctaHoy').textContent = 'Abrir el reto del día ' + hoy.dia; $('#ctaHoy').onclick = e => { e.preventDefault(); abrirReto(hoy); }; }
 }
 
 function cuenta(ms) {
