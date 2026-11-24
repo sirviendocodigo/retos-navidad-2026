@@ -377,7 +377,7 @@
       <div class="steps">
         <div class="step" style="--c: var(--sc-sky)"><div class="num">01</div><h3>Abre el reto del día</h3><p>Cada día a las 00:00 se abre un reto nuevo. Si se te pasa, puedes hacerlo después, aunque tu tiempo cuenta desde que se abrió.</p></div>
         <div class="step" style="--c: var(--lm-teal)"><div class="num">02</div><h3>Resuélvelo a tu manera</h3><p>Copia la entrada, prográmalo en tu ordenador con el lenguaje que prefieras y envía tu código y el resultado.</p></div>
-        <div class="step" style="--c: var(--nd-yellow)"><div class="num">03</div><h3>Destapa el caso y cuida tu código</h3><p>Cada acierto te descubre un expediente del caso. Acertar te da 1 punto. Después revisamos tu código: +1 si funciona y +1 si está limpio. Hasta 3 puntos por reto.</p></div>
+        <div class="step" style="--c: var(--nd-yellow)"><div class="num">03</div><h3>Destapa el caso y cuida tu código</h3><p>Cada acierto te descubre a un sospechoso del caso. Acertar te da 1 punto. Después revisamos tu código: +1 si funciona y +1 si está limpio. Hasta 3 puntos por reto.</p></div>
       </div>
     </div>
   </section>
@@ -405,15 +405,15 @@
         </article>
         <article class="base">
           <h3>4. El punto por clean code</h3>
-          <p>El equipo de las tres comunidades lee todos los códigos. Si el tuyo se lee bien, los nombres cuentan qué hace cada cosa, las funciones son pequeñas, no hay duplicación y el diseño aguantaría un cambio, te damos <b>+1 punto</b> en ese reto. Los tests ayudan. Junto a la revisión te dejamos un comentario para que sepas por qué te lo hemos dado o no.</p>
+          <p>El equipo de las tres empresas lee todos los códigos. Si el tuyo se lee bien, los nombres cuentan qué hace cada cosa, las funciones son pequeñas, no hay duplicación y el diseño aguantaría un cambio, te damos <b>+1 punto</b> en ese reto. Los tests ayudan. Junto a la revisión te dejamos un comentario para que sepas por qué te lo hemos dado o no.</p>
         </article>
         <article class="base">
           <h3>5. Cuándo se suman los puntos</h3>
-          <p>El punto por acertar se suma en cuanto aciertas. Cada día revisamos los códigos que nos llegaron el día anterior, y los otros dos puntos y el comentario aparecen a las 00:00, junto con el reto nuevo. Por ejemplo, si haces el reto 3 el día 3, lo revisamos el día 4 y la revisión sale a las 00:00 del día 5. Si haces un reto fuera de plazo, lo revisamos al día siguiente y la revisión aparece en cuanto está lista. La verás al abrir el expediente de ese día.</p>
+          <p>El punto por acertar se suma en cuanto aciertas. Cada día revisamos los códigos que nos llegaron el día anterior, y los otros dos puntos y el comentario aparecen a las 00:00, junto con el reto nuevo. Por ejemplo, si haces el reto 3 el día 3, lo revisamos el día 4 y la revisión sale a las 00:00 del día 5. Si haces un reto fuera de plazo, lo revisamos al día siguiente y la revisión aparece en cuanto está lista. La verás al abrir la pista del sospechoso de ese día.</p>
         </article>
         <article class="base">
           <h3>6. Juego limpio</h3>
-          <p>El código tiene que ser tuyo. Si dos códigos son iguales o casi iguales, ninguno de los dos se lleva los puntos de la revisión ese día. Si tienes dudas, escríbenos por las redes de cualquiera de las tres comunidades.</p>
+          <p>El código tiene que ser tuyo. Si dos códigos son iguales o casi iguales, ninguno de los dos se lleva los puntos de la revisión ese día. Si tienes dudas, escríbenos por las redes de cualquiera de las tres empresas.</p>
         </article>
         <article class="base">
           <h3>7. La acusación final</h3>
@@ -501,11 +501,11 @@
 
 <dialog id="dlgRec">
   <div class="dlg-head">
-    <div><div class="dlg-tag">TU PROGRESO</div><h3>Recupera tus retos y tu expediente</h3></div>
+    <div><div class="dlg-tag">TU PROGRESO</div><h3>Recupera tus retos y tus sospechosos</h3></div>
     <button class="close" id="recClose" aria-label="Cerrar">&times;</button>
   </div>
   <div class="dlg-body">
-    <p style="margin-top:0;color:var(--ink-soft)">Escribe el email con el que participas y te mandamos un enlace. Al abrirlo, este dispositivo recupera los retos que has resuelto y los expedientes que has conseguido.</p>
+    <p style="margin-top:0;color:var(--ink-soft)">Escribe el email con el que participas y te mandamos un enlace. Al abrirlo, este dispositivo recupera los retos que has resuelto y los sospechosos que has descubierto.</p>
     <form id="formRec">
       <label>Email<input type="email" id="recEmail" required></label>
       <button class="btn btn-main" id="btnRec" type="submit">Enviarme el enlace</button>
@@ -546,8 +546,8 @@ const CONFIG = {
   CASO: {
     titulo: 'Muerte en la cena de Navidad',
     intro: 'El sábado 28 de noviembre, el equipo de Next Digital y sirviendo código; voló a Canarias para celebrar por primera vez la cena de Navidad con la oficina de Lean Mind. Casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 lo encontraron muerto junto al árbol. Esa noche un temporal cortó la carretera y nadie pudo entrar ni salir hasta el lunes. Cuando por fin llegó ayuda, Papá Noel ya no era el único muerto.',
-    cierre: 'Hay 24 expedientes. Uno es de quien lo hizo.',
-    portada: 'Papá Noel ha aparecido muerto junto al árbol en la primera cena de Navidad que reúne a las oficinas de Madrid y Canarias. Resuelve un reto de código cada día, abre un expediente nuevo y descubre quién lo hizo antes de Nochebuena.'
+    cierre: 'Hay 24 sospechosos. Uno de ellos lo hizo.',
+    portada: 'Papá Noel ha aparecido muerto junto al árbol en la primera cena de Navidad que reúne a las oficinas de Madrid y Canarias. Resuelve un reto de código cada día, descubre a un sospechoso nuevo y averigua quién lo hizo antes de Nochebuena.'
   }
 };
 // Colores de las tres marcas, mezclados en el calendario, el árbol y las fichas
@@ -823,7 +823,7 @@ function fotoHTML(r) {
 function revelacionHTML(r, nueva) {
   return `<div class="ph">${fotoHTML(r)}</div>
     <div>
-      <div class="tag">${nueva ? 'NUEVA PISTA | ' : ''}EXPEDIENTE Nº ${r.dia}</div>
+      <div class="tag">${nueva ? 'NUEVA PISTA | ' : ''}SOSPECHOSO Nº ${r.dia}</div>
       <h4>${esc(r.persona)}</h4>
       <div class="cg">${esc(r.cargo)}</div>
       <div class="txt">${mini(r.historia)}</div>
@@ -896,7 +896,7 @@ function pintarGrid() {
   pintarArbol();
   pintarAcusacion();
   if (hoy && resueltos().includes(hoy.dia) && pistasVisibles()[hoy.dia]) {
-    $('#ctaHoy').textContent = 'Ver el expediente del día ' + hoy.dia;
+    $('#ctaHoy').textContent = 'Ver el sospechoso del día ' + hoy.dia;
     $('#ctaHoy').onclick = e => { e.preventDefault(); verPista(pistasVisibles()[hoy.dia]); };
   } else if (hoy) { $('#ctaHoy').textContent = 'Abrir el reto del día ' + hoy.dia; $('#ctaHoy').onclick = e => { e.preventDefault(); abrirReto(hoy); }; }
 }
