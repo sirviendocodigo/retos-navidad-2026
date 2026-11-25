@@ -33,6 +33,8 @@
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
   img { max-width: 100%; display: block; }
 
+  /* Lo que está oculto se oculta siempre, aunque su estilo diga otra cosa */
+  [hidden] { display: none !important; }
   /* Textos justificados, con guiones para que no queden huecos grandes */
   p, .enunciado, .txt, .base p { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
   .demo-banner { background: var(--nd-yellow); color: #2a1d00; text-align: center; font-size: 14px; font-weight: 500; padding: 8px 16px; }
@@ -343,6 +345,7 @@
         </div>
         <div class="marcador" id="marcador" hidden></div>
       </div>
+      <div class="msg ko" id="avisoCarga" hidden></div>
       <div class="grid" id="grid"></div>
     </div>
   </section>
@@ -558,9 +561,17 @@ const PALETA = ['#44C1F0', '#3AB2C1', '#F2A900', '#70C1AD', '#05707E', '#2F455C'
 
 const DEMO = !CONFIG.API_URL;
 const $ = s => document.querySelector(s);
+// Se guarda en el navegador; si el navegador no deja (algunos modos privados), se guarda en memoria mientras la pestaña esté abierta
+const MEMORIA = {};
 const store = {
-  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  get(k, d) {
+    try { const v = localStorage.getItem(k); if (v !== null) return JSON.parse(v) ?? d; } catch (e) { /* sin localStorage */ }
+    return k in MEMORIA ? MEMORIA[k] : d;
+  },
+  set(k, v) {
+    MEMORIA[k] = v;
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* se queda en memoria */ }
+  }
 };
 const color = n => PALETA[(n - 1) % PALETA.length];
 
@@ -794,7 +805,7 @@ function pintarArbol() {
 /* ---------- Estado ---------- */
 let RETOS = [];
 let ACTUAL = null;
-let CARGANDO = false, PROMESA_INICIO = null;
+let CARGANDO = false, PROMESA_INICIO = null, ENLACE_RECUPERACION = false;
 
 // Estado de un reto calculado con la hora de este dispositivo, para pintar al instante antes de que conteste el script
 function estadoLocal(dia) {
@@ -905,18 +916,65 @@ function cuenta(ms) {
   const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
   return `${d ? d + 'd ' : ''}${h}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
 }
-let RELOJ_CUENTA = null;
+// Diferencia entre la hora del servidor y la de este dispositivo (por si el reloj del móvil va adelantado o atrasado)
+let DESFASE = 0;
+const ahoraServidor = () => new Date(Date.now() + DESFASE);
+
+// Trae del script los retos, el ranking y el progreso, y lo pinta. Si una parte falla, se usa lo que haya llegado.
+async function cargarDatos(rankingGuardado) {
+  const p = perfil();
+  const enviadoA = Date.now();
+  PROMESA_INICIO = apiInicio(p && p.clave);
+  let data = null;
+  try { data = await PROMESA_INICIO; } catch (e) { data = null; }
+  CARGANDO = false;
+  const retosOk = data && data.retos && Array.isArray(data.retos.retos);
+  const rankingOk = data && data.ranking && Array.isArray(data.ranking.ranking);
+  if (data && data.progreso) {
+    const claveUsada = p && p.clave;
+    aplicarProgreso(data.progreso);
+    if (data.progreso.codigo === 'clave' && claveUsada && ENLACE_RECUPERACION) {
+      avisoCarga('Ese enlace para recuperar tu progreso ya no funciona. Pide uno nuevo con "Recupera tu progreso".');
+    }
+  }
+  if (retosOk) {
+    if (data.retos.ahora) DESFASE = new Date(data.retos.ahora).getTime() - (enviadoA + Date.now()) / 2;
+    RETOS = data.retos.retos.sort((a, b) => a.dia - b.dia);
+    store.set('cache-retos', RETOS);
+    if (!$('#avisoCarga').textContent.includes('enlace')) avisoCarga('');
+  } else {
+    avisoCarga('No hemos podido conectar con el calendario. Lo que ves puede no estar al día: recarga la página en un momento.');
+  }
+  pintarIdentidad();
+  pintarGrid();
+  pintarCaso();
+  pintarCountdown();
+  if (rankingOk) { dibujarRanking(data.ranking); store.set('cache-ranking', data.ranking); }
+  else if (!rankingGuardado && !RANKING.length) $('#rankWrap').innerHTML = '<div class="empty">No se ha podido cargar el ranking. Prueba a recargar en un rato.</div>';
+}
+
+let RELOJ_CUENTA = null, ULTIMO_INTENTO = 0, INTENTOS_CAMBIO = 0;
 function pintarCountdown() {
   clearInterval(RELOJ_CUENTA);
   const el = $('#countdown');
   const tick = () => {
     const hoy = retoDeHoy();
     const prox = RETOS.find(r => r.estado === 'pendiente');
-    // Cuando llega la hora de cerrar o de abrir, se recarga y el script devuelve el estado nuevo
+    // Cuando llega la hora, se piden los datos nuevos sin recargar la página (así nadie pierde lo que estaba escribiendo).
+    // Una sola vez por cada cambio de día, para no entrar en bucle si el servidor aún no ha cambiado.
     const limite = hoy ? new Date(hoy.cierre) : prox ? new Date(prox.apertura) : null;
     if (!limite) { el.hidden = true; return; }
-    const ms = limite - new Date();
-    if (ms <= 0) { location.reload(); return; }
+    const ms = limite - ahoraServidor();
+    if (ms <= 0) {
+      // Se reintenta cada 5 segundos (hasta 2 minutos) por si el servidor tarda un poco en cambiar de día
+      if (Date.now() - ULTIMO_INTENTO > 5000 && INTENTOS_CAMBIO < 24) {
+        ULTIMO_INTENTO = Date.now(); INTENTOS_CAMBIO++;
+        setTimeout(() => cargarDatos(true), 1500);
+      }
+      el.innerHTML = 'Abriendo el reto nuevo...';
+      return;
+    }
+    INTENTOS_CAMBIO = 0;
     el.hidden = false;
     el.innerHTML = hoy ? (hoy.dia < 24 ? `El reto ${hoy.dia + 1} se abre en <b>${cuenta(ms)}</b>` : `El concurso termina en <b>${cuenta(ms)}</b>`) : `El día ${prox.dia} se abre en <b>${cuenta(ms)}</b>`;
   };
@@ -1083,7 +1141,17 @@ $('#formRec').addEventListener('submit', async e => {
   } finally { btn.disabled = false; }
 });
 
+function avisoCarga(texto) {
+  const a = $('#avisoCarga');
+  a.hidden = !texto;
+  a.textContent = texto || '';
+  if (texto) a.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 function abrirReto(r) {
+  if (!CARGANDO && r.enunciado === undefined) {
+    avisoCarga('No hemos podido cargar este reto. Comprueba tu conexión y recarga la página en un momento.');
+    return;
+  }
   if (CARGANDO && PROMESA_INICIO) {
     PROMESA_INICIO.then(() => { const nuevo = RETOS.find(x => x.dia === r.dia); if (nuevo && nuevo.enunciado !== undefined) abrirReto(nuevo); });
     return;
@@ -1237,6 +1305,7 @@ document.querySelectorAll('#privLink, .privLink2').forEach(a => { a.href = CONFI
   pintarNieve();
   // Enlace de recuperación: ?clave=... guarda la sesión en este dispositivo y se quita de la barra de direcciones
   const claveUrl = new URLSearchParams(location.search).get('clave');
+  ENLACE_RECUPERACION = !!claveUrl;
   if (claveUrl) {
     store.set('perfil', { alias: '', clave: claveUrl });
     history.replaceState(null, '', location.pathname + location.hash);
@@ -1251,25 +1320,7 @@ document.querySelectorAll('#privLink, .privLink2').forEach(a => { a.href = CONFI
   const rankingGuardado = store.get('cache-ranking', null);
   if (rankingGuardado) dibujarRanking(rankingGuardado);
   // 2. Una sola llamada al script para traer lo último
-  const p = perfil();
-  PROMESA_INICIO = apiInicio(p && p.clave);
-  try {
-    const data = await PROMESA_INICIO;
-    if (data.progreso) aplicarProgreso(data.progreso);
-    RETOS = data.retos.retos.sort((a, b) => a.dia - b.dia);
-    store.set('cache-retos', RETOS);
-    CARGANDO = false;
-    pintarIdentidad();
-    pintarGrid();
-    pintarCaso();
-    pintarCountdown();
-    dibujarRanking(data.ranking);
-    store.set('cache-ranking', data.ranking);
-  } catch (e) {
-    CARGANDO = false;
-    if (!store.get('cache-retos', null)) $('#grid').innerHTML = '<div class="empty">No se han podido cargar los retos. Prueba a recargar en un rato.</div>';
-    if (!rankingGuardado) $('#rankWrap').innerHTML = '<div class="empty">No se ha podido cargar el ranking. Prueba a recargar en un rato.</div>';
-  }
+  await cargarDatos(rankingGuardado);
 })();
 </script>
 </body>
