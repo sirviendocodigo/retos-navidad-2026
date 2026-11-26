@@ -15,6 +15,9 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Retos de Navidad 2026: Muerte en la cena de Navidad, 24 retos de código del 1 al 24 de diciembre">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Muerte en la cena de Navidad | Retos de Navidad 2026">
+<meta name="twitter:description" content="24 retos de código del 1 al 24 de diciembre y un caso por resolver. ¿Te atreves?">
+<meta name="twitter:image" content="https://sirviendocodigo.github.io/retos-navidad-2026/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=JetBrains+Mono:wght@400;600&family=M+PLUS+Rounded+1c:wght@500;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -127,6 +130,7 @@
   h2 { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1.1; margin: 0; color: var(--sc-navy); letter-spacing: -.01em; }
   .head p { margin: 16px 0 0; color: var(--ink-soft); max-width: 640px; }
   .head p + p { margin-top: 10px; }
+  .head p.avisos-cal { margin-top: 6px; text-align: left; }
   #avisoCarga { margin: 0 0 16px; }
   .pill { font-size: 13px; font-weight: 500; color: var(--ink-soft); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
 
@@ -391,6 +395,7 @@
           <h2>Calendario</h2>
           <p>24 regalos por abrir. Cada día a las 00:00 (23:00 en Canarias) se abre un reto. Puedes hacerlo cuando quieras hasta el 24 a medianoche, pero tu tiempo cuenta desde que se abrió. Al acertar, la puerta te descubre una persona sospechosa y su testimonio.</p>
           <p class="who" id="calActions"></p>
+          <p class="who avisos-cal"><span aria-hidden="true">🔔</span> ¿Quieres un aviso cada mañana con el reto del día? Añádelo a tu calendario: <a class="linkbtn" id="calGoogle" target="_blank" rel="noopener">Google Calendar<span class="sr"> (se abre en otra pestaña)</span></a> o <button type="button" class="linkbtn" id="calIcs">Apple, Outlook y otros (.ics)</button></p>
         </div>
         <div class="marcador" id="marcador" role="group" aria-label="Tus puntos"></div>
       </div>
@@ -947,15 +952,15 @@ const ICONOS = {"x": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"
 // ---------- Compartir el reto resuelto ----------
 // Nunca incluye la solución ni el nombre de la persona sospechosa: solo el número del reto.
 const URL_PUBLICA = 'https://sirviendocodigo.github.io/retos-navidad-2026/';
-const urlCompartir = (red, dia) => URL_PUBLICA + '?reto=' + dia + '&utm_source=' + red + '&utm_medium=social&utm_campaign=retos-navidad-2026&utm_content=reto-' + dia;
+const urlCompartir = (red, dia) => URL_PUBLICA + '?reto=' + dia;
 function textoCompartir(red, dia) {
   const base = `🎄 He resuelto el reto ${dia} de los Retos de Navidad 2026 y he descubierto a una nueva persona sospechosa de «Muerte en la cena de Navidad». ¿Te atreves con el caso? 🕵️`;
-  if (red === 'linkedin') return base + `\n\n24 retos de código, del 1 al 24 de diciembre, organizados por Next Digital, Lean Mind y sirviendo código;\n\n#RetosDeNavidad2026 #Programación\n\n` + urlCompartir(red, dia);
+  if (red === 'linkedin') return base + `\n\n24 retos de código, del 1 al 24 de diciembre, organizados por Next Digital, Lean Mind y sirviendo código;\n\n#RetosDeNavidad2026 #Programación`;
   if (red === 'x' || red === 'threads') return base + ' #RetosDeNavidad2026';
   return base + ' #RetosDeNavidad2026 ' + urlCompartir(red, dia);
 }
 const REDES = [
-  { id: 'linkedin', nombre: 'LinkedIn', url: d => 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent(textoCompartir('linkedin', d)) },
+  { id: 'linkedin', nombre: 'LinkedIn', pegar: true, url: d => 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(urlCompartir('linkedin', d)) },
   { id: 'instagram', nombre: 'tu historia de Instagram', historia: true },
   { id: 'x', nombre: 'X', url: d => 'https://x.com/intent/post?text=' + encodeURIComponent(textoCompartir('x', d)) + '&url=' + encodeURIComponent(urlCompartir('x', d)) },
   { id: 'bluesky', nombre: 'Bluesky', url: d => 'https://bsky.app/intent/compose?text=' + encodeURIComponent(textoCompartir('bluesky', d)) },
@@ -1068,7 +1073,36 @@ document.addEventListener('click', async e => {
   const nv = e.target.closest('[data-nativo]');
   if (nv) { const d = Number(nv.dataset.nativo); try { await navigator.share({ title: 'Retos de Navidad 2026', text: textoCompartir('nativo', d).replace(' ' + urlCompartir('nativo', d), ''), url: urlCompartir('nativo', d) }); } catch (err) {} return; }
   const red = e.target.closest('[data-copia]');
-  if (red) { await copiarTexto(textoCompartir(red.dataset.copia, Number(red.dataset.dia))); avisoCompartir(red, 'Te hemos copiado el mensaje por si no aparece escrito: pégalo en la publicación.'); }
+  if (red) {
+    await copiarTexto(textoCompartir(red.dataset.copia, Number(red.dataset.dia)));
+    avisoCompartir(red, red.dataset.copia === 'linkedin'
+      ? 'LinkedIn abre la publicación con la tarjeta del reto. El mensaje está copiado: pégalo en el texto (Ctrl+V o mantener pulsado y Pegar).'
+      : 'Te hemos copiado el mensaje por si no aparece escrito: pégalo en la publicación.');
+  }
+});
+
+// ---------- Avisos en el calendario personal ----------
+// Un evento que se repite 24 días a las 9:00 (hora peninsular), del 1 al 24 de diciembre
+const AVISO_TITULO = 'Retos de Navidad: ya tienes el reto de hoy 🎄';
+const AVISO_TEXTO = 'El reto de hoy de «Muerte en la cena de Navidad» está abierto desde las 00:00. ' + URL_PUBLICA;
+$('#calGoogle').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+  + '&text=' + encodeURIComponent(AVISO_TITULO)
+  + '&dates=20261201T090000/20261201T091500&ctz=Europe/Madrid'
+  + '&recur=' + encodeURIComponent('RRULE:FREQ=DAILY;COUNT=24')
+  + '&details=' + encodeURIComponent(AVISO_TEXTO)
+  + '&location=' + encodeURIComponent(URL_PUBLICA);
+$('#calIcs').addEventListener('click', () => {
+  // 9:00 en Madrid en diciembre son las 8:00 UTC
+  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Retos de Navidad 2026//ES', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VEVENT', 'UID:retos-navidad-2026@sirviendocodigo.github.io', 'DTSTAMP:20261126T000000Z',
+    'DTSTART:20261201T080000Z', 'DTEND:20261201T081500Z', 'RRULE:FREQ=DAILY;COUNT=24',
+    'SUMMARY:' + AVISO_TITULO, 'DESCRIPTION:' + AVISO_TEXTO.replace(/[,;]/g, m => '\\' + m), 'URL:' + URL_PUBLICA,
+    'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + AVISO_TITULO, 'TRIGGER:PT0S', 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR'].map(l => l.length > 60 ? l.match(/.{1,60}/gu).join('\r\n ') : l).join('\r\n'); // líneas plegadas como pide el formato
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+  a.download = 'retos-navidad-2026.ics';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 });
 
 let DIA_PISTA = 0;
