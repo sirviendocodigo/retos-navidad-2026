@@ -263,8 +263,10 @@
   .file-btn { display: inline-block; cursor: pointer; position: relative; white-space: nowrap; }
   .file-btn:focus-within { outline: 3px solid var(--lm-deep); outline-offset: 2px; }
   .who { font-size: 13px; color: var(--ink-soft); }
-  .base.paciencia { background: #FFF6DA; border-color: #F5DFA0; }
-  .base.paciencia h3, .base.paciencia p { color: #4A3A00; }
+  .como-extra { margin: 26px 0 0; color: var(--ink-soft); max-width: 820px; }
+  .aviso-carino { margin-top: 20px; background: #FFF6DA; border: 1px solid #F5DFA0; border-radius: 16px; padding: 18px 22px; }
+  .aviso-carino h3 { margin: 0 0 6px; font-size: 17px; color: #4A3A00; }
+  .aviso-carino p { margin: 0; color: #4A3A00; }
   .nota.espera-rev { background: #FFF6DA; color: #4A3A00; }
   .skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--sc-navy); color: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 600; text-decoration: none; }
   .skip:focus { top: 12px; }
@@ -359,7 +361,7 @@
       <a href="#calendario">Calendario</a>
       <a href="#acusar">¿Quién fue?</a>
       <a href="#ranking">Ranking</a>
-      <a href="#bases">Bases</a>
+      <a href="bases.html">Bases</a>
     </nav>
     </div>
   </div>
@@ -436,69 +438,10 @@
         <div class="step" style="--c: var(--lm-teal)"><div class="num">02</div><h3>Resuélvelo a tu manera</h3><p>Copia la entrada, prográmalo en tu ordenador con el lenguaje que prefieras y envía tu código y el resultado.</p></div>
         <div class="step" style="--c: var(--nd-yellow)"><div class="num">03</div><h3>Destapa el caso y cuida tu código</h3><p>Cada acierto te descubre a una persona sospechosa del caso. Acertar te da 1 punto. Después revisamos tu código: +1 si funciona y +1 si está limpio. Hasta 3 puntos por reto.</p></div>
       </div>
-    </div>
-  </section>
-
-  <section class="block alt" id="bases">
-    <div class="wrap">
-      <div class="head">
-        <div>
-          <h2>Bases del reto</h2>
-          <p>Aquí no gana solo quien llega antes. Velamos por el clean code: cada día revisamos todos los códigos a mano.</p>
-          <p>Estas son las normas del juego. Las condiciones completas de la promoción, premios incluidos, están en las <a href="bases.html" class="legalLink">Bases Legales</a>, y el uso de tus datos, en la <a href="privacidad.html" class="legalLink">Política de Privacidad</a>.</p>
-        </div>
-      </div>
-      <div class="bases">
-        <article class="base">
-          <h3>1. El calendario</h3>
-          <p>Del 1 al 24 de diciembre se abre un reto cada día a las <b>00:00</b> (hora peninsular; en Canarias, a las 23:00 del día anterior). Si se te pasa un día, no pasa nada: puedes hacer cualquier reto atrasado hasta el <b>24 de diciembre a medianoche</b>. Eso sí, tu tiempo siempre cuenta desde que se abrió el reto, así que hacerlo el mismo día te ayuda en el desempate.</p>
-        </article>
-        <article class="base">
-          <h3>2. Qué hay que enviar</h3>
-          <p>El código con el que lo has resuelto, el resultado que te da y <b>cómo se ejecuta</b>: el comando, la versión del lenguaje y las dependencias si las hay. Vale cualquier lenguaje. En el resultado no importan mayúsculas ni tildes, y los números puedes escribirlos con o sin puntos de miles y con coma o punto decimal: 1200, 1.200 y 1200,0 valen igual.</p>
-        </article>
-        <article class="base">
-          <h3>3. Tiene que funcionar de verdad</h3>
-          <p>Ejecutamos tu código tal cual, con tu entrada y siguiendo tus instrucciones, en una máquina limpia. "En mi máquina funciona" no vale: si no arranca, no da el resultado o el resultado está escrito a mano, no te llevas el punto de que funciona (el de acertar lo mantienes).</p>
-        </article>
-        <article class="base">
-          <h3>4. El punto por clean code</h3>
-          <p>El equipo de las tres empresas lee todos los códigos. Si el tuyo se lee bien, los nombres cuentan qué hace cada cosa, las funciones son pequeñas, no hay duplicación y el diseño aguantaría un cambio, te damos <b>+1 punto</b> en ese reto. Los tests ayudan. Junto a la revisión te dejamos un comentario para que sepas por qué te lo hemos dado o no.</p>
-        </article>
-        <article class="base">
-          <h3>5. Cuándo se suman los puntos</h3>
-          <p>El punto por acertar se suma en cuanto aciertas. Normalmente revisamos cada día los códigos que nos llegaron el día anterior, y los otros dos puntos y el comentario aparecen a las 00:00, junto con el reto nuevo. Por ejemplo, si haces el reto 3 el día 3, lo revisamos el día 4 y la revisión sale a las 00:00 del día 5. Si haces un reto fuera de plazo, lo revisamos al día siguiente y la revisión aparece en cuanto está lista. La verás al abrir la pista de la persona sospechosa de ese día.</p>
-        </article>
-        <article class="base">
-          <h3>6. Juego limpio</h3>
-          <p>El código tiene que ser tuyo. Si dos códigos son iguales o casi iguales, ninguno de los dos se lleva los puntos de la revisión ese día. Elige un alias respetuoso: si alguno ofende, lo retiramos del ranking. Si tienes dudas, escríbenos por las redes de cualquiera de las tres empresas.</p>
-        </article>
-        <article class="base">
-          <h3>7. La acusación final</h3>
-          <p>Hasta el 24 de diciembre a medianoche puedes acusar a una de las personas sospechosas que hayas descubierto, también con retos hechos fuera de plazo. El 25 contamos quién fue.</p>
-        </article>
-        <article class="base">
-          <h3>8. Quién gana</h3>
-          <p>Gana quien más puntos tenga al final: los puntos de los retos más <b>10</b> si aciertas quién fue. Si hay empate, gana quien menos tiempo haya tardado en total, contando desde que se abrió cada reto.</p>
-        </article>
-        <article class="base paciencia">
-          <h3>Un aviso con cariño 🎄</h3>
-          <p>Detrás de cada revisión hay personas de carne, hueso y polvorón. También tenemos cenas de empresa, visitas a la familia, compras de última hora y algún que otro sofá con mantita pendiente. Habrá días en que la revisión no llegue al día siguiente y tardemos un poquito más. Tus puntos no se pierden: llegan, aunque sea en trineo de segunda mano. Gracias por la paciencia.</p>
-        </article>
-      </div>
-      <div class="puntos">
-        <h3>Cómo se puntúa cada reto</h3>
-        <table>
-          <thead><tr><th>Caso</th><th>Puntos</th></tr></thead>
-          <tbody>
-            <tr><td>La solución es correcta (se suma al momento)</td><td class="num">1</td></tr>
-            <tr><td>El código funciona al ejecutarlo</td><td class="num">+1</td></tr>
-            <tr><td>Código limpio, a juicio del equipo</td><td class="num">+1</td></tr>
-            <tr><td>Máximo por reto</td><td class="num">3</td></tr>
-            <tr><td>Acertar quién fue (se suma el 25)</td><td class="num">+10</td></tr>
-          </tbody>
-        </table>
-        <p>En total se pueden sumar hasta 82 puntos: 72 de los retos y 10 por acertar quién fue. Gana quien más puntos sume y, si hay empate, quien menos tiempo haya tardado en total desde que se abrió cada reto.</p>
+      <p class="como-extra">Si aciertas quién lo hizo, sumas 10 puntos más. Gana quien más puntos tenga y, si hay empate, quien haya tardado menos. Todas las condiciones están en las <a href="bases.html" class="legalLink">Bases Legales</a>.</p>
+      <div class="aviso-carino">
+        <h3>Un aviso con cariño 🎄</h3>
+        <p>Detrás de cada revisión hay personas de carne, hueso y polvorón. También tenemos cenas de empresa, visitas a la familia, compras de última hora y algún que otro sofá con mantita pendiente. Habrá días en que la revisión no llegue al día siguiente y tardemos un poquito más. Tus puntos no se pierden: llegan, aunque sea en trineo de segunda mano. Gracias por la paciencia.</p>
       </div>
     </div>
   </section>
@@ -563,7 +506,7 @@
             <li><b>Si hay que compilar</b>, el paso de compilación antes de ejecutar.</li>
           </ul>
           <p>Ejemplos: <code>python3 solucion.py entrada.txt (Python 3.12, sin dependencias)</code>, <code>node solucion.js &lt; entrada.txt (Node 22)</code> o <code>javac Main.java &amp;&amp; java Main entrada.txt (Java 21)</code>.</p>
-          <p>Si tu solución tiene varios archivos, júntalos en uno o explícanos cómo colocarlos. Lo ejecutamos tal cual: si no arranca, no te llevas el punto de que funciona. <a href="#bases" class="linkbtn" data-cerrar>Ver las bases</a></p>
+          <p>Si tu solución tiene varios archivos, júntalos en uno o explícanos cómo colocarlos. Lo ejecutamos tal cual: si no arranca, no te llevas el punto de que funciona. <a href="bases.html" class="legalLink">Ver las bases</a></p>
         </div>
         <input type="text" id="fRun" required maxlength="300" autocomplete="off" spellcheck="false" aria-describedby="ayudaRun" placeholder="Por ejemplo: python3 solucion.py entrada.txt (Python 3.12)">
         <p class="who" id="ayudaRun" style="margin:0">Lo ejecutaremos tal cual con tu entrada. Indica la versión y las dependencias si hacen falta.</p>
