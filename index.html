@@ -65,7 +65,7 @@
   .codiguito { margin-right: -31px; }
   .codiguito svg { height: 46px; width: auto; display: block; }
   .compartir { grid-column: 1 / -1; margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
-  .compartir h5 { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--sc-navy); }
+  .compartir .comp-tit { margin: 0 0 4px; font-family: var(--body); font-size: 14px; font-weight: 600; color: var(--sc-navy); letter-spacing: 0; line-height: 1.4; }
   .compartir p { margin: 0 0 10px; font-size: 13px; color: var(--ink-soft); text-align: left; }
   .redes { display: flex; flex-wrap: wrap; gap: 8px; }
   .red { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--sc-navy); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; text-decoration: none; transition: background .15s, color .15s, border-color .15s; }
@@ -122,6 +122,10 @@
   .countdown { font-size: 14px; color: var(--ink-soft); }
   .countdown b { font-family: var(--mono); color: var(--ink); font-weight: 600; }
   .tree svg { width: 100%; height: auto; display: block; }
+  #compartirGeneral .compartir { border-top: 0; padding-top: 0; margin-top: 18px; text-align: center; }
+  #compartirGeneral .compartir p { text-align: center; }
+  #compartirGeneral .redes { justify-content: center; }
+  @media (max-width: 860px) { .col-arbol { max-width: 420px; margin: 0 auto; } }
 
   /* Secciones */
   section.block { padding: 56px 0; }
@@ -178,7 +182,7 @@
   /* Cómo funciona */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
-  .step { background: var(--paper); border-radius: var(--radius); padding: 22px; }
+  .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px; }
   .step .num { font-family: var(--display); font-weight: 900; font-size: 28px; color: color-mix(in srgb, var(--c) 45%, #14222E); line-height: 1; }
   .step h3 { font-family: var(--display); font-weight: 800; font-size: 19px; margin: 10px 0 6px; color: var(--sc-navy); }
   .step p { margin: 0; color: var(--ink-soft); font-size: 15px; }
@@ -263,8 +267,8 @@
   .file-btn { display: inline-block; cursor: pointer; position: relative; white-space: nowrap; }
   .file-btn:focus-within { outline: 3px solid var(--lm-deep); outline-offset: 2px; }
   .who { font-size: 13px; color: var(--ink-soft); }
-  .como-extra { margin: 26px 0 0; color: var(--ink-soft); max-width: 820px; }
-  .aviso-carino { margin-top: 20px; background: #FFF6DA; border: 1px solid #F5DFA0; border-radius: 16px; padding: 18px 22px; }
+  .como-extra { margin: 18px 0 0; color: var(--ink-soft); background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 26px; }
+  .aviso-carino { margin-top: 18px; background: #FFF6DA; border: 1px solid #F5DFA0; border-radius: var(--radius); padding: 18px 26px; }
   .aviso-carino h3 { margin: 0 0 6px; font-size: 17px; color: #4A3A00; }
   .aviso-carino p { margin: 0; color: #4A3A00; }
   .nota.espera-rev { background: #FFF6DA; color: #4A3A00; }
@@ -385,7 +389,10 @@
         <span class="countdown" id="countdown" hidden></span>
       </div>
     </div>
-    <div class="tree" id="tree" aria-hidden="true"></div>
+    <div class="col-arbol">
+      <div class="tree" id="tree" aria-hidden="true"></div>
+      <div id="compartirGeneral"></div>
+    </div>
   </div>
 </section>
 
@@ -897,8 +904,14 @@ const ICONOS = {"x": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"
 // ---------- Compartir el reto resuelto ----------
 // Nunca incluye la solución ni el nombre de la persona sospechosa: solo el número del reto.
 const URL_PUBLICA = 'https://sirviendocodigo.github.io/retos-navidad-2026/';
-const urlCompartir = (red, dia) => URL_PUBLICA + '?reto=' + dia;
+const urlCompartir = (red, dia) => dia ? URL_PUBLICA + '?reto=' + dia : URL_PUBLICA;
 function textoCompartir(red, dia) {
+  if (!dia) {
+    const gen = '🎄 Este diciembre hay un caso por resolver: «Muerte en la cena de Navidad», 24 retos de código del 1 al 24 de diciembre. ¿Te apuntas? 🕵️';
+    if (red === 'linkedin') return gen + `\n\nLo organizan Next Digital, Lean Mind y sirviendo código;\n\n#RetosDeNavidad2026 #Programación`;
+    if (red === 'x' || red === 'threads') return gen + ' #RetosDeNavidad2026';
+    return gen + ' #RetosDeNavidad2026 ' + urlCompartir(red, dia);
+  }
   const base = `🎄 He resuelto el reto ${dia} de los Retos de Navidad 2026 y he descubierto a una nueva persona sospechosa de «Muerte en la cena de Navidad». ¿Te atreves con el caso? 🕵️`;
   if (red === 'linkedin') return base + `\n\n24 retos de código, del 1 al 24 de diciembre, organizados por Next Digital, Lean Mind y sirviendo código;\n\n#RetosDeNavidad2026 #Programación`;
   if (red === 'x' || red === 'threads') return base + ' #RetosDeNavidad2026';
@@ -915,12 +928,12 @@ const REDES = [
 ];
 function compartirHTML(dia) {
   const botones = REDES.map(r => r.historia
-    ? `<button type="button" class="red" data-historia="${dia}" aria-label="Compartir en ${r.nombre}: descarga una imagen para tu historia">${ICONOS[r.id]}</button>`
+    ? `<button type="button" class="red" data-historia="${dia}" aria-label="Compartir en ${r.nombre}: ${dia ? 'descarga' : 'descarga'} una imagen para tu historia">${ICONOS[r.id]}</button>`
     : `<a class="red" href="${esc(r.url(dia))}" target="_blank" rel="noopener" data-copia="${r.id}" data-dia="${dia}" aria-label="Compartir en ${r.nombre} (se abre en otra pestaña)">${ICONOS[r.id]}</a>`).join('');
   const nativo = navigator.share ? `<button type="button" class="red txt" data-nativo="${dia}">${ICONOS.mas}Más opciones</button>` : '';
   return `<div class="compartir" role="group" aria-labelledby="compTit${dia}">
-    <h5 id="compTit${dia}">Compártelo</h5>
-    <p>Cuenta que has resuelto el reto ${dia} sin desvelar la solución. El mensaje va ya escrito y lo puedes cambiar antes de publicar.</p>
+    <${dia ? 'h5' : 'h2'} class="comp-tit" id="compTit${dia}">${dia ? 'Compártelo' : 'Invita a tu gente al caso'}</${dia ? 'h5' : 'h2'}>
+    <p>${dia ? `Cuenta que has resuelto el reto ${dia} sin desvelar la solución. El mensaje va ya escrito y lo puedes cambiar antes de publicar.` : 'Comparte los retos en tus redes. El mensaje va ya escrito y lo puedes cambiar antes de publicar.'}</p>
     <div class="redes">${botones}<button type="button" class="red txt" data-copiar="${dia}">${ICONOS.copiar}Copiar mensaje</button>${nativo}</div>
     <div class="ok" role="status" aria-live="polite"></div>
   </div>`;
@@ -967,15 +980,15 @@ async function imagenHistoria(dia) {
   x.fillStyle = '#2F455C'; x.font = `900 104px ${display}`; x.fillText('Muerte en la', W / 2, 380); x.fillText('cena de', W / 2, 490);
   x.fillStyle = '#22909D'; x.fillText('Navidad', W / 2, 600);
   // regalo con el número
-  const col = color(dia), cy = 900;
+  const col = color(dia || 5), cy = 900;
   x.save(); x.shadowColor = 'rgba(47,69,92,.18)'; x.shadowBlur = 40; x.shadowOffsetY = 12;
   x.fillStyle = '#fff'; x.beginPath(); x.roundRect(W / 2 - 190, cy - 190, 380, 380, 40); x.fill(); x.restore();
   x.fillStyle = col; x.beginPath(); x.roundRect(W / 2 - 190, cy - 190, 380, 34, [40, 40, 0, 0]); x.fill();
-  x.fillStyle = textoSobre(col) === '#FFFFFF' ? col : '#2F455C'; x.font = `900 210px ${display}`; x.fillText(String(dia), W / 2, cy + 22);
+  x.fillStyle = textoSobre(col) === '#FFFFFF' ? col : '#2F455C'; x.font = `900 ${dia ? 210 : 150}px ${display}`; x.fillText(dia ? String(dia) : '24', W / 2, cy + 22);
   // frase
-  x.fillStyle = '#2F455C'; x.font = `800 74px ${display}`; x.fillText(`He resuelto el reto ${dia}`, W / 2, 1180);
+  x.fillStyle = '#2F455C'; x.font = `800 74px ${display}`; x.fillText(dia ? `He resuelto el reto ${dia}` : 'Del 1 al 24 de diciembre', W / 2, 1180);
   x.fillStyle = '#4A5A68'; x.font = `400 44px ${body}`;
-  lineas(x, 'y he descubierto a una nueva persona sospechosa. ¿Te atreves con el caso?', 860).forEach((l, i) => x.fillText(l, W / 2, 1275 + i * 64));
+  lineas(x, dia ? 'y he descubierto a una nueva persona sospechosa. ¿Te atreves con el caso?' : '24 retos de código y un caso por resolver. ¿Te apuntas?', 860).forEach((l, i) => x.fillText(l, W / 2, 1275 + i * 64));
   // enlace
   x.font = `600 34px ${body}`; const u = 'sirviendocodigo.github.io/retos-navidad-2026', uw = x.measureText(u).width + 70;
   x.fillStyle = '#2F455C'; x.beginPath(); x.roundRect((W - uw) / 2, 1420, uw, 84, 42); x.fill();
@@ -1000,7 +1013,7 @@ async function imagenHistoria(dia) {
 async function compartirHistoria(boton, dia) {
   avisoCompartir(boton, 'Preparando la imagen...');
   const blob = await imagenHistoria(dia);
-  const archivo = new File([blob], `retos-navidad-reto-${dia}.png`, { type: 'image/png' });
+  const archivo = new File([blob], dia ? `retos-navidad-reto-${dia}.png` : 'retos-navidad-2026.png', { type: 'image/png' });
   const texto = textoCompartir('instagram', dia);
   await copiarTexto(texto);
   if (navigator.canShare && navigator.canShare({ files: [archivo] })) {
@@ -1049,6 +1062,8 @@ $('#calIcs').addEventListener('click', () => {
   a.download = 'retos-navidad-2026.ics';
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 });
+
+$('#compartirGeneral').innerHTML = compartirHTML(0);
 
 let DIA_PISTA = 0;
 function verPista(r, nueva) {
@@ -1284,8 +1299,8 @@ function pintarYo() {
   pintarMarcador();
   const acc = $('#calActions');
   acc.innerHTML = p
-    ? `Tu progreso está guardado. Si entras desde otro dispositivo, <button type="button" class="linkbtn" data-recuperar>recupéralo con tu email</button>.`
-    : `¿Ya participas desde otro dispositivo? <button type="button" class="linkbtn" data-recuperar>Recupera tu progreso</button>`;
+    ? `<span aria-hidden="true">💾</span> Tu progreso está guardado. Si entras desde otro dispositivo, <button type="button" class="linkbtn" data-recuperar>recupéralo con tu email</button>.`
+    : `<span aria-hidden="true">💾</span> ¿Ya participas desde otro dispositivo? <button type="button" class="linkbtn" data-recuperar>Recupera tu progreso</button>`;
 }
 
 // Carga desde la hoja los retos resueltos y los expedientes conseguidos por esta persona
