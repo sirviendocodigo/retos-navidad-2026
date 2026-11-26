@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Muerte en la cena de Navidad | Retos de código del 1 al 24 de diciembre</title>
 <meta name="description" content="Un calendario de adviento de código y un asesinato por resolver. Organizan Next Digital, Lean Mind y sirviendo código;.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Muerte en la cena de Navidad | Retos de Navidad 2026">
+<meta property="og:description" content="24 retos de código del 1 al 24 de diciembre y un caso por resolver. ¿Te atreves? Organizan Next Digital, Lean Mind y sirviendo código;">
+<meta property="og:url" content="https://sirviendocodigo.github.io/retos-navidad-2026/">
+<meta property="og:image" content="https://sirviendocodigo.github.io/retos-navidad-2026/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Retos de Navidad 2026: Muerte en la cena de Navidad, 24 retos de código del 1 al 24 de diciembre">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=JetBrains+Mono:wght@400;600&family=M+PLUS+Rounded+1c:wght@500;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -51,6 +61,15 @@
   .logo-sc svg { height: 22px; width: auto; display: block; }
   .codiguito { margin-right: -31px; }
   .codiguito svg { height: 46px; width: auto; display: block; }
+  .compartir { grid-column: 1 / -1; margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .compartir h5 { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--sc-navy); }
+  .compartir p { margin: 0 0 10px; font-size: 13px; color: var(--ink-soft); text-align: left; }
+  .redes { display: flex; flex-wrap: wrap; gap: 8px; }
+  .red { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--sc-navy); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; text-decoration: none; transition: background .15s, color .15s, border-color .15s; }
+  .red svg { width: 20px; height: 20px; fill: currentColor; }
+  .red:hover { background: var(--sc-navy); color: #fff; border-color: var(--sc-navy); }
+  .red.txt { width: auto; padding: 0 14px; border-radius: 999px; font: 500 13px var(--body); gap: 6px; }
+  .compartir .ok { font-size: 12px; color: var(--lm-deep); margin-top: 8px; min-height: 1em; }
   .nota { grid-column: 1 / -1; margin-top: 14px; font-size: 14px; background: #E6F5F3; color: #0B5A55; border-radius: 10px; padding: 10px 14px; }
   .nota.ko { background: #FFF4DB; color: #6B4B00; }
   .nota ul { list-style: none; margin: 8px 0 0; padding: 0; }
@@ -923,12 +942,141 @@ function notaHTML(dia) {
     <ul>${linea(true, 'Solución correcta: +1', '')}${linea(n.funciona, 'Tu código funciona: +1', 'Tu código no funcionó al ejecutarlo: 0')}${linea(n.cleanCode, 'Clean code: +1', 'Clean code: 0')}</ul>
     ${n.comentario ? `<p class="coment"><b>Comentario del equipo:</b> ${esc(n.comentario)}</p>` : ''}</div>`;
 }
+const ICONOS = {"x": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z\"/></svg>", "bluesky": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026\"/></svg>", "telegram": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z\"/></svg>", "whatsapp": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z\"/></svg>", "instagram": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077\"/></svg>", "threads": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z\"/></svg>", "linkedin": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"1\" y=\"1\" width=\"22\" height=\"22\" rx=\"4\"/><path fill=\"#fff\" d=\"M5.5 9.5h2.7V18H5.5zM6.85 5.3a1.55 1.55 0 1 1 0 3.1 1.55 1.55 0 0 1 0-3.1zM9.9 9.5h2.6v1.2c.4-.7 1.3-1.4 2.7-1.4 2.8 0 3.3 1.8 3.3 4.2V18h-2.7v-4c0-1 0-2.2-1.4-2.2s-1.6 1-1.6 2.1V18H9.9z\"/></svg>", "copiar": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 3h11a2 2 0 0 1 2 2v11h-2V5H8zM4 7h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v11h11V9z\"/></svg>", "mas": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z\"/></svg>"};
+
+// ---------- Compartir el reto resuelto ----------
+// Nunca incluye la solución ni el nombre de la persona sospechosa: solo el número del reto.
+const URL_PUBLICA = 'https://sirviendocodigo.github.io/retos-navidad-2026/';
+const urlCompartir = (red, dia) => URL_PUBLICA + '?reto=' + dia + '&utm_source=' + red + '&utm_medium=social&utm_campaign=retos-navidad-2026&utm_content=reto-' + dia;
+function textoCompartir(red, dia) {
+  const base = `🎄 He resuelto el reto ${dia} de los Retos de Navidad 2026 y he descubierto a una nueva persona sospechosa de «Muerte en la cena de Navidad». ¿Te atreves con el caso? 🕵️`;
+  if (red === 'linkedin') return base + `\n\n24 retos de código, del 1 al 24 de diciembre, organizados por Next Digital, Lean Mind y sirviendo código;\n\n#RetosDeNavidad2026 #Programación\n\n` + urlCompartir(red, dia);
+  if (red === 'x' || red === 'threads') return base + ' #RetosDeNavidad2026';
+  return base + ' #RetosDeNavidad2026 ' + urlCompartir(red, dia);
+}
+const REDES = [
+  { id: 'linkedin', nombre: 'LinkedIn', url: d => 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent(textoCompartir('linkedin', d)) },
+  { id: 'instagram', nombre: 'tu historia de Instagram', historia: true },
+  { id: 'x', nombre: 'X', url: d => 'https://x.com/intent/post?text=' + encodeURIComponent(textoCompartir('x', d)) + '&url=' + encodeURIComponent(urlCompartir('x', d)) },
+  { id: 'bluesky', nombre: 'Bluesky', url: d => 'https://bsky.app/intent/compose?text=' + encodeURIComponent(textoCompartir('bluesky', d)) },
+  { id: 'threads', nombre: 'Threads', url: d => 'https://www.threads.net/intent/post?text=' + encodeURIComponent(textoCompartir('threads', d)) + '&url=' + encodeURIComponent(urlCompartir('threads', d)) },
+  { id: 'telegram', nombre: 'Telegram', url: d => 'https://t.me/share/url?url=' + encodeURIComponent(urlCompartir('telegram', d)) + '&text=' + encodeURIComponent(textoCompartir('telegram', d).replace(' ' + urlCompartir('telegram', d), '')) },
+  { id: 'whatsapp', nombre: 'WhatsApp', url: d => 'https://wa.me/?text=' + encodeURIComponent(textoCompartir('whatsapp', d)) }
+];
+function compartirHTML(dia) {
+  const botones = REDES.map(r => r.historia
+    ? `<button type="button" class="red" data-historia="${dia}" aria-label="Compartir en ${r.nombre}: descarga una imagen para tu historia">${ICONOS[r.id]}</button>`
+    : `<a class="red" href="${esc(r.url(dia))}" target="_blank" rel="noopener" data-copia="${r.id}" data-dia="${dia}" aria-label="Compartir en ${r.nombre} (se abre en otra pestaña)">${ICONOS[r.id]}</a>`).join('');
+  const nativo = navigator.share ? `<button type="button" class="red txt" data-nativo="${dia}">${ICONOS.mas}Más opciones</button>` : '';
+  return `<div class="compartir" role="group" aria-labelledby="compTit${dia}">
+    <h5 id="compTit${dia}">Compártelo</h5>
+    <p>Cuenta que has resuelto el reto ${dia} sin desvelar la solución. El mensaje va ya escrito y lo puedes cambiar antes de publicar.</p>
+    <div class="redes">${botones}<button type="button" class="red txt" data-copiar="${dia}">${ICONOS.copiar}Copiar mensaje</button>${nativo}</div>
+    <div class="ok" role="status" aria-live="polite"></div>
+  </div>`;
+}
+async function copiarTexto(t) {
+  try { await navigator.clipboard.writeText(t); return true; } catch (e) {
+    try { const a = document.createElement('textarea'); a.value = t; a.style.position = 'fixed'; a.style.opacity = '0'; document.body.appendChild(a); a.select(); const ok = document.execCommand('copy'); a.remove(); return ok; } catch (e2) { return false; }
+  }
+}
+function avisoCompartir(el, t) { const ok = el.closest('.compartir').querySelector('.ok'); if (ok) ok.textContent = t; }
+
+// Imagen vertical (1080 x 1920) para historias, dibujada en el navegador
+async function svgAImagen(svg) {
+  const s = new XMLSerializer().serializeToString(svg);
+  const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+  await img.decode(); return img;
+}
+function lineas(ctx, texto, ancho) {
+  const out = []; let l = '';
+  texto.split(' ').forEach(p => { const t = l ? l + ' ' + p : p; if (ctx.measureText(t).width > ancho && l) { out.push(l); l = p; } else l = t; });
+  if (l) out.push(l); return out;
+}
+async function imagenHistoria(dia) {
+  const W = 1080, H = 1920, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d');
+  try { await Promise.all(['800 90px "M PLUS Rounded 1c"', '900 90px "M PLUS Rounded 1c"', '400 40px Poppins', '600 40px Poppins'].map(f => document.fonts.load(f))); } catch (e) {}
+  const display = '"M PLUS Rounded 1c", Poppins, sans-serif', body = 'Poppins, sans-serif';
+  x.fillStyle = '#F5F7F6'; x.fillRect(0, 0, W, H);
+  // guirnalda
+  x.strokeStyle = '#4A5A68'; x.lineWidth = 4; x.beginPath();
+  for (let i = 0; i <= 12; i++) { const px = i * 90; if (i === 0) x.moveTo(px, 40); else x.quadraticCurveTo(px - 45, 80, px, 40); }
+  x.stroke();
+  for (let i = 0; i < 12; i++) {
+    const px = i * 90 + 45, col = PALETA[(i + dia) % PALETA.length];
+    x.save(); x.shadowColor = col; x.shadowBlur = 30; x.fillStyle = col;
+    x.beginPath(); x.ellipse(px, 92, 15, 20, 0, 0, Math.PI * 2); x.fill(); x.restore();
+    x.fillStyle = '#7A8894'; x.fillRect(px - 8, 62, 16, 12);
+  }
+  // etiqueta
+  x.font = `600 34px ${body}`; const et = 'RETOS DE NAVIDAD 2026', ew = x.measureText(et).width + 64;
+  x.fillStyle = '#E3F2F1'; x.beginPath(); x.roundRect((W - ew) / 2, 210, ew, 70, 35); x.fill();
+  x.fillStyle = '#05707E'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(et, W / 2, 246);
+  // título
+  x.fillStyle = '#2F455C'; x.font = `900 104px ${display}`; x.fillText('Muerte en la', W / 2, 380); x.fillText('cena de', W / 2, 490);
+  x.fillStyle = '#22909D'; x.fillText('Navidad', W / 2, 600);
+  // regalo con el número
+  const col = color(dia), cy = 900;
+  x.save(); x.shadowColor = 'rgba(47,69,92,.18)'; x.shadowBlur = 40; x.shadowOffsetY = 12;
+  x.fillStyle = '#fff'; x.beginPath(); x.roundRect(W / 2 - 190, cy - 190, 380, 380, 40); x.fill(); x.restore();
+  x.fillStyle = col; x.beginPath(); x.roundRect(W / 2 - 190, cy - 190, 380, 34, [40, 40, 0, 0]); x.fill();
+  x.fillStyle = textoSobre(col) === '#FFFFFF' ? col : '#2F455C'; x.font = `900 210px ${display}`; x.fillText(String(dia), W / 2, cy + 22);
+  // frase
+  x.fillStyle = '#2F455C'; x.font = `800 74px ${display}`; x.fillText(`He resuelto el reto ${dia}`, W / 2, 1180);
+  x.fillStyle = '#4A5A68'; x.font = `400 44px ${body}`;
+  lineas(x, 'y he descubierto a una nueva persona sospechosa. ¿Te atreves con el caso?', 860).forEach((l, i) => x.fillText(l, W / 2, 1275 + i * 64));
+  // enlace
+  x.font = `600 34px ${body}`; const u = 'sirviendocodigo.github.io/retos-navidad-2026', uw = x.measureText(u).width + 70;
+  x.fillStyle = '#2F455C'; x.beginPath(); x.roundRect((W - uw) / 2, 1420, uw, 84, 42); x.fill();
+  x.fillStyle = '#fff'; x.fillText(u, W / 2, 1463);
+  // logos
+  // logos dentro de la zona segura de las historias (Instagram tapa unos 250 px arriba y abajo)
+  x.fillStyle = '#fff'; x.beginPath(); x.roundRect(40, 1545, W - 80, 150, 28); x.fill();
+  x.fillStyle = '#6B7B85'; x.font = `400 28px ${body}`; x.fillText('Organizan', W / 2, 1585);
+  try {
+    const nd = await svgAImagen(document.querySelector('.topbar .logo-nd svg'));
+    const sc = await svgAImagen(document.querySelector('.topbar .logo-sc svg'));
+    const cod = await svgAImagen(document.querySelector('.topbar .codiguito svg'));
+    const lm = document.querySelector('.topbar .logo-lm img');
+    const piezas = [[nd, 30], [lm, 50], [cod, 66], [sc, 36]];
+    const anchos = piezas.map(([im, h]) => (im.naturalWidth || im.width) / (im.naturalHeight || im.height) * h);
+    const hueco = 46, total = anchos.reduce((a, b) => a + b, 0) + hueco * 3 - 26;
+    let px = (W - total) / 2;
+    piezas.forEach(([im, h], i) => { x.drawImage(im, px, 1645 - h / 2, anchos[i], h); px += anchos[i] + (i === 2 ? 20 : hueco); });
+  } catch (e) { x.fillStyle = '#2F455C'; x.font = `600 34px ${body}`; x.fillText('Next Digital, Lean Mind y sirviendo código;', W / 2, 1645); }
+  return new Promise(res => c.toBlob(res, 'image/png'));
+}
+async function compartirHistoria(boton, dia) {
+  avisoCompartir(boton, 'Preparando la imagen...');
+  const blob = await imagenHistoria(dia);
+  const archivo = new File([blob], `retos-navidad-reto-${dia}.png`, { type: 'image/png' });
+  const texto = textoCompartir('instagram', dia);
+  await copiarTexto(texto);
+  if (navigator.canShare && navigator.canShare({ files: [archivo] })) {
+    try { await navigator.share({ files: [archivo], text: texto }); avisoCompartir(boton, 'Elige Instagram y después «Historia». El mensaje también está copiado.'); return; }
+    catch (e) { if (e && e.name === 'AbortError') { avisoCompartir(boton, ''); return; } }
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = archivo.name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  avisoCompartir(boton, 'Imagen descargada: súbela a tu historia de Instagram. El mensaje también está copiado por si quieres pegarlo.');
+}
+document.addEventListener('click', async e => {
+  const h = e.target.closest('[data-historia]'); if (h) { compartirHistoria(h, Number(h.dataset.historia)); return; }
+  const cp = e.target.closest('[data-copiar]');
+  if (cp) { const ok = await copiarTexto(textoCompartir('copia', Number(cp.dataset.copiar))); avisoCompartir(cp, ok ? 'Mensaje copiado. Pégalo donde quieras.' : 'No se ha podido copiar. Selecciónalo y cópialo a mano.'); return; }
+  const nv = e.target.closest('[data-nativo]');
+  if (nv) { const d = Number(nv.dataset.nativo); try { await navigator.share({ title: 'Retos de Navidad 2026', text: textoCompartir('nativo', d).replace(' ' + urlCompartir('nativo', d), ''), url: urlCompartir('nativo', d) }); } catch (err) {} return; }
+  const red = e.target.closest('[data-copia]');
+  if (red) { await copiarTexto(textoCompartir(red.dataset.copia, Number(red.dataset.dia))); avisoCompartir(red, 'Te hemos copiado el mensaje por si no aparece escrito: pégalo en la publicación.'); }
+});
+
 let DIA_PISTA = 0;
 function verPista(r, nueva) {
   DIA_PISTA = r.dia;
   $('#caseTag').textContent = nueva ? '¡Correcto! Has desbloqueado una pista' : 'PISTA';
   const enRevision = !store.get('notas', {})[r.dia] && resueltos().includes(r.dia);
-  $('#caseBody').innerHTML = revelacionHTML(r, nueva) + (notaHTML(r.dia) || (enRevision ? `<div class="nota espera-rev"><b>Tu código está en la cola de revisión.</b> Ya tienes 1 punto por acertar. Los de «funciona» y clean code llegarán en cuanto lo revisemos, normalmente en uno o dos días. Si un día tardamos un poco más, es que el equipo también tiene villancicos, cenas y derecho a siesta navideña. Paciencia, que llegan.</div>` : ''));
+  $('#caseBody').innerHTML = revelacionHTML(r, nueva) + (notaHTML(r.dia) || (enRevision ? `<div class="nota espera-rev"><b>Tu código está en la cola de revisión.</b> Ya tienes 1 punto por acertar. Los de «funciona» y clean code llegarán en cuanto lo revisemos, normalmente en uno o dos días. Si un día tardamos un poco más, es que el equipo también tiene villancicos, cenas y derecho a siesta navideña. Paciencia, que llegan.</div>` : '')) + compartirHTML(r.dia);
   $('#dlgCase').showModal();
 }
 
@@ -1381,7 +1529,11 @@ document.querySelectorAll('#privLink, .privLink2').forEach(a => { a.href = CONFI
   pintarGuirnalda('#garland2', 3);
   pintarNieve();
   // Enlace de recuperación: ?clave=... guarda la sesión en este dispositivo y se quita de la barra de direcciones
-  const claveUrl = new URLSearchParams(location.search).get('clave');
+  const params = new URLSearchParams(location.search);
+  const claveUrl = params.get('clave');
+  // Enlace compartido: ?reto=5 abre directamente ese reto (o su pista, si ya lo has resuelto)
+  const retoUrl = Math.floor(Number(params.get('reto')));
+  if (retoUrl) { params.delete('reto'); const q = params.toString(); history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash); }
   ENLACE_RECUPERACION = !!claveUrl;
   if (claveUrl) {
     store.set('perfil', { alias: '', clave: claveUrl });
@@ -1398,7 +1550,20 @@ document.querySelectorAll('#privLink, .privLink2').forEach(a => { a.href = CONFI
   if (rankingGuardado) dibujarRanking(rankingGuardado);
   // 2. Una sola llamada al script para traer lo último
   await cargarDatos(rankingGuardado);
+  if (retoUrl >= 1 && retoUrl <= 24) abrirRetoPorEnlace(retoUrl);
 })();
+
+function abrirRetoPorEnlace(n) {
+  const r = RETOS.find(x => x.dia === n);
+  const boton = document.querySelectorAll('.day')[n - 1];
+  $('#calendario').scrollIntoView({ block: 'start' });
+  if (!r) return;
+  const pista = pistasVisibles()[n];
+  if (pista) { verPista(pista); return; }
+  if ((r.estado === 'abierto' || r.estado === 'atrasado') && r.enunciado) { abrirReto(r); return; }
+  // Aún no se ha abierto o el concurso ya terminó: se queda en el calendario con ese día enfocado
+  if (boton) { boton.setAttribute('tabindex', '-1'); boton.focus(); }
+}
 </script>
 </body>
 </html>
