@@ -73,10 +73,13 @@
   .stamp { display: inline-block; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600; color: var(--lm-deep); border: 2px solid var(--lm-deep); border-radius: 6px; padding: 2px 8px; transform: rotate(-3deg); margin-bottom: 10px; }
 
   .arriba { padding: 18px 0 8px; }
-  .arriba .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
+  .arriba .wrap { display: grid; grid-template-columns: 1fr; gap: 28px; justify-items: center; }
   .cuenta { text-align: center; }
-  .avisame { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; display: grid; gap: 12px; }
-  .avisame h2 { font-family: var(--display); font-weight: 800; font-size: 20px; line-height: 1.25; color: var(--sc-navy); margin: 0; }
+  .avisame { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 30px; display: grid; gap: 12px; width: 100%; max-width: 980px; }
+  .avisame .campos { display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 12px; }
+  .avisame .pie { display: flex; gap: 20px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; }
+  .avisame .pie .checks { display: grid; gap: 8px; flex: 1 1 520px; }
+  .avisame h2 { font-family: var(--display); font-weight: 800; font-size: 22px; line-height: 1.25; color: var(--sc-navy); margin: 0; }
   .avisame .sub { margin: -4px 0 2px; font-size: 14px; color: var(--ink-soft); }
   .avisame .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .avisame label { display: grid; gap: 4px; font-size: 13px; font-weight: 500; color: var(--ink-soft); }
@@ -89,14 +92,15 @@
   .btn { font: inherit; font-weight: 600; font-size: 15px; border: 0; border-radius: 12px; padding: 12px 22px; cursor: pointer; background: var(--sc-navy); color: #fff; justify-self: start; }
   .btn:hover { background: var(--lm-deep); }
   .btn:disabled { background: #E3EAED; color: #6B7B85; cursor: wait; }
-  .msg { margin: 0; font-size: 14px; min-height: 1.2em; }
+  .msg { margin: 0; font-size: 14px; }
+  .msg:empty { display: none; }
   .msg.ok { color: var(--lm-deep); font-weight: 600; } .msg.ko { color: #B42318; }
   .cuenta h2 { font-family: var(--display); font-weight: 800; font-size: clamp(20px, 2.6vw, 28px); color: var(--sc-navy); margin: 0 0 14px; display: inline-flex; align-items: center; gap: 10px; }
   .reloj { color: var(--nd-yellow); width: 1.05em; height: 1.05em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
   .reloj .arena { fill: currentColor; stroke: none; }
   .cajas { display: flex; gap: 14px; justify-content: center; }
-  .caja { background: var(--nd-yellow); color: var(--sc-navy); border-radius: 16px; min-width: 104px; padding: 16px 12px 12px; text-align: center; box-shadow: 0 8px 22px rgba(242, 169, 0, .35); }
-  .caja b { display: block; font-family: var(--display); font-weight: 900; font-size: 50px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .caja { background: var(--nd-yellow); color: var(--sc-navy); border-radius: 16px; min-width: 120px; padding: 16px 12px 12px; text-align: center; box-shadow: 0 8px 22px rgba(242, 169, 0, .35); }
+  .caja b { display: block; font-family: var(--display); font-weight: 900; font-size: 56px; line-height: 1; font-variant-numeric: tabular-nums; }
   .caja span { font-size: 13px; font-weight: 500; }
   .cuenta .nota { margin: 12px 0 0; font-size: 13px; color: var(--ink-soft); }
 
@@ -131,7 +135,8 @@
 
   @media (max-width: 1000px) { .hero .wrap { gap: 28px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } .arbol { gap: 9px; } }
   @media (max-width: 860px) { .tarjetas { grid-template-columns: 1fr; } .arriba .wrap { grid-template-columns: 1fr; } }
-  @media (max-width: 480px) { .avisame .dos { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .avisame .campos { grid-template-columns: 1fr 1fr; } .avisame .campos label:last-child { grid-column: 1 / -1; } .avisame { padding: 22px 20px; } }
+  @media (max-width: 480px) { .avisame .campos { grid-template-columns: 1fr; } }
   @media (max-width: 680px) { .hero .wrap { grid-template-columns: 1fr; } }
   @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .wrap { padding: 0 16px; } .cajas { gap: 8px; } .caja { min-width: 0; flex: 1; padding: 12px 4px 10px; } .caja b { font-size: 32px; } .caja span { font-size: 11px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } }
   @media (max-width: 380px) { .logos { gap: 8px; } .logo-lm img { height: 16px; } .logo-nd svg { height: 10px; } .logo-sc svg { height: 11px; } .codiguito svg { height: 24px; } .codiguito { margin-right: -11px; } .wrap { padding: 0 18px; } }
@@ -170,15 +175,19 @@
     <form class="avisame" id="avisame" novalidate>
       <h2 id="avisameTit">¿Quieres que te avisemos cuando el calendario esté abierto?</h2>
       <p class="sub">Déjanos tus datos y te escribimos el 1 de diciembre en cuanto se abra el primer reto.</p>
-      <div class="dos">
+      <div class="campos">
         <label>Nombre<input type="text" id="aNombre" name="nombre" autocomplete="given-name" maxlength="80" required></label>
         <label>Apellidos<input type="text" id="aApellidos" name="apellidos" autocomplete="family-name" maxlength="120" required></label>
+        <label>Email<input type="email" id="aEmail" name="email" autocomplete="email" maxlength="254" required></label>
       </div>
-      <label>Email<input type="email" id="aEmail" name="email" autocomplete="email" maxlength="254" required></label>
       <label class="trampa" aria-hidden="true">Web<input type="text" id="aWeb" name="web" tabindex="-1" autocomplete="off"></label>
-      <label class="check"><input type="checkbox" id="aPriv" required><span>He leído y acepto la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad<span class="sr"> (se abre en otra pestaña)</span></a>.</span></label>
-      <label class="check"><input type="checkbox" id="aCom"><span>Acepto recibir comunicaciones comerciales e informativas del grupo We Are Next según lo especificado en las <a href="bases.html" target="_blank" rel="noopener">Bases Legales<span class="sr"> (se abre en otra pestaña)</span></a> y la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad<span class="sr"> (se abre en otra pestaña)</span></a> (opcional).</span></label>
-      <button type="submit" class="btn" id="aEnviar">Avisadme</button>
+      <div class="pie">
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="aPriv" required><span>He leído y acepto la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad<span class="sr"> (se abre en otra pestaña)</span></a>.</span></label>
+          <label class="check"><input type="checkbox" id="aCom"><span>Acepto recibir comunicaciones comerciales e informativas del grupo We Are Next según lo especificado en las <a href="bases.html" target="_blank" rel="noopener">Bases Legales<span class="sr"> (se abre en otra pestaña)</span></a> y la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad<span class="sr"> (se abre en otra pestaña)</span></a> (opcional).</span></label>
+        </div>
+        <button type="submit" class="btn" id="aEnviar">Avisadme</button>
+      </div>
       <p class="msg" id="aMsg" role="status" aria-live="polite"></p>
     </form>
   </div>
