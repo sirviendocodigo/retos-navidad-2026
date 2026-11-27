@@ -111,7 +111,7 @@
   .bloque h2.tit { font-family: var(--display); font-weight: 800; font-size: clamp(26px, 3.4vw, 36px); color: var(--sc-navy); margin: 0 0 22px; }
   .tarjetas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .tarjeta { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px; }
-  .tarjeta .num { font-family: var(--display); font-weight: 900; font-size: 28px; color: color-mix(in srgb, var(--c) 45%, #14222E); line-height: 1; }
+  .tarjeta .num { font-family: var(--display); font-weight: 900; font-size: 28px; color: var(--c); line-height: 1; }
   .tarjeta h3 { font-family: var(--display); font-weight: 800; font-size: 19px; margin: 10px 0 6px; color: var(--sc-navy); }
   .tarjeta p { margin: 0; color: var(--ink-soft); font-size: 15px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
   .tarjeta .who { margin-top: 12px; text-align: left; }
@@ -135,7 +135,8 @@
   @media (max-width: 680px) { .hero .wrap { grid-template-columns: 1fr; } }
   @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .wrap { padding: 0 16px; } .cajas { gap: 8px; } .caja { min-width: 0; flex: 1; padding: 12px 4px 10px; } .caja b { font-size: 32px; } .caja span { font-size: 11px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } }
   @media (max-width: 380px) { .logos { gap: 8px; } .logo-lm img { height: 16px; } .logo-nd svg { height: 10px; } .logo-sc svg { height: 11px; } .codiguito svg { height: 24px; } .codiguito { margin-right: -11px; } .wrap { padding: 0 18px; } }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  /* Con «reducir movimiento» activado, sin segundos que cambian sin parar */
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .caja.seg { display: none; } }
 </style>
 </head>
 <body>
@@ -161,7 +162,7 @@
         <div class="caja"><b id="cDias">0</b><span>días</span></div>
         <div class="caja"><b id="cHoras">00</b><span>horas</span></div>
         <div class="caja"><b id="cMin">00</b><span>minutos</span></div>
-        <div class="caja"><b id="cSeg">00</b><span>segundos</span></div>
+        <div class="caja seg"><b id="cSeg">00</b><span>segundos</span></div>
       </div>
       <p class="sr" id="cuentaTexto"></p>
       <p class="nota">El 1 de diciembre a las 00:00 (23:00 del 30 de noviembre en Canarias). Esta misma página te llevará a los retos.</p>
@@ -176,7 +177,7 @@
       <label>Email<input type="email" id="aEmail" name="email" autocomplete="email" maxlength="254" required></label>
       <label class="trampa" aria-hidden="true">Web<input type="text" id="aWeb" name="web" tabindex="-1" autocomplete="off"></label>
       <label class="check"><input type="checkbox" id="aPriv" required><span>He leído y acepto la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad<span class="sr"> (se abre en otra pestaña)</span></a>.</span></label>
-      <label class="check"><input type="checkbox" id="aCom"><span>Acepto recibir comunicaciones comerciales e informativas del grupo We Are Next según lo especificado en las Bases Legales y la Política de Privacidad (opcional).</span></label>
+      <label class="check"><input type="checkbox" id="aCom"><span>Acepto recibir comunicaciones comerciales e informativas del grupo We Are Next según lo especificado en las <a href="bases.html" target="_blank" rel="noopener">Bases Legales<span class="sr"> (se abre en otra pestaña)</span></a> y la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad<span class="sr"> (se abre en otra pestaña)</span></a> (opcional).</span></label>
       <button type="submit" class="btn" id="aEnviar">Avisadme</button>
       <p class="msg" id="aMsg" role="status" aria-live="polite"></p>
     </form>
@@ -205,18 +206,18 @@
     <h2 class="tit">Mientras tanto</h2>
     <div class="tarjetas">
       <div class="tarjeta" style="--c: var(--sc-sky)">
-        <div class="num">01</div>
+        <div class="num" aria-hidden="true">01</div>
         <h3>Así funcionará</h3>
         <p>Cada día se abre un reto de código. Lo resuelves en el lenguaje que quieras y, cada vez que aciertas, descubres a una persona sospechosa y su testimonio. El 24 señalas a quien lo hizo.</p>
       </div>
       <div class="tarjeta" style="--c: var(--lm-teal)">
-        <div class="num">02</div>
+        <div class="num" aria-hidden="true">02</div>
         <h3>Que no se te pase</h3>
         <p>Añade a tu calendario un aviso cada mañana con el reto del día.</p>
         <p class="who"><span aria-hidden="true">🔔</span> <a class="linkbtn" id="calGoogle" target="_blank" rel="noopener">Google Calendar<span class="sr"> (se abre en otra pestaña)</span></a> o <button type="button" class="linkbtn" id="calIcs">Apple, Outlook y otros (.ics)</button></p>
       </div>
       <div class="tarjeta" style="--c: var(--nd-yellow)">
-        <div class="num">03</div>
+        <div class="num" aria-hidden="true">03</div>
         <h3>Avisa a tu gente</h3>
         <div id="compartirGeneral"></div>
       </div>
@@ -442,7 +443,7 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbyFS5pAY0F-6AunO0MuDjk5
       const r = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: 'avisame', nombre, apellidos, email, web: $('#aWeb').value, privacidad: true, comunicaciones: $('#aCom').checked }) });
       const res = await r.json();
       if (res.ok) {
-        di(`¡Hecho, ${nombre}! Te escribiremos a ${email} en cuanto se abra el calendario.`, true);
+        di(res.yaEstaba ? `Ya estabas en la lista con ${email}, ${nombre}. Hemos actualizado tus datos y te avisaremos igualmente en cuanto se abra el calendario.` : `¡Hecho, ${nombre}! Te escribiremos a ${email} en cuanto se abra el calendario.`, true);
         try { localStorage.setItem('avisoApuntado', '1'); } catch (e2) {}
         f.querySelectorAll('input[type=text], input[type=email]').forEach(i => i.value = ''); $('#aPriv').checked = false; $('#aCom').checked = false;
       } else di(res.error || 'No se ha podido guardar. Prueba otra vez en un rato.', false);
@@ -464,7 +465,8 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbyFS5pAY0F-6AunO0MuDjk5
     // Para lectores de pantalla, el texto se actualiza una vez por minuto, sin anunciarse cada segundo
     if (m !== ultimoMinuto) { ultimoMinuto = m; $('#cuentaTexto').textContent = `Faltan ${dias} días, ${h} horas y ${m} minutos.`; }
   }
-  tic(); setInterval(tic, 1000);
+  const quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  tic(); setInterval(tic, quieto ? 15000 : 1000);
 })();
 </script>
 </body>
