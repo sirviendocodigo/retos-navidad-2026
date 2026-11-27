@@ -60,7 +60,7 @@
   .garland { height: 74px; overflow: hidden; pointer-events: none; }
   .garland svg { display: block; width: 100%; height: 58px; overflow: visible; }
 
-  .hero { padding: 36px 0 64px; position: relative; overflow: hidden; }
+  .hero { padding: 36px 0 28px; position: relative; overflow: hidden; }
   .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
   .kicker { display: inline-flex; gap: 10px; align-items: center; font-size: 13px; font-weight: 600; color: var(--lm-deep); background: var(--wash); border-radius: 999px; padding: 6px 14px; }
   h1 { font-family: var(--display); font-weight: 900; font-size: clamp(40px, 6.2vw, 72px); line-height: 1.02; letter-spacing: -.02em; margin: 18px 0 20px; color: var(--sc-navy); }
@@ -111,6 +111,8 @@
   .estrella { width: 64px; height: 62px; display: block; }
   .arbol-cap { text-align: center; font-size: 13px; color: var(--ink-soft); margin: 8px 0 0; }
 
+  .aviso-sec { padding: 0 0 56px; }
+  .aviso-sec .avisame { max-width: none; }
   .bloque { padding: 56px 0; border-top: 1px solid var(--line); }
   .bloque h2.tit { font-family: var(--display); font-weight: 800; font-size: clamp(26px, 3.4vw, 36px); color: var(--sc-navy); margin: 0 0 22px; }
   .tarjetas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -172,6 +174,28 @@
       <p class="sr" id="cuentaTexto"></p>
       <p class="nota">El 1 de diciembre a las 00:00 (23:00 del 30 de noviembre en Canarias). Esta misma página te llevará a los retos.</p>
     </div>
+  </div>
+</section>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="kicker">Calendario de adviento de código | 1 al 24 de diciembre</span>
+      <h1>Muerte en la cena de <em>Navidad</em></h1>
+      <div class="caso">
+        <span class="stamp">MUY PRONTO</span>
+        <p>Fue en la cena de Navidad de Next Digital, Lean Mind y sirviendo código; en Canarias: una casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 apareció sin vida junto al árbol. Esa noche un temporal cortó la carretera y nadie pudo entrar ni salir.</p>
+        <p class="reto24">Hay 24 personas sospechosas y tienes 24 días para averiguar quién ha matado a Papá Noel.</p>
+      </div>
+    </div>
+    <div>
+      <div class="arbol" aria-hidden="true" id="arbol"></div>
+      <p class="arbol-cap">24 bolas, 24 retos. Del 1 al 24 de diciembre.</p>
+    </div>
+  </div>
+</section>
+
+<section class="aviso-sec" aria-labelledby="avisameTit">
+  <div class="wrap">
     <form class="avisame" id="avisame" novalidate>
       <h2 id="avisameTit">¿Quieres que te avisemos cuando el calendario esté abierto?</h2>
       <p class="sub">Déjanos tus datos y te escribimos el 1 de diciembre en cuanto se abra el primer reto.</p>
@@ -190,23 +214,6 @@
       </div>
       <p class="msg" id="aMsg" role="status" aria-live="polite"></p>
     </form>
-  </div>
-</section>
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <span class="kicker">Calendario de adviento de código | 1 al 24 de diciembre</span>
-      <h1>Muerte en la cena de <em>Navidad</em></h1>
-      <div class="caso">
-        <span class="stamp">MUY PRONTO</span>
-        <p>Fue en la cena de Navidad de Next Digital, Lean Mind y sirviendo código; en Canarias: una casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 apareció sin vida junto al árbol. Esa noche un temporal cortó la carretera y nadie pudo entrar ni salir.</p>
-        <p class="reto24">Hay 24 personas sospechosas y tienes 24 días para averiguar quién ha matado a Papá Noel.</p>
-      </div>
-    </div>
-    <div>
-      <div class="arbol" aria-hidden="true" id="arbol"></div>
-      <p class="arbol-cap">24 bolas, 24 retos. Del 1 al 24 de diciembre.</p>
-    </div>
   </div>
 </section>
 
