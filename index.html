@@ -60,7 +60,7 @@
   .garland { height: 74px; overflow: hidden; pointer-events: none; }
   .garland svg { display: block; width: 100%; height: 58px; overflow: visible; }
 
-  .hero { padding: 26px 0 64px; position: relative; overflow: hidden; }
+  .hero { padding: 36px 0 64px; position: relative; overflow: hidden; }
   .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
   .kicker { display: inline-flex; gap: 10px; align-items: center; font-size: 13px; font-weight: 600; color: var(--lm-deep); background: var(--wash); border-radius: 999px; padding: 6px 14px; }
   h1 { font-family: var(--display); font-weight: 900; font-size: clamp(40px, 6.2vw, 72px); line-height: 1.02; letter-spacing: -.02em; margin: 18px 0 20px; color: var(--sc-navy); }
@@ -72,13 +72,14 @@
   .tarjeta .compartir .comp-tit { display: none; }
   .stamp { display: inline-block; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600; color: var(--lm-deep); border: 2px solid var(--lm-deep); border-radius: 6px; padding: 2px 8px; transform: rotate(-3deg); margin-bottom: 10px; }
 
-  .cuenta { margin-top: 26px; }
-  .cuenta h2 { font-size: 15px; font-weight: 600; color: var(--sc-navy); margin: 0 0 10px; }
-  .cajas { display: flex; gap: 12px; flex-wrap: wrap; }
-  .caja { background: var(--sc-navy); color: #fff; border-radius: 12px; min-width: 86px; padding: 12px 10px 10px; text-align: center; }
-  .caja b { display: block; font-family: var(--display); font-weight: 900; font-size: 38px; line-height: 1; font-variant-numeric: tabular-nums; }
-  .caja span { font-size: 12px; opacity: .85; }
-  .cuenta .nota { margin: 10px 0 0; font-size: 13px; color: var(--ink-soft); }
+  .arriba { padding: 18px 0 8px; }
+  .cuenta { text-align: center; }
+  .cuenta h2 { font-family: var(--display); font-weight: 800; font-size: clamp(20px, 2.6vw, 28px); color: #C2410C; margin: 0 0 14px; }
+  .cajas { display: flex; gap: 14px; justify-content: center; }
+  .caja { background: #C2410C; color: #fff; border-radius: 16px; min-width: 120px; padding: 16px 12px 12px; text-align: center; box-shadow: 0 8px 22px rgba(194, 65, 12, .22); }
+  .caja b { display: block; font-family: var(--display); font-weight: 900; font-size: 56px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .caja span { font-size: 13px; font-weight: 500; }
+  .cuenta .nota { margin: 12px 0 0; font-size: 13px; color: var(--ink-soft); }
 
   .arbol { display: flex; flex-direction: column; align-items: center; gap: 12px; }
   .arbol .fila { display: flex; gap: 14px; }
@@ -110,7 +111,7 @@
   footer a { color: var(--lm-deep); }
 
   @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } .tarjetas { grid-template-columns: 1fr; } }
-  @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .wrap { padding: 0 16px; } .caja { min-width: 0; flex: 1; } .caja b { font-size: 30px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } }
+  @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .wrap { padding: 0 16px; } .cajas { gap: 8px; } .caja { min-width: 0; flex: 1; padding: 12px 4px 10px; } .caja b { font-size: 32px; } .caja span { font-size: 11px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } }
   @media (max-width: 380px) { .logos { gap: 8px; } .logo-lm img { height: 16px; } .logo-nd svg { height: 10px; } .logo-sc svg { height: 11px; } .codiguito svg { height: 24px; } .codiguito { margin-right: -11px; } .wrap { padding: 0 18px; } }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
@@ -130,6 +131,20 @@
 <div class="garland" id="garland" aria-hidden="true"></div>
 
 <main id="principal">
+<section class="arriba">
+  <div class="wrap">
+      <div class="cuenta" role="timer" aria-labelledby="cuentaTit">
+      <h2 id="cuentaTit"><span aria-hidden="true">⏳</span> El primer reto se abre en</h2>
+      <div class="cajas" aria-hidden="true">
+        <div class="caja"><b id="cDias">0</b><span>días</span></div>
+        <div class="caja"><b id="cHoras">00</b><span>horas</span></div>
+        <div class="caja"><b id="cMin">00</b><span>minutos</span></div>
+        <div class="caja"><b id="cSeg">00</b><span>segundos</span></div>
+      </div>
+      <p class="sr" id="cuentaTexto"></p>
+      <p class="nota">El 1 de diciembre a las 00:00 (23:00 del 30 de noviembre en Canarias). Esta misma página te llevará a los retos.</p>
+  </div>
+</section>
 <section class="hero">
   <div class="wrap">
     <div>
@@ -140,16 +155,6 @@
         <p>Fue en la cena de Navidad de Next Digital, Lean Mind y sirviendo código; en Canarias: una casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 apareció sin vida junto al árbol. Esa noche un temporal cortó la carretera y nadie pudo entrar ni salir.</p>
         <p class="reto24">Hay 24 personas sospechosas y tienes 24 días para averiguar quién ha matado a Papá Noel.</p>
       </div>
-      <div class="cuenta" role="timer" aria-labelledby="cuentaTit">
-        <h2 id="cuentaTit">El primer reto se abre en</h2>
-        <div class="cajas" aria-hidden="true">
-          <div class="caja"><b id="cDias">0</b><span>días</span></div>
-          <div class="caja"><b id="cHoras">00</b><span>horas</span></div>
-          <div class="caja"><b id="cMin">00</b><span>minutos</span></div>
-          <div class="caja"><b id="cSeg">00</b><span>segundos</span></div>
-        </div>
-        <p class="sr" id="cuentaTexto"></p>
-        <p class="nota">El 1 de diciembre a las 00:00 (23:00 del 30 de noviembre en Canarias). Esta misma página te llevará a los retos.</p>
       </div>
     </div>
     <div>
