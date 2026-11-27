@@ -3,8 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Muerte en la cena de Navidad | Retos de código del 1 al 24 de diciembre</title>
-<meta name="description" content="Un calendario de adviento de código y un asesinato por resolver. Organizan Next Digital, Lean Mind y sirviendo código;.">
+<script>
+  // El 1 de diciembre a las 00:00 (hora peninsular) esta página lleva sola a la web de los retos,
+  // conservando lo que venga detrás (?reto=5, ?clave=...)
+  var LANZAMIENTO = new Date('2026-12-01T00:00:00+01:00').getTime();
+  var WEB_RETOS = 'calendario.html';
+  if (Date.now() >= LANZAMIENTO || /[?&](reto|clave)=/.test(location.search)) location.replace(WEB_RETOS + location.search + location.hash);
+</script>
+<title>Muerte en la cena de Navidad | Retos de Navidad 2026, muy pronto</title>
+<meta name="description" content="Tienes 24 días para averiguar quién ha matado a Papá Noel. 24 retos de código del 1 al 24 de diciembre. Organizan Next Digital, Lean Mind y sirviendo código;.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Muerte en la cena de Navidad | Retos de Navidad 2026">
@@ -20,52 +27,77 @@
 <meta name="twitter:image" content="https://sirviendocodigo.github.io/retos-navidad-2026/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=JetBrains+Mono:wght@400;600&family=M+PLUS+Rounded+1c:wght@500;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Colores de las tres marcas */
-    --nd-ink: #333F48;    --nd-blue: #71C5E8;  --nd-yellow: #F2A900;
-    --lm-teal: #3AB2C1;   --lm-deep: #05707E;  --lm-gray: #404041;
-    --sc-navy: #2F455C;   --sc-sky: #44C1F0;   --sc-aqua: #70C1AD;
-
-    --ink: #2D3B46;
-    --ink-soft: #5D6E7A;
-    --paper: #F5F7F6;
-    --card: #FFFFFF;
-    --line: #DFE6E8;
-    --wash: #EAF4F5;
+    --nd-yellow: #F2A900; --lm-teal: #3AB2C1; --lm-deep: #05707E;
+    --sc-navy: #2F455C; --sc-sky: #44C1F0; --sc-aqua: #70C1AD;
+    --ink: #2D3B46; --ink-soft: #5D6E7A; --paper: #F5F7F6; --line: #DFE6E8; --wash: #EAF4F5;
     --radius: 14px;
     --display: 'M PLUS Rounded 1c', 'Poppins', sans-serif;
     --body: 'Poppins', system-ui, sans-serif;
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; background: var(--paper); }
-  body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--paper); line-height: 1.6; font-size: 16px; }
-  a { color: var(--lm-deep); }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-  img { max-width: 100%; display: block; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--paper); line-height: 1.6; }
+  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--sc-navy); color: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 600; text-decoration: none; }
+  .skip:focus { top: 12px; }
+  a, button { font: inherit; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--lm-deep); outline-offset: 2px; }
+  .linkbtn { background: none; border: 0; padding: 0; color: var(--lm-deep); text-decoration: underline; cursor: pointer; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
 
-  /* Lo que está oculto se oculta siempre, aunque su estilo diga otra cosa */
-  [hidden] { display: none !important; }
-  /* Textos justificados, con guiones para que no queden huecos grandes */
-  p, .enunciado, .txt, .base p { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
-  .demo-banner { background: var(--nd-yellow); color: #2a1d00; text-align: center; font-size: 14px; font-weight: 500; padding: 8px 16px; }
-
-  /* Cabecera con logos */
-  .topbar { background: var(--card); border-bottom: 1px solid var(--line); }
-  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 68px; max-width: none; padding: 0 32px; }
-  @media (max-width: 560px) { .topbar .wrap { padding: 0 16px; } }
-  .topbar .derecha { display: flex; align-items: center; gap: 24px; min-width: 0; }
-  .logos { display: flex; align-items: center; gap: 26px; }
-  .logos .lbl { font-size: 12px; color: var(--ink-soft); letter-spacing: .04em; }
+  .topbar { background: #fff; border-bottom: 1px solid var(--line); }
+  .topbar .wrap { display: flex; align-items: center; height: 68px; max-width: none; padding: 0 32px; }
+  .logos { display: flex; align-items: center; gap: 26px; flex-shrink: 0; }
+  .logos .lbl { font-size: 13px; color: var(--ink-soft); }
   .logo-nd svg { height: 18px; width: auto; display: block; }
-  .logo-lm img { height: 30px; width: auto; }
+  .logo-lm img { height: 30px; width: auto; display: block; }
   .logo-sc svg { height: 22px; width: auto; display: block; }
-  .codiguito { margin-right: -31px; }
-  .codiguito svg { height: 46px; width: auto; display: block; }
-  .compartir { grid-column: 1 / -1; margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
-  .compartir .comp-tit { margin: 0 0 4px; font-family: var(--body); font-size: 14px; font-weight: 600; color: var(--sc-navy); letter-spacing: 0; line-height: 1.4; }
+  .codiguito { margin-right: -31px; } .codiguito svg { height: 46px; width: auto; display: block; }
+
+  .garland { height: 74px; overflow: hidden; pointer-events: none; }
+  .garland svg { display: block; width: 100%; height: 58px; overflow: visible; }
+
+  .hero { padding: 26px 0 64px; position: relative; overflow: hidden; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .kicker { display: inline-flex; gap: 10px; align-items: center; font-size: 13px; font-weight: 600; color: var(--lm-deep); background: var(--wash); border-radius: 999px; padding: 6px 14px; }
+  h1 { font-family: var(--display); font-weight: 900; font-size: clamp(40px, 6.2vw, 72px); line-height: 1.02; letter-spacing: -.02em; margin: 18px 0 20px; color: var(--sc-navy); }
+  h1 em { font-style: normal; color: #22909D; }
+  .caso { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--lm-teal); border-radius: var(--radius); padding: 22px 26px; }
+  .caso p { margin: 0 0 10px; color: var(--ink-soft); text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+  .caso p:last-child { margin: 0; }
+  .caso .reto24 { color: var(--sc-navy); font-weight: 600; font-size: 18px; text-align: left; hyphens: manual; -webkit-hyphens: manual; }
+  .tarjeta .compartir .comp-tit { display: none; }
+  .stamp { display: inline-block; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600; color: var(--lm-deep); border: 2px solid var(--lm-deep); border-radius: 6px; padding: 2px 8px; transform: rotate(-3deg); margin-bottom: 10px; }
+
+  .cuenta { margin-top: 26px; }
+  .cuenta h2 { font-size: 15px; font-weight: 600; color: var(--sc-navy); margin: 0 0 10px; }
+  .cajas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .caja { background: var(--sc-navy); color: #fff; border-radius: 12px; min-width: 86px; padding: 12px 10px 10px; text-align: center; }
+  .caja b { display: block; font-family: var(--display); font-weight: 900; font-size: 38px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .caja span { font-size: 12px; opacity: .85; }
+  .cuenta .nota { margin: 10px 0 0; font-size: 13px; color: var(--ink-soft); }
+
+  .arbol { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .arbol .fila { display: flex; gap: 14px; }
+  .bola { width: 42px; height: 42px; border-radius: 50%; border: 3px dashed var(--c); background: #fff; color: var(--ink-soft); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; }
+  .tronco { width: 52px; height: 42px; border-radius: 10px; background: var(--sc-navy); margin-top: 4px; }
+  .estrella { font-size: 40px; line-height: 1; color: var(--nd-yellow); }
+  .arbol-cap { text-align: center; font-size: 13px; color: var(--ink-soft); margin: 8px 0 0; }
+
+  .bloque { padding: 56px 0; border-top: 1px solid var(--line); }
+  .bloque h2.tit { font-family: var(--display); font-weight: 800; font-size: clamp(26px, 3.4vw, 36px); color: var(--sc-navy); margin: 0 0 22px; }
+  .tarjetas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .tarjeta { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px; }
+  .tarjeta .num { font-family: var(--display); font-weight: 900; font-size: 28px; color: color-mix(in srgb, var(--c) 45%, #14222E); line-height: 1; }
+  .tarjeta h3 { font-family: var(--display); font-weight: 800; font-size: 19px; margin: 10px 0 6px; color: var(--sc-navy); }
+  .tarjeta p { margin: 0; color: var(--ink-soft); font-size: 15px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+  .tarjeta .who { margin-top: 12px; text-align: left; }
+
+  .compartir { margin-top: 0; }
+  .compartir .comp-tit { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--sc-navy); }
   .compartir p { margin: 0 0 10px; font-size: 13px; color: var(--ink-soft); text-align: left; }
   .redes { display: flex; flex-wrap: wrap; gap: 8px; }
   .red { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--sc-navy); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; text-decoration: none; transition: background .15s, color .15s, border-color .15s; }
@@ -73,284 +105,18 @@
   .red:hover { background: var(--sc-navy); color: #fff; border-color: var(--sc-navy); }
   .red.txt { width: auto; padding: 0 14px; border-radius: 999px; font: 500 13px var(--body); gap: 6px; }
   .compartir .ok { font-size: 12px; color: var(--lm-deep); margin-top: 8px; min-height: 1em; }
-  .nota { grid-column: 1 / -1; margin-top: 14px; font-size: 14px; background: #E6F5F3; color: #0B5A55; border-radius: 10px; padding: 10px 14px; }
-  .nota.ko { background: #FFF4DB; color: #6B4B00; }
-  .nota ul { list-style: none; margin: 8px 0 0; padding: 0; }
-  .nota li { padding-left: 22px; position: relative; margin: 3px 0; }
-  .nota li::before { position: absolute; left: 0; font-weight: 700; }
-  .nota li.si::before { content: '✓'; color: #0B7A55; }
-  .nota li.no::before { content: '✗'; color: #9A3B1E; }
-  .nota .coment { margin: 10px 0 0; }
-  td.pts { font-weight: 700; color: var(--sc-navy); }
-  .tree-cap { text-align: center; font-size: 13px; color: var(--ink-soft); margin: 4px 0 0; }
-  nav.menu { display: flex; gap: 20px; font-size: 14px; font-weight: 500; white-space: nowrap; }
-  nav.menu a { color: var(--ink); text-decoration: none; display: inline-block; padding: 5px 0; }
-  nav.menu a:hover { color: var(--lm-deep); }
-  @media (max-width: 1180px) { .logos .lbl { display: none; } }
-  @media (max-width: 1040px) { nav.menu { display: none; } }
-  @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logos > span { flex-shrink: 0; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .me { display: none; } }
 
-  .me { font-size: 13px; font-weight: 500; background: var(--wash); color: var(--lm-deep); border-radius: 999px; padding: 6px 14px; white-space: nowrap; min-width: 0; max-width: 340px; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
-  .logos, .logos > span, nav.menu { flex-shrink: 0; }
-  .logo-lm img { display: block; object-fit: contain; }
-  .linkbtn { background: none; border: 0; padding: 0; font: inherit; color: var(--lm-deep); text-decoration: underline; cursor: pointer; }
-  .file .actions { margin-top: 12px; font-size: 13px; }
-  /* Portada */
-  .hero { padding: 64px 0 56px; }
-  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
-  @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } .tree { max-width: 320px; margin: 0 auto; } }
-  .kicker { display: inline-flex; gap: 10px; align-items: center; font-size: 13px; font-weight: 600; color: var(--lm-deep); background: var(--wash); border-radius: 999px; padding: 6px 14px; }
-  .kicker i { width: 8px; height: 8px; border-radius: 50%; background: var(--nd-yellow); display: inline-block; }
-  h1 { font-family: var(--display); font-weight: 900; font-size: clamp(40px, 6.2vw, 72px); line-height: 1.02; letter-spacing: -.02em; margin: 18px 0 20px; color: var(--sc-navy); }
-  h1 em { font-style: normal; color: #22909D; }
-  .intro { font-size: 17px; color: var(--ink-soft); max-width: 560px; margin: 0 0 28px; }
-  .cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-  .btn { font: inherit; font-weight: 600; font-size: 15px; border: 0; border-radius: 12px; padding: 13px 22px; cursor: pointer; text-decoration: none; display: inline-block; }
-  .btn-main { background: var(--sc-navy); color: #fff; }
-  .btn-main:hover { background: var(--lm-deep); }
-  .btn-main:disabled, .btn-main:disabled:hover { background: #E3EAED; color: #8A9AA2; cursor: not-allowed; }
-  .espera { margin: 8px 0 0; text-align: center; font-size: 14px; color: var(--ink-soft); }
-  .espera b { font-family: var(--mono, monospace); color: var(--ink); }
-  .btn:disabled { opacity: .6; cursor: wait; }
-  .btn-sec { background: var(--card); color: var(--sc-navy); border: 1px solid var(--line); }
-  .btn-sec:hover { border-color: var(--lm-teal); }
-  .avatar { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 30px; color: #fff; }
-  .day .mini { position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--c); }
-  .day .mini img { width: 100%; height: 100%; object-fit: cover; }
-  .day .mini .avatar { font-size: 12px; }
-  @media (max-width: 520px) { .day .mini { width: 22px; height: 22px; right: 6px; top: 8px; bottom: auto; } .day .mini .avatar { font-size: 8px; } }
-  .countdown { font-size: 14px; color: var(--ink-soft); }
-  .countdown b { font-family: var(--mono); color: var(--ink); font-weight: 600; }
-  .tree svg { width: 100%; height: auto; display: block; }
-  #compartirGeneral .compartir { border-top: 0; padding-top: 0; margin-top: 18px; text-align: center; }
-  #compartirGeneral .compartir p { text-align: center; }
-  #compartirGeneral .redes { justify-content: center; }
-  @media (max-width: 860px) { .col-arbol { max-width: 420px; margin: 0 auto; } }
+  footer { text-align: center; font-size: 13px; color: var(--ink-soft); padding: 30px 24px 44px; border-top: 1px solid var(--line); }
+  footer a { color: var(--lm-deep); }
 
-  /* Secciones */
-  section.block { padding: 56px 0; }
-  section.alt { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
-  h2 { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1.1; margin: 0; color: var(--sc-navy); letter-spacing: -.01em; }
-  .head p { margin: 16px 0 0; color: var(--ink-soft); max-width: 640px; }
-  .head p + p { margin-top: 10px; }
-  .head p.avisos-cal { margin-top: 6px; text-align: left; }
-  #avisoCarga { margin: 0 0 16px; }
-  .pill { font-size: 13px; font-weight: 500; color: var(--ink-soft); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
-
-  /* Calendario */
-  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(4, 1fr); } }
-  @media (max-width: 520px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 10px; } }
-  .day {
-    position: relative; aspect-ratio: 1 / 1.08; border-radius: var(--radius); border: 1px solid var(--line);
-    background: var(--card); color: var(--ink); font-family: var(--body); text-align: left; padding: 16px;
-    display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; overflow: hidden;
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .day::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 6px; background: var(--c); }
-  .day .n { font-family: var(--display); font-weight: 900; font-size: 40px; line-height: 1; color: var(--c); }
-  .day .state { font-size: 12px; font-weight: 500; color: var(--ink-soft); }
-  .day.open:hover { transform: translateY(-3px); box-shadow: 0 10px 24px -12px rgba(45, 59, 70, .35); }
-  .day.open .state { color: var(--ink); }
-  .day.done { background: var(--wash); }
-  .day.done .state { color: var(--lm-deep); font-weight: 600; }
-  .day.locked { cursor: default; background: transparent; border-style: dashed; }
-  .day.locked::after { opacity: .25; }
-  .day.locked .n { color: #B9C5CB; }
-  .chip { display: inline-block; font-size: 11px; font-weight: 600; color: var(--lm-deep); background: var(--wash); border-radius: 999px; padding: 1px 8px; margin-left: 4px; white-space: nowrap; }
-  .chip.ok { color: #2a1d00; background: #FCE7B2; }
-  .day.late { background: #FAFBFB; border-style: dashed; }
-  .day.late .n { opacity: .7; }
-  .day.today { outline: 3px solid var(--nd-yellow); outline-offset: 2px; }
-  .day .flag { position: absolute; right: 12px; top: 16px; font-size: 11px; font-weight: 600; color: #2a1d00; background: var(--nd-yellow); border-radius: 999px; padding: 2px 8px; }
-
-  .stamp { display: inline-block; font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--lm-deep); border: 2px solid var(--lm-deep); border-radius: 6px; padding: 2px 8px; transform: rotate(-3deg); }
-  .caso-box { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--lm-teal); border-radius: var(--radius); padding: 18px 20px; margin: 0 0 24px; max-width: 600px; }
-  .caso-box p { margin: 10px 0 0; color: var(--ink-soft); font-size: 15px; }
-  .caso-box .cierre { color: var(--sc-navy); font-weight: 600; }
-  .day .see { display: inline-block; margin-top: 4px; font-size: 11px; font-weight: 600; color: #fff; background: var(--lm-deep); border-radius: 999px; padding: 2px 9px; text-decoration: none; }
-  .day .lock { font-size: 11px; color: #9AA9B2; }
-  .acusar-box { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
-  @media (max-width: 800px) { .acusar-box { grid-template-columns: 1fr; padding: 22px; } }
-  .acusar-texto h2 { margin: 12px 0 8px; }
-  .acusar-texto p { margin: 0; color: var(--ink-soft); }
-  .acusar-form select { width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; }
-  .acusar-form .actual { margin: 0 0 12px; font-size: 14px; color: var(--ink-soft); }
-  .acusar-form .actual b { color: var(--sc-navy); }
-  .acusar-form form { margin: 0; }
-  /* Cómo funciona */
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
-  .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px; }
-  .step .num { font-family: var(--display); font-weight: 900; font-size: 28px; color: color-mix(in srgb, var(--c) 45%, #14222E); line-height: 1; }
-  .step h3 { font-family: var(--display); font-weight: 800; font-size: 19px; margin: 10px 0 6px; color: var(--sc-navy); }
-  .step p { margin: 0; color: var(--ink-soft); font-size: 15px; }
-
-  .bases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  @media (max-width: 900px) { .bases { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 600px) { .bases { grid-template-columns: 1fr; } }
-  .base { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-  .base h3 { font-family: var(--display); font-weight: 800; font-size: 18px; margin: 0 0 6px; color: var(--sc-navy); }
-  .base p { margin: 0; color: var(--ink-soft); font-size: 15px; }
-  .base b { color: var(--ink); }
-  .puntos { margin-top: 22px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
-  .puntos h3 { font-family: var(--display); font-weight: 800; font-size: 20px; margin: 0 0 12px; color: var(--sc-navy); }
-  .puntos table { border: 0; }
-  .puntos p { margin: 12px 0 0; color: var(--ink-soft); font-size: 15px; }
-  /* Ranking */
-  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
-  th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--line); font-size: 15px; }
-  th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); font-weight: 600; background: var(--paper); }
-  tr:last-child td { border-bottom: 0; }
-  td.pos { font-family: var(--display); font-weight: 800; width: 56px; color: var(--ink-soft); }
-  tr.p1 td.pos { color: var(--nd-yellow); }
-  tr.p2 td.pos { color: var(--lm-teal); }
-  tr.p3 td.pos { color: var(--sc-aqua); }
-  tr.yo td { background: #FFF6DA; }
-  tr.salto td { text-align: center; color: var(--ink-soft); padding: 4px; letter-spacing: .3em; }
-  .rank-mas { text-align: center; margin-top: 18px; }
-  .rank-scroll { max-height: 62vh; overflow: auto; border-radius: var(--radius); }
-  .rank-scroll thead th { position: sticky; top: 0; z-index: 1; }
-  .rank-scroll table { overflow: visible; }
-  #dlgRank { width: min(1100px, calc(100vw - 24px)); }
-  td.alias { font-weight: 600; }
-  td.num { font-family: var(--mono); font-size: 14px; }
-  .dots { display: flex; gap: 3px; flex-wrap: wrap; }
-  .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: inline-block; }
-  .dots i.on { background: var(--lm-teal); }
-  @media (max-width: 640px) { .col-dots, .col-rev { display: none; } th, td { padding: 10px 7px; font-size: 14px; } th { font-size: 11px; } td.pos { width: 34px; } }
-  #rankWrap { overflow-x: auto; }
-  .empty { color: var(--ink-soft); padding: 28px; text-align: center; background: var(--card); border: 1px dashed var(--line); border-radius: var(--radius); }
-
-  /* Pie */
-  footer { padding: 48px 0 56px; }
-  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
-  footer p { margin: 0; font-size: 14px; color: var(--ink-soft); }
-
-  /* Ventanas */
-  dialog { width: min(780px, calc(100vw - 24px)); max-height: calc(100vh - 32px); padding: 0; border: 0; border-radius: 18px; background: var(--card); color: var(--ink); box-shadow: 0 30px 60px -20px rgba(20, 35, 45, .45); }
-  dialog::backdrop { background: rgba(35, 50, 60, .45); backdrop-filter: blur(2px); }
-  .dlg-head { padding: 24px 28px 0; display: flex; justify-content: space-between; gap: 16px; align-items: start; }
-  .dlg-tag { font-size: 13px; font-weight: 600; color: var(--lm-deep); }
-  .dlg-cierre { margin-left: 8px; font-weight: 500; color: #8A5A00; background: #FFF4DB; border-radius: 999px; padding: 2px 10px; font-size: 12px; }
-  .day.closed { background: #F1F4F5; border-style: solid; }
-  .day.closed .n { color: #A9B6BC; }
-  .day.closed .state { color: var(--ink-soft); }
-  .day.closed.done { background: var(--wash); }
-  .day.closed.done .n { color: var(--c); opacity: .6; }
-  .day.closed:not(:disabled):hover { box-shadow: 0 10px 24px -12px rgba(45, 59, 70, .25); }
-  .dlg-head h3 { margin: 4px 0 0; font-family: var(--display); font-weight: 800; font-size: 28px; line-height: 1.15; color: var(--sc-navy); }
-  .close { background: var(--paper); border: 1px solid var(--line); color: var(--ink); border-radius: 10px; width: 38px; height: 38px; font-size: 20px; cursor: pointer; flex: none; }
-  .dlg-body { padding: 16px 28px 28px; }
-  .enunciado p { margin: 0 0 12px; }
-  .enunciado code { font-family: var(--mono); background: var(--paper); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; font-size: .88em; }
-  .input-box { margin: 18px 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-  .input-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--paper); font-size: 13px; color: var(--ink-soft); font-weight: 500; }
-  .input-bar button { margin-left: 6px; }
-  pre { margin: 0; padding: 14px; font-family: var(--mono); font-size: 13px; max-height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-word; background: #FBFCFC; color: var(--ink); }
-  form { display: grid; gap: 12px; margin-top: 8px; }
-  label { font-size: 14px; color: var(--ink-soft); font-weight: 500; display: grid; gap: 6px; }
-  input[type=text], input[type=email], textarea { font: inherit; font-size: 15px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; }
-  textarea { font-family: var(--mono); font-size: 13px; resize: vertical; tab-size: 2; min-height: 140px; }
-  input:focus, textarea:focus { outline: 2px solid var(--lm-teal); outline-offset: 1px; border-color: transparent; }
-  #form, #formRec, .campo { grid-template-columns: minmax(0, 1fr); }
-  input[type=text], input[type=email], textarea, select { width: 100%; min-width: 0; box-sizing: border-box; }
-  .row2 > * { min-width: 0; }
-  @media (max-width: 380px) { .logos { gap: 8px; } .logo-lm img { height: 16px; } .logo-nd svg { height: 10px; } .logo-sc svg { height: 11px; } .codiguito svg { height: 24px; } .codiguito { margin-right: -11px; } .topbar .wrap { padding: 0 12px; } .dlg-body { padding: 14px 18px 22px; } .dlg-head { padding: 20px 18px 0; } }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
-  .check { display: flex; gap: 10px; align-items: start; font-size: 13px; font-weight: 400; }
-  .check input { margin-top: 4px; }
-  .file-row { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink-soft); margin-top: -4px; }
-  .btn-sm { font: inherit; font-size: 12px; font-weight: 500; background: #fff; border: 1px solid var(--line); color: var(--ink); border-radius: 8px; padding: 4px 10px; cursor: pointer; }
-  .file-btn { display: inline-block; cursor: pointer; position: relative; white-space: nowrap; }
-  .file-btn:focus-within { outline: 3px solid var(--lm-deep); outline-offset: 2px; }
-  .who { font-size: 13px; color: var(--ink-soft); }
-  .como-extra { margin: 18px 0 0; color: var(--ink-soft); background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 26px; }
-  .aviso-carino { margin-top: 18px; background: #FFF6DA; border: 1px solid #F5DFA0; border-radius: var(--radius); padding: 18px 26px; }
-  .aviso-carino h3 { margin: 0 0 6px; font-size: 17px; color: #4A3A00; }
-  .aviso-carino p { margin: 0; color: #4A3A00; }
-  .nota.espera-rev { background: #FFF6DA; color: #4A3A00; }
-  .skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--sc-navy); color: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 600; text-decoration: none; }
-  .skip:focus { top: 12px; }
-  a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visible, pre:focus-visible, .day:focus-visible { outline: 3px solid var(--lm-deep); outline-offset: 2px; }
-  .campo { display: grid; gap: 6px; }
-  .campo > .lbl-info label { display: inline; }
-  .lbl-info { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-soft); font-weight: 500; }
-  .info { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--lm-deep); background: #fff; color: var(--lm-deep); font: 700 13px/1 Georgia, serif; font-style: italic; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
-  .info[aria-expanded="true"] { background: var(--lm-deep); color: #fff; }
-  .info-panel { background: var(--wash); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--ink); line-height: 1.55; }
-  .info-panel p { margin: 0 0 6px; } .info-panel ul { margin: 0 0 8px; padding-left: 18px; } .info-panel li { margin: 2px 0; }
-  .info-panel code { font-size: 12px; background: #fff; border-radius: 4px; padding: 1px 4px; }
-  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-  .marcador { display: flex; align-items: center; gap: 16px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 20px; }
-  .marcador .total { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1; color: var(--sc-navy); }
-  .marcador .total small { font-size: 15px; font-weight: 700; color: var(--ink-soft); margin-left: 4px; }
-  .marcador .desglose { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
-  .marcador .desglose b { color: var(--ink); }
-  .marcador .etq { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--lm-deep); }
-  .who button { background: none; border: 0; color: var(--lm-deep); cursor: pointer; font: inherit; text-decoration: underline; padding: 0; }
-  .msg { border-radius: 10px; padding: 12px 14px; font-size: 15px; display: none; }
-  .msg.ok { display: block; background: #E6F5F3; color: #0B5A55; }
-  .msg.ko { display: block; background: #FFF4DB; color: #6B4B00; }
-  .reveal { display: none; margin-top: 4px; border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--paper); gap: 16px; grid-template-columns: 110px 1fr; }
-  .reveal.show { display: grid; }
-  @media (max-width: 520px) { .reveal.show { grid-template-columns: 1fr; } }
-  .reveal .ph { aspect-ratio: 1; border-radius: 8px; overflow: hidden; }
-  .reveal .ph img { width: 100%; height: 100%; object-fit: cover; }
-  .reveal .tag { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--lm-deep); }
-  .reveal h4 { margin: 4px 0 0; font-family: var(--display); font-weight: 800; font-size: 20px; color: var(--sc-navy); }
-  .reveal .cg { color: var(--ink-soft); font-size: 14px; margin-bottom: 8px; }
-  .reveal .txt p { margin: 0 0 10px; }
-
-  /* ---------- Toque navideño ---------- */
-  .garland { height: 74px; overflow: hidden; pointer-events: none; }
-  .garland.top { background: var(--card); border-bottom: 1px solid var(--line); }
-  .garland.inline { margin: -56px 0 30px; }
-  .garland svg { display: block; width: 100%; height: 58px; overflow: visible; }
-  #ranking { padding-top: 76px; }
-  .bulb .halo { animation: halo 2.2s ease-in-out infinite; animation-delay: inherit; }
-  .bulb .glass { animation: glass 2.2s ease-in-out infinite; animation-delay: inherit; }
-  .bulb { animation-delay: var(--d); }
-  @keyframes halo { 0%, 100% { opacity: .75; } 50% { opacity: .1; } }
-  @keyframes glass { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
-  @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
-  .tree .node { animation: twinkle 2.8s ease-in-out infinite; }
-  .hero { position: relative; overflow: hidden; }
-  .hero .wrap { position: relative; z-index: 1; }
-  .snow { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
-  .snow i { position: absolute; top: -12px; border-radius: 50%; background: #BFE3F0; animation: fall linear infinite; }
-  @keyframes fall { to { transform: translate3d(var(--dx), 760px, 0); } }
-  .tree .glow { animation: twinkle 3s ease-in-out infinite; }
-  .kicker svg { width: 14px; height: 14px; }
-  /* Los días cerrados son regalos sin abrir */
-  .day.locked { background:
-      linear-gradient(90deg, transparent calc(50% - 7px), color-mix(in srgb, var(--c) 45%, white) calc(50% - 7px) calc(50% + 7px), transparent calc(50% + 7px)),
-      linear-gradient(0deg, transparent calc(58% - 7px), color-mix(in srgb, var(--c) 45%, white) calc(58% - 7px) calc(58% + 7px), transparent calc(58% + 7px)),
-      color-mix(in srgb, var(--c) 10%, white);
-    border: 1px solid color-mix(in srgb, var(--c) 30%, white); }
-  .day.locked::after { display: none; }
-  .day.locked .n { color: color-mix(in srgb, var(--c) 70%, #2D3B46); position: relative; z-index: 1; }
-  .day.locked .state { position: relative; z-index: 1; background: rgba(255,255,255,.85); border-radius: 6px; padding: 1px 6px; align-self: flex-start; }
-  .day .bow { position: absolute; left: 50%; top: calc(58% - 26px); width: 58px; transform: translateX(-50%); }
-  .section-orn { display: flex; justify-content: center; gap: 10px; margin: -8px 0 18px; }
-  .section-orn i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  @media (max-width: 520px) {
-    .day { padding: 10px; }
-    .day .n { font-size: 30px; }
-    .day .bow { width: 40px; top: calc(58% - 18px); }
-    .day.locked .state { display: none; }
-    .day .state { font-size: 11px; line-height: 1.3; }
-  }
-  @media (prefers-reduced-motion: reduce) { .bulb .halo, .bulb .glass, .snow i, .tree .glow, .tree .node { animation: none; } .snow { display: none; } }
+  @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } .tarjetas { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .wrap { padding: 0 16px; } .caja { min-width: 0; flex: 1; } .caja b { font-size: 30px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } }
+  @media (max-width: 380px) { .logos { gap: 8px; } .logo-lm img { height: 16px; } .logo-nd svg { height: 10px; } .logo-sc svg { height: 11px; } .codiguito svg { height: 24px; } .codiguito { margin-right: -11px; } .wrap { padding: 0 18px; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
-<a class="skip" href="#calendario">Saltar al calendario</a>
-
-<div class="demo-banner" id="demoBanner" hidden>Modo demostración: los retos y el ranking son de ejemplo. El día 1 aparece como ya resuelto (pulsa en su puerta para abrir la pista), el 2 ya pasó pero aún se puede hacer y el 3 es el de hoy.</div>
-
+<a class="skip" href="#principal">Saltar al contenido</a>
 <header class="topbar">
   <div class="wrap">
     <div class="logos" role="group" aria-label="Organizan">
@@ -359,546 +125,80 @@
       <span class="logo-lm"><img src="data:image/png;base64,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" alt="Lean Mind"></span>
       <span class="codiguito" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1133.86 1133.86" role="img" aria-label="Codiguito"> <defs><linearGradient id="codg" x1="262.21" y1="852.35" x2="844.96" y2="269.6" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#3ebfef"/><stop offset=".26" stop-color="#53bfd1"/><stop offset=".52" stop-color="#62bfbc"/><stop offset=".77" stop-color="#6bbfaf"/><stop offset="1" stop-color="#6fc0ab"/></linearGradient><linearGradient id="codbgg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#44C1F0"/><stop offset="1" stop-color="#70C1AD"/></linearGradient><filter id="dil" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="13" result="d"/><feFlood flood-color="#000"/><feComposite in2="d" operator="in"/></filter> <g id="sol"><g transform="translate(690 505) rotate(14.5) translate(0 -38)"><rect x="-168" y="-178" width="336" height="62" rx="31"/><circle cx="226" cy="-228" r="40"/></g></g><g id="snk"></g><g id="red"><g transform="translate(690 505) rotate(14.5) translate(0 -38)"><path d="M-140,-150 C-125,-275 -20,-345 85,-335 C160,-327 205,-282 222,-240 L190,-228 C170,-262 140,-282 105,-276 C128,-232 140,-190 145,-150 Z"/></g></g><g id="hol"></g> <mask id="kn" maskUnits="userSpaceOnUse" x="0" y="0" width="1133.86" height="1133.86"><rect width="1133.86" height="1133.86" fill="#fff"/><g filter="url(#dil)" fill="#000" stroke="#000"><use xlink:href="#sol"/><use xlink:href="#red"/></g></mask> <mask id="am" maskUnits="userSpaceOnUse" x="0" y="0" width="1133.86" height="1133.86"><g fill="#fff" stroke="#fff" stroke-width="0"><use xlink:href="#sol"/><use xlink:href="#snk"/></g><g fill="#000" stroke="#000" stroke-width="0"><use xlink:href="#hol"/></g></mask> <mask id="rm" maskUnits="userSpaceOnUse" x="0" y="0" width="1133.86" height="1133.86"><g fill="#fff" stroke="#fff" stroke-width="0"><use xlink:href="#red"/></g><g fill="#000" stroke="#000" stroke-width="0"><use xlink:href="#hol"/><use xlink:href="#sol"/></g></mask> </defs> <path d="M388.27,509.19l-61.66-.24c.37,1.37.68,2.76.88,4.2.66,4.56.39,9.03-.6,13.26l61.06.24c-.27-2.37-.44-4.77-.46-7.2-.03-3.5.29-6.9.77-10.26ZM793.28,741.28c-5.91-1.43-11.51-3.6-16.69-6.47-37.68,73.45-93.41,146.14-160.02,173.76-18.75,7.77-37.71,11.68-56.76,11.82-1.05,6.15-2.96,11.99-5.57,17.45,1.49.04,2.98.12,4.47.12,21.66,0,43.22-4.42,64.55-13.27,25.16-10.43,104.38-52.32,170.03-183.42ZM410.56,817.31c-24.32-67.95-7.88-158.16,21.24-235.46-5.7-2.06-11.04-4.84-15.91-8.29-53.2,136.96-30.96,223.95-21.78,249.62,8.46,23.64,21.02,43.95,37.48,60.84,2.31-5.75,5.42-11.09,9.15-15.92-13.07-14.39-23.22-31.31-30.2-50.79ZM521.2,525.46c88.26,5.81,167.37,41.94,236.26,107.97,3.74-4.5,8.05-8.5,12.84-11.89-72.6-69.96-156.22-108-249.75-113.65.56,3.39.95,6.84.98,10.38.02,2.43-.1,4.82-.33,7.19ZM698.61,693.05c0,.28-.04.55-.03.83l44.93-3.53c-.94-4.38-1.46-8.91-1.5-13.56-.01-1.3.1-2.57.16-3.85l-45.09,3.55c.87,5.41,1.48,10.92,1.53,16.57ZM529.35,602.21l-27.51-35.92c-4.12,4.11-8.79,7.68-13.87,10.61l27.57,35.99c4.31-3.91,8.92-7.49,13.82-10.68ZM536.77,790.32l-23.8,54.44c5.66,1.69,10.98,4.16,15.91,7.2l23.88-54.63c-5.53-1.94-10.9-4.24-15.99-7.01ZM720.49,303.38l.03,6.83,9.85-.04-.02-4.71c.46.11.93.19,1.39.31h0c96.44,24.02,155.14,121.67,131.13,218.1h0c-4.42,17.73-22.37,28.52-40.1,24.11l-285.02-70.99c-17.73-4.42-28.52-22.37-24.11-40.1,23.08-92.69,114.18-150.48,206.85-133.51ZM792.41,490.51c14.4,2.32,27.96-7.47,30.29-21.88,2.32-14.4-7.47-27.96-21.88-30.28-14.4-2.32-27.96,7.47-30.28,21.88-2.32,14.4,7.47,27.96,21.88,30.29ZM651.89,417.94c-3.5,21.68,11.25,42.1,32.93,45.59,21.68,3.5,42.1-11.25,45.59-32.93,3.5-21.68-11.25-42.1-32.93-45.59-21.68-3.5-42.1,11.25-45.59,32.93ZM391.92,358.88c.92,3.17,1.14,6.38.77,9.46,25.81.59,51.95-16.99,58.92-41.76,3.85-12.07-12.15-21.04-20.42-11.22-16.1,21.35-49.48,27.65-59.73-1.31-2.82-8.02-3.15-17.59-.93-27.68,1.37-4.8-.16-10.14-4.49-13.21-5.34-3.82-12.77-2.58-16.59,2.76-15.65,20.73-13.62,52.56,2.88,72.72,2.75-2.73,6.11-4.9,10.1-6.05,12.64-3.65,25.85,3.64,29.5,16.29ZM697.08,676.48c-8.47-52.56-54.15-92.54-109.02-92.05-21.69.19-41.8,6.75-58.72,17.77-4.9,3.19-9.5,6.77-13.82,10.68-22.36,20.27-36.38,49.54-36.09,82.1.36,41.25,23.49,76.94,57.33,95.34,5.09,2.77,10.45,5.06,15.99,7.01,11.66,4.1,24.16,6.39,37.23,6.28,60.24-.53,108.67-49.58,108.59-109.72,0-.28.04-.55.03-.83-.05-5.65-.66-11.16-1.53-16.57ZM757.46,633.43c-8.99,10.83-14.57,24.53-15.29,39.5-.06,1.28-.17,2.55-.16,3.85.04,4.65.56,9.19,1.5,13.56,4.12,19.17,16.45,35.23,33.07,44.45,5.18,2.88,10.79,5.05,16.69,6.47,5.24,1.27,10.7,1.99,16.34,1.94,37.01-.33,66.76-30.6,66.43-67.61-.33-37.01-30.6-66.76-67.61-66.43-14.23.12-27.35,4.71-38.14,12.36-4.78,3.4-9.1,7.39-12.84,11.89ZM455.1,585.88c11.98-.11,23.18-3.39,32.87-8.98,5.08-2.94,9.74-6.5,13.87-10.61,10.7-10.68,17.81-24.94,19.36-40.82.23-2.36.35-4.76.33-7.19-.03-3.54-.42-6.99-.98-10.38-5.29-32.02-33.16-56.34-66.63-56.05-33.52.3-60.99,25.17-65.66,57.35-.49,3.36-.81,6.77-.77,10.26.02,2.44.19,4.84.46,7.2,2.25,19.4,12.79,36.2,27.95,46.92,4.87,3.44,10.2,6.23,15.91,8.29,7.28,2.63,15.1,4.1,23.29,4.03ZM560.82,908.4c-.21-23.92-12.97-44.75-31.93-56.44-4.93-3.04-10.24-5.51-15.91-7.2-6.26-1.87-12.9-2.85-19.77-2.79-21.4.19-40.32,10.42-52.45,26.14-3.73,4.84-6.84,10.17-9.15,15.92-3.17,7.89-4.91,16.51-4.83,25.55.33,37.01,30.6,66.76,67.61,66.43,26.46-.23,49.14-15.81,59.84-38.18,2.61-5.46,4.51-11.3,5.57-17.45.67-3.9,1.06-7.89,1.02-11.98ZM366.63,389.16c-6.01-.61-11.53-3.52-15.49-8.04l-52.6,101.84c5.88,1.1,11.31,3.65,15.87,7.31l52.22-101.11ZM327.5,513.16c-.21-1.44-.52-2.83-.88-4.2-2.02-7.57-6.4-14.02-12.21-18.68-4.56-3.66-9.99-6.21-15.87-7.31-3.78-.71-7.73-.85-11.74-.28-19.66,2.82-33.3,21.05-30.48,40.7,2.82,19.66,21.05,33.3,40.7,30.48,15.1-2.17,26.61-13.43,29.88-27.44.99-4.23,1.25-8.7.6-13.26ZM375.64,388.38c9.47-2.73,15.94-10.83,17.05-20.04.37-3.08.15-6.29-.77-9.46-3.65-12.64-16.86-19.94-29.5-16.29-3.98,1.15-7.35,3.32-10.1,6.05-5.97,5.94-8.69,14.79-6.19,23.45,1,3.47,2.77,6.48,5,9.03,3.96,4.52,9.48,7.43,15.49,8.04,2.95.3,5.99.09,9.01-.78ZM291.62,219.63c-.63-1.92-.52-4.08.47-6.03.99-1.94,2.67-3.3,4.59-3.93,1.44-.47,3.02-.53,4.54-.11.51.14,1.01.33,1.49.58h0l14.4,7.32,2.57-5.06c.89-1.75,1.82-3.46,2.78-5.15.32-.56.66-1.1.99-1.65.66-1.11,1.31-2.22,2-3.3.42-.65.86-1.28,1.29-1.92.63-.95,1.26-1.9,1.92-2.82.48-.67.98-1.32,1.47-1.98.64-.86,1.28-1.73,1.94-2.57.53-.67,1.07-1.32,1.61-1.97.66-.8,1.31-1.59,1.99-2.37.57-.65,1.15-1.29,1.73-1.93.67-.74,1.35-1.48,2.04-2.2.61-.63,1.23-1.25,1.85-1.87.69-.69,1.39-1.38,2.1-2.05.65-.61,1.3-1.21,1.96-1.81.71-.64,1.42-1.27,2.14-1.9.68-.59,1.37-1.17,2.07-1.74.72-.59,1.45-1.17,2.18-1.75.72-.56,1.45-1.12,2.18-1.67.73-.55,1.47-1.08,2.21-1.61.76-.54,1.52-1.07,2.29-1.59.73-.49,1.48-.97,2.22-1.45.8-.51,1.6-1.03,2.41-1.52.73-.44,1.46-.86,2.2-1.29.85-.49,1.7-.99,2.56-1.46.7-.38,1.41-.74,2.12-1.11.91-.47,1.82-.95,2.74-1.4.66-.32,1.33-.62,1.99-.92.99-.46,1.98-.92,2.98-1.35.54-.23,1.09-.44,1.64-.67,1.14-.47,2.28-.95,3.44-1.38.11-.04.22-.07.33-.11,6.25-2.33,12.69-4.11,19.25-5.34.31-.06.61-.13.92-.18,1.36-.25,2.73-.45,4.1-.65.42-.06.83-.13,1.25-.19,1.33-.18,2.66-.32,3.99-.45.46-.05.93-.1,1.39-.14,1.31-.11,2.63-.19,3.95-.26.49-.02.97-.06,1.46-.08,1.31-.05,2.62-.07,3.94-.08.49,0,.99,0,1.48,0,1.32,0,2.64.05,3.95.1.49.02.99.04,1.48.07,1.33.07,2.65.17,3.97.28.48.04.97.09,1.45.14,1.34.14,2.67.29,4.01.47.47.06.94.13,1.4.2,1.36.2,2.71.42,4.06.67.43.08.87.17,1.3.26,1.39.27,2.77.56,4.15.89.39.09.77.19,1.16.29,1.42.35,2.84.72,4.25,1.12.33.09.65.2.98.3,1.48.44,2.95.89,4.41,1.39.21.07.42.15.63.23,1.58.55,3.15,1.12,4.71,1.74h0c.17-.9.45-1.77.84-2.62.06-.13.11-.27.18-.41.43-.86.94-1.69,1.61-2.45h0s0,0,0,0c.49-.56,1.03-1.04,1.59-1.48.18-.14.38-.26.57-.39.4-.27.8-.53,1.22-.75.23-.12.47-.22.7-.32.41-.18.82-.33,1.25-.46.25-.07.5-.15.75-.2.44-.1.89-.17,1.34-.22.24-.03.47-.06.71-.07.54-.02,1.08,0,1.62.05.15.01.29,0,.44.03.68.09,1.36.25,2.02.46.17.05.33.14.5.2.39.15.79.28,1.17.48.07.04.13.1.2.14.77.41,1.5.89,2.18,1.48,0,0,0,0,.01,0,4.78,4.2,5.25,11.49,1.05,16.27-.08.09-.19.16-.27.25,1.42.9,2.81,1.83,4.18,2.78.18.13.37.25.56.38,1.27.89,2.5,1.81,3.72,2.74.27.21.55.41.82.62,1.16.9,2.29,1.83,3.4,2.76.31.26.63.52.93.78,1.07.92,2.12,1.86,3.15,2.82.33.3.66.6.98.91,1,.94,1.97,1.9,2.93,2.87.34.34.67.68,1.01,1.03.93.97,1.84,1.94,2.73,2.94.33.37.66.74.98,1.11.87.99,1.72,2,2.56,3.02.32.39.63.78.94,1.18.82,1.03,1.62,2.06,2.4,3.12.3.4.59.81.88,1.22.76,1.06,1.52,2.13,2.24,3.21.28.41.55.84.82,1.25.72,1.1,1.42,2.2,2.1,3.31.25.41.49.83.73,1.24.67,1.14,1.34,2.29,1.97,3.46.21.38.4.76.6,1.14.64,1.21,1.28,2.43,1.88,3.66.15.31.28.62.43.92.63,1.32,1.25,2.65,1.82,3.99.02.05.04.11.07.16,2.01,4.69,3.71,9.51,5.09,14.41.04.13.08.26.12.4.33,1.17.61,2.35.9,3.53.15.59.31,1.18.44,1.78.24,1.05.44,2.1.65,3.15.15.73.3,1.47.44,2.21.18,1,.33,2,.48,3,.12.8.25,1.61.36,2.42.13.96.23,1.93.33,2.89.09.86.19,1.71.26,2.57.08.94.14,1.87.19,2.81.05.89.11,1.79.14,2.69.03.92.05,1.84.06,2.75.01.92.02,1.84,0,2.77,0,.9-.03,1.81-.06,2.71-.03.94-.07,1.89-.13,2.83-.05.89-.11,1.77-.19,2.66-.08.96-.17,1.93-.27,2.89-.09.87-.19,1.74-.3,2.61-.13.98-.27,1.97-.43,2.95-.13.85-.27,1.7-.42,2.56-.18,1-.38,2-.59,2.99-.17.83-.34,1.66-.53,2.49-.23,1.02-.5,2.04-.76,3.06-.21.8-.41,1.6-.63,2.4-.3,1.05-.62,2.1-.95,3.15-.24.76-.46,1.53-.72,2.28-.37,1.1-.78,2.2-1.18,3.3-.26.7-.5,1.4-.77,2.09-.48,1.23-1.01,2.46-1.53,3.68-.24.55-.45,1.1-.7,1.65-.79,1.77-1.63,3.54-2.52,5.29l-2.57,5.06,14.4,7.32c1.94.99,3.3,2.67,3.93,4.59.63,1.92.52,4.08-.47,6.03-.99,1.94-2.67,3.31-4.59,3.93-1.92.63-4.08.52-6.03-.47l-14.4-7.32-208.31-105.88-14.4-7.32h0c-.49-.25-.94-.54-1.35-.87-1.23-.98-2.11-2.29-2.58-3.73ZM465.92,247.42c-2.31.23-4.08,1.41-5.09,3.41-.73,1.43-.89,2.95-.48,4.42.39,1.4,1.17,2.55,2.3,3.43.31.24.63.45.97.63.97.49,2.06.7,3.2.6l33.38-2.32c2.44-.22,4.28-1.43,5.33-3.48.67-1.31,1.15-3.44-.39-6.32l-17.83-28.51c-1.36-1.89-3.26-2.87-5.5-2.82-2.3.06-4.15,1.24-5.21,3.32-1.07,2.11-.99,4.28.25,6.26l12.51,19.74-23.45,1.64ZM416.51,238.41c-1.71,1.48-2.5,3.38-2.28,5.52.22,2.17,1.4,3.85,3.4,4.86.97.49,2.05.74,3.21.73,1.34-.01,2.61-.53,3.65-1.47l47.42-41.61c2.22-2.03,2.41-4.22,2.19-5.7-.52-3.31-3.5-5.59-6.79-5.31-1.26.1-2.4.57-3.41,1.42l-47.37,41.57ZM382.31,197.69l17.78,28.3c.59.98,1.4,1.73,2.37,2.23.34.17.69.31,1.07.42,1.39.4,2.78.35,4.14-.16,1.43-.53,2.56-1.56,3.29-2.99,1.02-2,.93-4.12-.28-6.18l-12.46-19.86,23.34-1.53c2.32-.17,4.12-1.38,5.19-3.48,1.06-2.08.92-4.27-.39-6.17-1.28-1.84-3.19-2.79-5.66-2.77l-33.55,2.41c-3.07.43-4.51,2.08-5.17,3.39-1.04,2.05-.93,4.25.35,6.39ZM566.93,162.06c-18.98,0-37.63,1.4-55.94,3.9.87.76,1.73,1.52,2.58,2.3l.26.24.84.78c1.13,1.07,2.23,2.16,3.32,3.26l.18.18h0s.96.99.96.99c1.05,1.1,2.09,2.21,3.07,3.31l1.13,1.27c.99,1.13,1.96,2.27,2.89,3.41l1.07,1.33c.43.54.83,1.09,1.25,1.63,12.63-1.24,25.43-1.9,38.38-1.9,215.9,0,391.56,175.65,391.56,391.56s-175.65,391.56-391.56,391.56-391.56-175.65-391.56-391.56c0-128.29,62.02-242.36,157.65-313.82l-20.34-10.34c-96.1,75.54-158.01,192.72-158.01,324.16,0,227.32,184.94,412.26,412.26,412.26s412.26-184.94,412.26-412.26-184.94-412.26-412.26-412.26Z" fill="url(#codg)" mask="url(#kn)"/> <rect width="1133.86" height="1133.86" fill="#D62C2C" mask="url(#rm)"/> <rect width="1133.86" height="1133.86" fill="url(#codg)" mask="url(#am)"/> </svg></span><span class="logo-sc"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="15 52 985 136" role="img" aria-label="sirviendo código;"> <defs> <style> .sc-1 { fill: #2f455c; } .sc-2 { fill: #2f455c; } .sc-3 { fill: #6fc0ab; } </style> </defs> <g> <path class="sc-2" d="M98.66,146.53c3.33-1.54,5.89-3.65,7.63-6.26,1.74-2.62,2.62-5.6,2.62-8.86,0-2.84-.69-5.39-2.05-7.58-1.35-2.17-3.59-4.09-6.64-5.71-2.99-1.58-7.1-2.9-12.2-3.92-3.57-.73-6.31-1.48-8.13-2.23-1.72-.7-2.86-1.48-3.4-2.31-.55-.84-.82-1.76-.82-2.82,0-1.62.85-2.82,2.61-3.68,1.93-.95,4.33-1.43,7.15-1.43,2.46,0,4.66.29,6.52.87,1.82.56,3.54,1.62,5.13,3.14,1.13,1.05,2.53,1.74,4.17,2.03,1.71.31,3.21.03,4.51-.86,1.28-.96,1.97-2.18,2.06-3.61.08-1.4-.43-2.75-1.5-3.97-2.1-2.59-4.97-4.65-8.52-6.11-3.52-1.45-7.61-2.19-12.15-2.19-3.52,0-6.95.58-10.19,1.72-3.29,1.15-6.02,2.93-8.13,5.29-2.16,2.41-3.25,5.47-3.25,9.11,0,4.15,1.64,7.69,4.89,10.54,3.17,2.79,8.28,4.89,15.22,6.26,5.1.92,8.63,2.09,10.5,3.48,1.77,1.32,2.6,2.81,2.54,4.54-.06,1.74-.97,3.13-2.78,4.26-1.91,1.19-4.76,1.79-8.49,1.79-2.96,0-5.69-.54-8.1-1.59-2.4-1.06-4.16-2.19-5.23-3.39-1.08-1.15-2.39-1.84-3.9-2.03-1.54-.19-3.1.32-4.62,1.53-1.33,1.02-2.1,2.35-2.3,3.96-.2,1.64.3,3.11,1.51,4.39,2.3,2.3,5.55,4.22,9.66,5.71,4.08,1.47,8.58,2.22,13.38,2.22s9.03-.77,12.33-2.3Z"/> <path class="sc-2" d="M127.26,91.45c-1.71,0-3.14.56-4.28,1.65-1.15,1.1-1.73,2.57-1.73,4.35v44.97c0,1.71.58,3.16,1.72,4.29,1.13,1.14,2.58,1.71,4.29,1.71s3.24-.58,4.35-1.72c1.1-1.14,1.65-2.58,1.65-4.28v-44.97c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66Z"/> <path class="sc-2" d="M127.26,69.11c-2.04,0-3.83.75-5.3,2.22-1.47,1.47-2.22,3.26-2.22,5.3s.75,3.83,2.22,5.3c1.48,1.47,3.26,2.22,5.3,2.22s3.83-.75,5.3-2.22c1.47-1.47,2.22-3.26,2.22-5.3s-.75-3.83-2.22-5.3c-1.48-1.47-3.26-2.22-5.3-2.22Z"/> <path class="sc-2" d="M153.25,148.43c1.92,0,3.4-.53,4.4-1.57,1-1.04,1.5-2.49,1.5-4.33v-29.51c0-2.89.89-5.21,2.74-7.08,1.86-1.89,4.45-3.2,7.71-3.91,3.3-.71,7.09-.64,11.25.2.99.23,1.92.26,2.77.11.89-.16,1.69-.55,2.39-1.16.71-.63,1.19-1.51,1.42-2.6.39-1.51.25-3.72-2.63-5.62-2.12-1.4-5.32-2.11-9.51-2.11s-8.05.99-11.53,2.94c-1.69.95-3.23,2.07-4.59,3.35-.04-1.8-.55-3.2-1.51-4.17-1-1-2.48-1.51-4.39-1.51s-3.3.53-4.34,1.56c-1.04,1.04-1.56,2.5-1.56,4.34v45.17c0,1.92.53,3.4,1.58,4.4,1.03,1,2.49,1.5,4.33,1.5Z"/> <path class="sc-1" d="M217.22,144.53c1.3,2.52,3.18,3.8,5.61,3.8s4.27-1.29,5.42-3.82l21.42-45.17c.63-1.35.71-2.72.23-4.08-.48-1.37-1.45-2.39-2.86-3.01-1.48-.7-2.96-.82-4.42-.34-1.46.47-2.56,1.39-3.29,2.78l-16.62,36.21-16.81-36.26c-.71-1.34-1.77-2.26-3.15-2.73-1.4-.48-2.81-.36-4.13.34-1.48.7-2.49,1.72-3,3.03-.53,1.34-.47,2.7.17,4.06l21.44,45.2Z"/> <path class="sc-2" d="M265.67,148.43c1.78,0,3.24-.58,4.35-1.72,1.1-1.14,1.65-2.58,1.65-4.28v-44.97c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66s-3.14.56-4.28,1.65c-1.15,1.1-1.73,2.57-1.73,4.35v44.97c0,1.71.58,3.16,1.72,4.29,1.13,1.14,2.58,1.71,4.29,1.71Z"/> <path class="sc-2" d="M265.67,69.11c-2.04,0-3.83.75-5.3,2.22-1.47,1.47-2.22,3.26-2.22,5.3s.75,3.83,2.22,5.3c1.48,1.47,3.26,2.22,5.3,2.22s3.83-.75,5.3-2.22c1.47-1.47,2.22-3.26,2.22-5.3s-.75-3.83-2.22-5.3c-1.48-1.47-3.26-2.22-5.3-2.22Z"/> <path class="sc-2" d="M333.1,142.5c1.38-1.05,2.03-2.35,1.95-3.86-.08-1.44-.79-2.76-2.12-3.94-1.04-.88-2.28-1.31-3.66-1.26-1.35.04-2.62.49-3.77,1.33-1.27.96-2.98,1.82-5.08,2.56-2.09.74-4.15,1.11-6.13,1.11-3.67,0-6.97-.81-9.78-2.41-2.82-1.6-5.06-3.81-6.66-6.56-.91-1.56-1.56-3.26-1.96-5.08h37.4c1.57,0,2.89-.5,3.93-1.5,1.05-1.01,1.58-2.28,1.58-3.8,0-5.43-1.03-10.29-3.07-14.47-2.05-4.2-5.06-7.55-8.96-9.95-3.89-2.4-8.6-3.61-13.99-3.61s-10.35,1.25-14.58,3.7c-4.22,2.46-7.58,5.9-9.97,10.23-2.39,4.32-3.59,9.37-3.59,15.02s1.28,10.61,3.81,14.93c2.53,4.33,6.07,7.77,10.53,10.22,4.45,2.45,9.6,3.69,15.32,3.69,3.18,0,6.55-.59,10.02-1.76,3.48-1.17,6.44-2.72,8.78-4.58ZM312.78,101.44c3.18,0,5.91.73,8.12,2.18,2.21,1.46,3.95,3.47,5.16,5.97.74,1.53,1.27,3.2,1.58,4.99h-31.61c.34-1.48.82-2.88,1.45-4.18,1.34-2.77,3.32-4.98,5.89-6.57,2.58-1.59,5.74-2.4,9.4-2.4Z"/> <path class="sc-2" d="M389.75,108.7c1.33,2.28,2.01,5.3,2.01,8.97v24.86c0,1.71.58,3.15,1.72,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.15-.58,4.29-1.72c1.14-1.14,1.72-2.58,1.72-4.29v-24.86c0-5.71-1.11-10.61-3.29-14.56-2.19-3.97-5.23-7.02-9.03-9.08-3.78-2.05-8.12-3.08-12.89-3.08s-8.75,1.02-12.43,3.03c-1.42.78-2.74,1.67-3.93,2.67-.15-1.42-.69-2.6-1.62-3.53-1.11-1.1-2.57-1.66-4.34-1.66s-3.14.56-4.28,1.65c-1.15,1.1-1.73,2.57-1.73,4.35v45.07c0,1.71.58,3.15,1.72,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.25-.58,4.35-1.73c1.1-1.14,1.65-2.58,1.65-4.28v-28.5c0-2.3.63-4.37,1.87-6.13,1.26-1.79,2.99-3.25,5.14-4.32,2.16-1.08,4.62-1.63,7.3-1.63,2.95,0,5.59.57,7.86,1.68,2.23,1.1,4.03,2.81,5.35,5.07Z"/> <path class="sc-2" d="M465.99,67.8c-1.7,0-3.14.56-4.28,1.65-1.14,1.11-1.73,2.57-1.73,4.35v25.04c-2.07-2.13-4.5-3.89-7.26-5.24-3.47-1.7-7.3-2.56-11.39-2.56-5.06,0-9.67,1.29-13.69,3.82-4.01,2.53-7.23,6-9.54,10.32-2.32,4.31-3.49,9.26-3.49,14.7s1.28,10.42,3.8,14.78c2.52,4.36,5.99,7.84,10.31,10.36,4.32,2.53,9.24,3.81,14.63,3.81s10.29-1.28,14.58-3.81c4.28-2.52,7.73-6.01,10.26-10.36,2.52-4.36,3.8-9.33,3.8-14.78v-46.08c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66ZM452.1,135.68c-2.54,1.56-5.49,2.35-8.75,2.35s-6.12-.79-8.7-2.35c-2.59-1.56-4.66-3.75-6.16-6.5-1.51-2.75-2.27-5.88-2.27-9.29s.76-6.6,2.27-9.28c1.5-2.68,3.57-4.84,6.16-6.41,2.58-1.56,5.51-2.35,8.7-2.35s6.2.79,8.75,2.35c2.56,1.57,4.6,3.72,6.06,6.4,1.47,2.69,2.22,5.82,2.22,9.29s-.75,6.54-2.22,9.3c-1.47,2.75-3.51,4.93-6.06,6.5Z"/> <path class="sc-2" d="M534.22,104.97c-2.46-4.33-5.88-7.77-10.17-10.22-4.29-2.45-9.26-3.7-14.77-3.7s-10.59,1.24-14.87,3.7c-4.29,2.46-7.71,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.24,10.6,3.7,14.92c2.46,4.33,5.88,7.77,10.17,10.22,4.29,2.46,9.29,3.7,14.87,3.7s10.59-1.25,14.87-3.7c4.29-2.46,7.7-5.9,10.12-10.23,2.42-4.32,3.64-9.34,3.64-14.92s-1.24-10.7-3.7-15.02ZM518.14,135.73c-2.55,1.53-5.53,2.3-8.86,2.3s-6.31-.78-8.86-2.3c-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.86,6.06-6.39,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.46s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34Z"/> <path class="sc-2" d="M611.54,94.28c-3.4-1.56-7.19-2.35-11.27-2.35-5.45,0-10.35,1.25-14.58,3.7-4.23,2.46-7.6,5.92-10.02,10.28-2.42,4.35-3.64,9.39-3.64,14.97s1.24,10.4,3.7,14.72c2.45,4.32,5.89,7.79,10.22,10.32,4.32,2.52,9.31,3.8,14.83,3.8,7.47,0,13.78-2.35,18.79-7.02,1.13-1.13,1.62-2.44,1.46-3.88-.16-1.4-.91-2.66-2.22-3.74-1.05-.89-2.29-1.27-3.66-1.16-1.31.12-2.59.67-3.8,1.65-1.39,1.14-2.95,1.99-4.62,2.53-1.69.54-3.69.82-5.95.82-3.4,0-6.41-.79-8.95-2.35-2.55-1.56-4.57-3.72-6.01-6.4-1.44-2.69-2.17-5.82-2.17-9.3,0-3.68.71-6.92,2.13-9.61,1.4-2.67,3.37-4.79,5.85-6.28,2.48-1.49,5.39-2.25,8.65-2.25,4.65,0,8.59,1.68,11.72,5,1.06,1.06,2.26,1.73,3.56,2,1.37.28,2.66.01,3.8-.8,1.38-.99,2.24-2.18,2.56-3.53.33-1.42-.07-2.8-1.2-4.09-2.69-3.11-5.78-5.48-9.18-7.04Z"/> <path class="sc-2" d="M676.29,95.63c-4.29-2.46-9.26-3.7-14.77-3.7s-10.58,1.25-14.87,3.7c-4.29,2.46-7.72,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.24,10.6,3.7,14.92c2.46,4.32,5.88,7.76,10.17,10.22,4.29,2.45,9.29,3.7,14.87,3.7s10.59-1.24,14.87-3.7c4.29-2.46,7.7-5.9,10.12-10.23,2.42-4.32,3.64-9.34,3.64-14.92s-1.24-10.7-3.7-15.02c-2.46-4.33-5.88-7.76-10.17-10.22ZM670.37,136.61c-2.55,1.53-5.53,2.3-8.86,2.3s-6.31-.78-8.86-2.3c-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.87,6.06-6.4,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.45s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34Z"/> <path class="sc-2" d="M671.52,63.63c-1.64,0-3.07.59-4.24,1.77l-9.93,9.93c-.95,1.03-1.44,2.38-1.44,4.02,0,1.71.58,3.16,1.71,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.03-.56,4.14-1.66l9.76-9.76c.65-.57,1.11-1.24,1.36-1.99.23-.69.35-1.43.35-2.19,0-1.7-.55-3.15-1.65-4.32-1.11-1.19-2.58-1.79-4.36-1.79Z"/> <path class="sc-2" d="M752.36,68.68c-1.7,0-3.14.56-4.28,1.65-1.14,1.11-1.73,2.57-1.73,4.35v25.04c-2.07-2.13-4.5-3.89-7.26-5.24-3.47-1.7-7.31-2.56-11.39-2.56-5.06,0-9.67,1.29-13.69,3.82-4.02,2.53-7.23,6-9.54,10.32-2.32,4.31-3.49,9.26-3.49,14.7s1.28,10.42,3.8,14.78c2.52,4.35,5.99,7.84,10.31,10.36,4.32,2.52,9.24,3.8,14.63,3.8s10.29-1.28,14.58-3.81c4.28-2.52,7.74-6.01,10.26-10.36,2.52-4.36,3.8-9.33,3.8-14.78v-46.08c0-1.78-.56-3.24-1.67-4.34-1.11-1.1-2.57-1.66-4.34-1.66ZM738.48,136.57c-2.55,1.56-5.49,2.35-8.75,2.35s-6.12-.79-8.7-2.35c-2.59-1.56-4.66-3.75-6.16-6.5-1.51-2.76-2.27-5.88-2.27-9.29s.76-6.6,2.27-9.28c1.5-2.68,3.57-4.84,6.16-6.41,2.58-1.56,5.51-2.35,8.7-2.35s6.2.79,8.75,2.35c2.55,1.56,4.59,3.72,6.06,6.4,1.47,2.69,2.22,5.82,2.22,9.29s-.75,6.54-2.22,9.3c-1.47,2.75-3.51,4.93-6.06,6.5Z"/> <path class="sc-2" d="M778.46,70c-2.05,0-3.83.75-5.3,2.22-1.47,1.47-2.22,3.26-2.22,5.3s.75,3.83,2.22,5.3c1.47,1.47,3.26,2.22,5.3,2.22s3.83-.75,5.3-2.22c1.47-1.47,2.22-3.26,2.22-5.3s-.75-3.83-2.22-5.3c-1.47-1.47-3.26-2.22-5.3-2.22Z"/> <path class="sc-2" d="M778.46,92.33c-1.71,0-3.15.56-4.28,1.65-1.14,1.11-1.73,2.57-1.73,4.35v44.97c0,1.71.58,3.15,1.71,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.25-.58,4.35-1.73c1.1-1.14,1.65-2.58,1.65-4.28v-44.97c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66Z"/> <path class="sc-2" d="M849.41,105.85c-2.46-4.33-5.88-7.76-10.17-10.22-4.29-2.46-9.26-3.7-14.77-3.7s-10.58,1.25-14.87,3.7c-4.29,2.46-7.72,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.16,10.59,3.43,14.9c2.28,4.33,5.46,7.77,9.45,10.23,3.99,2.46,8.64,3.71,13.84,3.71,4.8,0,9.11-1.26,12.8-3.73,2.41-1.61,4.5-3.65,6.25-6.08v2.09c0,4.21-.78,7.82-2.33,10.72-1.53,2.87-3.61,5.07-6.19,6.53-2.59,1.47-5.45,2.21-8.52,2.21-3.36,0-6.4-.62-9.04-1.84-2.63-1.22-4.84-2.94-6.55-5.09-.93-1.25-2.18-2.03-3.69-2.34-1.54-.32-3.03,0-4.44.94-1.26.87-2.05,2.04-2.33,3.47-.28,1.46.09,2.88,1.13,4.23,2.97,3.73,6.64,6.6,10.93,8.53,4.27,1.93,8.91,2.91,13.79,2.91,5.66,0,10.72-1.33,15.05-3.97,4.32-2.63,7.74-6.22,10.16-10.68,2.42-4.45,3.64-9.47,3.64-14.91v-22.45h0c-.09-5.4-1.33-10.24-3.69-14.4ZM824.46,138.92c-3.33,0-6.31-.78-8.86-2.3-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.87,6.06-6.4,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.45s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34-2.55,1.53-5.53,2.3-8.86,2.3Z"/> <path class="sc-2" d="M907.45,95.63c-4.29-2.46-9.26-3.7-14.77-3.7s-10.58,1.25-14.87,3.7c-4.29,2.46-7.72,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.24,10.6,3.7,14.92c2.46,4.32,5.88,7.76,10.17,10.22,4.29,2.45,9.29,3.7,14.87,3.7s10.59-1.24,14.87-3.7c4.29-2.46,7.7-5.9,10.12-10.23,2.42-4.32,3.64-9.34,3.64-14.92s-1.24-10.7-3.7-15.02c-2.46-4.33-5.88-7.76-10.17-10.22ZM901.53,136.61c-2.55,1.53-5.53,2.3-8.86,2.3s-6.31-.78-8.86-2.3c-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.87,6.06-6.4,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.45s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34Z"/> </g> <path class="sc-3" d="M554.64,140.54c-1.89,0-3.52-.69-4.9-2.07-1.38-1.38-2.07-3.02-2.07-4.9s.69-3.62,2.07-5c1.38-1.38,3.01-2.07,4.9-2.07s3.6.69,4.95,2.07c1.35,1.38,2.02,3.05,2.02,5s-.67,3.52-2.02,4.9c-1.35,1.38-3,2.07-4.95,2.07Z"/> <path class="sc-3" d="M935.61,117.03c-1.77,0-3.31-.65-4.61-1.95-1.3-1.3-1.95-2.83-1.95-4.61s.65-3.4,1.95-4.7c1.3-1.3,2.84-1.95,4.61-1.95s3.39.65,4.65,1.95c1.27,1.3,1.9,2.87,1.9,4.7s-.63,3.31-1.9,4.61c-1.27,1.3-2.82,1.95-4.65,1.95ZM934,160.82c-.76,0-1.35-.25-1.76-.76-.41-.51-.62-1.08-.62-1.71,0-1.27.36-2.36,1.09-3.28.73-.92,1.46-1.92,2.19-2.99.73-1.08,1.09-2.37,1.09-3.89,0-1.08-.25-1.96-.76-2.66-.51-.7-1.08-1.34-1.71-1.95-.63-.6-1.2-1.28-1.71-2.04-.51-.76-.76-1.71-.76-2.85,0-1.71.57-3.14,1.71-4.27,1.14-1.14,2.69-1.71,4.65-1.71,2.41,0,4.23.82,5.46,2.47,1.24,1.65,1.89,3.86,1.95,6.65,0,2.03-.33,4.15-1,6.36-.66,2.22-1.55,4.27-2.66,6.17-1.11,1.9-2.3,3.45-3.56,4.66-1.27,1.2-2.47,1.81-3.61,1.81Z"/> </svg></span>
     </div>
-    <div class="derecha">
-    <div class="me" id="me" hidden></div>
-    <nav class="menu" aria-label="Secciones">
-      <a href="#calendario">Calendario</a>
-      <a href="#acusar">¿Quién fue?</a>
-      <a href="#ranking">Ranking</a>
-      <a href="bases.html">Bases</a>
-    </nav>
-    </div>
   </div>
 </header>
-<div class="garland top" id="garland" aria-hidden="true"></div>
+<div class="garland" id="garland" aria-hidden="true"></div>
 
 <main id="principal">
 <section class="hero">
-  <div class="snow" id="snow" aria-hidden="true"></div>
   <div class="wrap">
     <div>
-      <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="#05707E" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9 4l3 2 3-2M9 20l3-2 3 2"/></svg>Calendario de adviento de código | 1 al 24 de diciembre</span>
+      <span class="kicker">Calendario de adviento de código | 1 al 24 de diciembre</span>
       <h1>Muerte en la cena de <em>Navidad</em></h1>
-      <div class="caso-box">
-        <span class="stamp">CASO ABIERTO</span>
-        <p id="heroIntro"></p>
-        <p class="cierre" id="heroCierre"></p>
+      <div class="caso">
+        <span class="stamp">MUY PRONTO</span>
+        <p>Fue en la cena de Navidad de Next Digital, Lean Mind y sirviendo código; en Canarias: una casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 apareció sin vida junto al árbol. Esa noche un temporal cortó la carretera y nadie pudo entrar ni salir.</p>
+        <p class="reto24">Hay 24 personas sospechosas y tienes 24 días para averiguar quién ha matado a Papá Noel.</p>
       </div>
-      <div class="cta-row">
-        <a class="btn btn-main" href="#calendario" id="ctaHoy">Ver los retos</a>
-        <span class="countdown" id="countdown" hidden></span>
+      <div class="cuenta" role="timer" aria-labelledby="cuentaTit">
+        <h2 id="cuentaTit">El primer reto se abre en</h2>
+        <div class="cajas" aria-hidden="true">
+          <div class="caja"><b id="cDias">0</b><span>días</span></div>
+          <div class="caja"><b id="cHoras">00</b><span>horas</span></div>
+          <div class="caja"><b id="cMin">00</b><span>minutos</span></div>
+          <div class="caja"><b id="cSeg">00</b><span>segundos</span></div>
+        </div>
+        <p class="sr" id="cuentaTexto"></p>
+        <p class="nota">El 1 de diciembre a las 00:00 (23:00 del 30 de noviembre en Canarias). Esta misma página te llevará a los retos.</p>
       </div>
     </div>
-    <div class="col-arbol">
-      <div class="tree" id="tree" aria-hidden="true"></div>
-      <div id="compartirGeneral"></div>
+    <div>
+      <div class="arbol" aria-hidden="true" id="arbol"></div>
+      <p class="arbol-cap">24 bolas, 24 retos. Del 1 al 24 de diciembre.</p>
     </div>
   </div>
 </section>
 
-  <section class="block alt" id="calendario">
-    <div class="garland inline" id="garland2" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="head">
-        <div>
-          <h2>Calendario</h2>
-          <p>24 regalos por abrir. Cada día a las 00:00 (23:00 en Canarias) se abre un reto. Puedes hacerlo cuando quieras hasta el 24 a medianoche, pero tu tiempo cuenta desde que se abrió. Al acertar, la puerta te descubre una persona sospechosa y su testimonio.</p>
-          <p class="who" id="calActions"></p>
-          <p class="who avisos-cal"><span aria-hidden="true">🔔</span> ¿Quieres un aviso cada mañana con el reto del día? Añádelo a tu calendario: <a class="linkbtn" id="calGoogle" target="_blank" rel="noopener">Google Calendar<span class="sr"> (se abre en otra pestaña)</span></a> o <button type="button" class="linkbtn" id="calIcs">Apple, Outlook y otros (.ics)</button></p>
-        </div>
-        <div class="marcador" id="marcador" role="group" aria-label="Tus puntos"></div>
+<section class="bloque">
+  <div class="wrap">
+    <h2 class="tit">Mientras tanto</h2>
+    <div class="tarjetas">
+      <div class="tarjeta" style="--c: var(--sc-sky)">
+        <div class="num">01</div>
+        <h3>Así funcionará</h3>
+        <p>Cada día se abre un reto de código. Lo resuelves en el lenguaje que quieras y, cada vez que aciertas, descubres a una persona sospechosa y su testimonio. El 24 señalas a quien lo hizo.</p>
       </div>
-      <div class="msg ko" id="avisoCarga" role="alert" hidden></div>
-      <div class="grid" id="grid"></div>
-    </div>
-  </section>
-
-  <section class="block" id="acusar">
-    <div class="wrap">
-      <div class="acusar-box">
-        <div class="acusar-texto">
-          <span class="stamp">ACUSACIÓN</span>
-          <h2>¿Quién lo hizo?</h2>
-          <p>Señala a la persona que crees culpable entre las personas sospechosas que has descubierto. Puedes cambiar de opinión hasta el 24 de diciembre a medianoche; cuenta la última. El 25 desvelamos la solución y, si aciertas, sumas 10 puntos.</p>
-        </div>
-        <div class="acusar-form" id="acusarCuerpo"></div>
+      <div class="tarjeta" style="--c: var(--lm-teal)">
+        <div class="num">02</div>
+        <h3>Que no se te pase</h3>
+        <p>Añade a tu calendario un aviso cada mañana con el reto del día.</p>
+        <p class="who"><span aria-hidden="true">🔔</span> <a class="linkbtn" id="calGoogle" target="_blank" rel="noopener">Google Calendar<span class="sr"> (se abre en otra pestaña)</span></a> o <button type="button" class="linkbtn" id="calIcs">Apple, Outlook y otros (.ics)</button></p>
+      </div>
+      <div class="tarjeta" style="--c: var(--nd-yellow)">
+        <div class="num">03</div>
+        <h3>Avisa a tu gente</h3>
+        <div id="compartirGeneral"></div>
       </div>
     </div>
-  </section>
-
-  <section class="block alt" id="ranking">
-    <div class="wrap">
-      <div class="head">
-        <div><h2>Ranking</h2><p class="who" id="miPosicion"></p></div>
-        <span class="pill" id="rankUpd"></span>
-      </div>
-      <div id="rankWrap"><div class="empty">Cargando ranking...</div></div>
-      <div class="rank-mas"><button class="btn btn-main" type="button" id="btnRankAll" hidden>Ver la clasificación completa</button></div>
-    </div>
-  </section>
-
-  <section class="block" id="como">
-    <div class="wrap">
-      <div class="head"><div><h2>Cómo funciona</h2></div></div>
-      <div class="steps">
-        <div class="step" style="--c: var(--sc-sky)"><div class="num">01</div><h3>Abre el reto del día</h3><p>Cada día a las 00:00 (23:00 en Canarias) se abre un reto nuevo. Si se te pasa, puedes hacerlo después, aunque tu tiempo cuenta desde que se abrió.</p></div>
-        <div class="step" style="--c: var(--lm-teal)"><div class="num">02</div><h3>Resuélvelo a tu manera</h3><p>Copia la entrada, prográmalo en tu ordenador con el lenguaje que prefieras y envía tu código y el resultado.</p></div>
-        <div class="step" style="--c: var(--nd-yellow)"><div class="num">03</div><h3>Destapa el caso y cuida tu código</h3><p>Cada acierto te descubre a una persona sospechosa del caso. Acertar te da 1 punto. Después revisamos tu código: +1 si funciona y +1 si está limpio. Hasta 3 puntos por reto.</p></div>
-      </div>
-      <p class="como-extra">Si aciertas quién lo hizo, sumas 10 puntos más. Gana quien más puntos tenga y, si hay empate, quien haya tardado menos. Todas las condiciones están en las <a href="bases.html" class="legalLink">Bases Legales</a>.</p>
-      <div class="aviso-carino">
-        <h3>Un aviso con cariño 🎄</h3>
-        <p>Detrás de cada revisión hay personas de carne, hueso y polvorón. También tenemos cenas de empresa, visitas a la familia, compras de última hora y algún que otro sofá con mantita pendiente. Habrá días en que la revisión no llegue al día siguiente y tardemos un poquito más. Tus puntos no se pierden: llegan, aunque sea en trineo de segunda mano. Gracias por la paciencia.</p>
-      </div>
-    </div>
-  </section>
-
+  </div>
+</section>
 </main>
 
 <footer>
-  <div class="wrap">
-    <div class="logos">
-      <span class="logo-nd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="54 238 735 92" role="img" aria-label="Next Digital"> <style> .nd0 { fill: #f6a61a }  .nd1 { fill: #56c3e8 }  .nd2 { fill: #2a3b46 }  </style> <g> <g> <path class="nd0" d="m67.1 310.8c-5.5 0-10-4.5-10-10.1 0-5.5 4.5-10 10-10 5.6 0 10.1 4.5 10.1 10 0 5.6-4.5 10.1-10.1 10.1z"/> <path class="nd1" d="m67.1 276.2c-5.5 0-10-4.5-10-10 0-5.6 4.5-10 10-10 5.6 0 10.1 4.4 10.1 10 0 5.5-4.5 10-10.1 10z"/> <path class="nd2" d="m370.4 243.9c-1.2-1.5-2.7-2.2-4.5-2.2h-42v56.9c0 9.3 2.5 16.2 7.4 20.4 4.8 4.1 11.9 6.2 21.1 6.2h5.7c1.8 0 3.4-0.7 4.5-2.1q1.6-2 1.6-4.7 0-2.6-1.6-4.6c-1.1-1.4-2.6-2.1-4.4-2.2h-5.8c-5.3 0-9-0.9-11-2.7-1.9-1.9-2.9-5.3-2.9-10.3v-43.4h27.4c1.8 0 3.3-0.7 4.5-2.1q1.5-2 1.5-4.6 0-2.7-1.5-4.6z"/> <path class="nd2" d="m660.6 244.7c-1.2-1.4-2.7-2.2-4.4-2.2h-41.5v56.2c0 9.2 2.5 15.9 7.3 20.1 4.8 4.1 11.8 6.2 20.9 6.2h5.6c1.8 0 3.3-0.7 4.4-2.1q1.6-2 1.6-4.6 0-2.6-1.6-4.6c-1.1-1.4-2.6-2.1-4.3-2.1h-5.7c-5.3 0-9-0.9-10.9-2.8-1.9-1.8-2.9-5.2-2.9-10.1v-42.8h27.1c1.7 0 3.3-0.8 4.4-2.1q1.5-2 1.5-4.6 0-2.6-1.5-4.5z"/> <path class="nd2" d="m154.9 251.3c-3.1-3-6.7-5.4-10.8-7.1-4.1-1.7-8.5-2.5-13-2.5h-0.2c-4.5 0-8.9 0.8-13 2.5-4.1 1.7-7.7 4.1-10.8 7.1-3 3-5.4 6.5-7.2 10.4-1.7 3.9-2.6 8.1-2.6 12.5v45.1c0 3.3 2.6 5.9 5.9 5.9h2.6c3.3 0 5.9-2.6 5.9-5.9v-46.3c0-2.5 0.5-4.8 1.6-7 1-2.2 2.4-4.2 4.1-5.8 1.7-1.6 3.8-2.9 6.1-3.9 2.3-0.9 4.8-1.4 7.5-1.4 2.7 0 5.2 0.5 7.5 1.4 2.3 1 4.4 2.3 6.1 3.9 1.7 1.6 3.1 3.6 4.2 5.8 1 2.2 1.5 4.5 1.5 7v46.3c0 3.3 2.7 5.9 5.9 5.9h2.6c3.3 0 5.9-2.6 5.9-5.9v-45.1c0-4.4-0.8-8.6-2.6-12.5-1.8-3.9-4.2-7.4-7.2-10.4z"/> <g> <path class="nd2" d="m468.4 283.7c0-5.7-1-11-3.1-15.9-2-4.9-4.9-9.3-8.5-12.9-3.5-3.7-7.7-6.6-12.4-8.7-4.8-2.1-9.8-3.2-15-3.2h-20.6c-4.3 0-7.9 3.5-7.9 7.9 0 4.4 3.6 8 7.9 8h21.5c3.5 0 6.7 0.6 9.4 1.9 2.9 1.3 5.4 3.1 7.5 5.4 2.1 2.2 3.8 4.8 5 7.8 1.2 2.9 1.8 6.1 1.8 9.5 0 3.5-0.6 6.7-1.8 9.6-1.2 3-2.9 5.6-5 7.8-2.1 2.3-4.6 4.1-7.4 5.4-2.8 1.2-6 1.9-9.5 1.9h-21.5c-4.3 0-7.9 3.6-7.9 8 0 4.3 3.6 7.9 8 7.9h20.5c5.2 0 10.2-1.1 14.9-3.2 4.8-2.1 9-5 12.5-8.7 3.6-3.6 6.5-8 8.5-12.9 2.1-4.9 3.1-10.2 3.1-15.6z"/> </g> <g> <path class="nd2" d="m564.5 284.1c-4.4 0-8 3.6-8 8v16.1h-13.9c-3.4 0-6.6-0.6-9.4-1.9-2.9-1.3-5.4-3.1-7.5-5.4-2.1-2.2-3.8-4.8-5-7.8-1.2-2.9-1.8-6.1-1.8-9.6 0-3.4 0.6-6.6 1.8-9.5 1.2-3 2.9-5.6 5-7.8 2.1-2.3 4.6-4.1 7.5-5.4 2.8-1.3 5.9-1.9 9.4-1.9h21.5c4.4 0 7.9-3.6 7.9-8 0-4.4-3.6-7.9-7.9-7.9h-20.6c-5.2 0-10.2 1.1-14.9 3.2-4.7 2.1-8.9 5-12.5 8.7-3.6 3.6-6.5 8-8.5 12.9-2 4.9-3.1 10.2-3.1 15.6 0 5.7 1.1 11 3.1 15.9 2 4.9 4.9 9.3 8.5 12.9 3.6 3.7 7.8 6.6 12.5 8.7 4.7 2.1 9.7 3.2 14.9 3.2h22.2c2.8 0 5.3-1.9 6-4.6q0.3-0.9 0.3-1.7c0.3-2 0.4-3.7 0.4-5.2v-20.5c0-4.4-3.6-8-7.9-8z"/> </g> <path class="nd2" d="m313.9 316q0-0.1 0-0.1-0.1-0.2-0.1-0.3-0.3-0.6-0.7-1.2l-22.4-31.3 22-30.3q0-0.2 0.1-0.3l0.1-0.1c1.1-1.5 1.4-3.3 0.8-5.1q-0.8-2.6-3.1-4.2-2.4-1.6-5.1-1.4c-2 0.2-3.6 1.1-4.6 2.6l-0.1 0.1q-0.3 0.3-0.5 0.6l-19 27.4h-0.1l-19-27.4q-0.2-0.3-0.5-0.6l-0.1-0.1c-1-1.5-2.6-2.4-4.6-2.6q-2.7-0.2-5.1 1.4-2.3 1.6-3.1 4.2c-0.6 1.8-0.3 3.6 0.8 5.1l0.1 0.1q0 0.1 0.1 0.3l22 30.3-22.5 31.3q-0.3 0.6-0.6 1.2 0 0.1-0.1 0.3 0 0 0 0.1c-0.4 1.1-0.5 2.4-0.1 3.7q0.8 2.5 3.2 4.1 2.3 1.6 5 1.4c2-0.1 3.6-1 4.7-2.5v-0.1q0.2-0.2 0.3-0.4l19.5-28h0.1l19.5 28q0.1 0.2 0.3 0.4v0.1c1.1 1.5 2.7 2.4 4.7 2.5q2.7 0.2 5-1.4 2.4-1.6 3.2-4.1c0.4-1.3 0.3-2.6-0.1-3.7z"/> <path fill-rule="evenodd" class="nd2" d="m188.7 289.6v3.1c0 6 2.1 10.7 6.4 14.2 4.4 3.5 10 5.3 16.8 5.3 3.1 0 5.6-0.3 7.5-0.9q2.2-0.7 3.9-1.5l6.1-3.4c2.6-1.4 5.9-0.5 7.4 2.1l1.2 2.1c1.4 2.7 0.3 5.8-2.2 7.4 0 0-5.8 4.2-13.5 6-3.2 0.8-6.8 1.2-10.7 1.2-5.4 0-10.3-0.7-14.8-2.3-4.6-1.5-8.5-3.8-11.8-6.7-3.3-2.9-5.9-6.4-7.8-10.4-1.9-4.1-2.8-8.7-2.8-13.6v-18.4c0-4.3 0.9-8.5 2.6-12.4 1.8-3.8 4.2-7.3 7.2-10.2 3-3 6.5-5.3 10.6-7 4-1.7 8.3-2.5 12.8-2.5 4.3 0 8.5 0.8 12.4 2.3 3.9 1.6 7.4 3.8 10.3 6.6 3 2.7 5.4 6.1 7.2 10 1.8 3.9 2.7 8.2 2.7 12.8 0 3.1-0.4 7.2-1.4 9.4q-1.5 3.1-3.9 4.7-2.3 1.5-5.4 1.8-2.7 0.3-5.4 0.3zm0-12.7h31.5c4 0 5.3-0.6 5.6-0.8 0.6-0.3 0.9-1.4 0.9-2.9 0-2.3-0.5-4.6-1.4-6.8-0.9-2.1-2.2-4.2-3.9-5.9-1.6-1.8-3.7-3.2-6-4.2-2.3-1-4.9-1.5-7.7-1.5-2.7 0-5.2 0.5-7.4 1.4-2.3 0.9-4.3 2.2-6 3.8q-2.6 2.4-4.1 5.7c-1 2.2-1.5 4.5-1.5 6.9z"/> <path fill-rule="evenodd" class="nd2" d="m720.7 277.9v-3.1c0-6-2.1-10.7-6.4-14.2-4.4-3.6-10-5.3-16.8-5.3-3.1 0-5.6 0.3-7.5 0.9q-2.2 0.6-3.9 1.5l-6.1 3.4c-2.6 1.4-5.9 0.5-7.4-2.2l-1.2-2.1c-1.4-2.6-0.3-5.7 2.1-7.4 0 0 5.9-4.1 13.6-6 3.1-0.7 6.7-1.2 10.7-1.2 5.3 0 10.3 0.8 14.8 2.4 4.6 1.5 8.5 3.8 11.8 6.6 3.3 2.9 5.9 6.5 7.8 10.5 1.8 4.1 2.8 8.6 2.8 13.6v18.4c0 4.3-0.9 8.5-2.6 12.4-1.8 3.8-4.2 7.3-7.2 10.2-3 3-6.5 5.3-10.6 7-4 1.7-8.4 2.5-12.8 2.5-4.3 0-8.5-0.8-12.4-2.3-3.9-1.6-7.4-3.8-10.4-6.6-2.9-2.8-5.3-6.1-7.1-10-1.8-3.9-2.7-8.2-2.7-12.8 0-3.1 0.4-7.2 1.4-9.4q1.4-3.1 3.8-4.7 2.4-1.6 5.5-1.9 2.7-0.2 5.4-0.2zm0 12.7h-31.5c-4 0-5.3 0.5-5.7 0.8-0.5 0.3-0.8 1.4-0.8 2.9 0 2.3 0.5 4.6 1.4 6.7 0.9 2.2 2.2 4.2 3.9 6 1.6 1.7 3.6 3.1 6 4.2 2.3 1 4.9 1.5 7.7 1.5 2.7 0 5.1-0.5 7.4-1.4 2.3-0.9 4.3-2.2 6-3.8q2.6-2.4 4.1-5.7c1-2.2 1.5-4.5 1.5-6.9z"/> <path class="nd2" d="m744.2 241.7v57.1c0 9.6 2.6 16.7 7.7 21.1 4.9 4.3 12.3 6.5 21.8 6.5h5.9c1.8 0 3.4-0.8 4.6-2.3q1.7-2 1.7-4.8 0-2.7-1.7-4.8c-1.2-1.4-2.7-2.2-4.6-2.2h-5.9c-5.6 0-9.4-1-11.4-2.9-2-1.9-3-5.4-3-10.6v-57.1z"/> <path class="nd2" d="m495.1 315.5v-66.3c0-4.1-3.4-7.5-7.5-7.5-4.2 0-7.6 3.4-7.6 7.5v66.3c0 5.3 3.4 9.6 7.6 9.6 4.1 0 7.5-4.3 7.5-9.6z"/> <path class="nd2" d="m599.5 315.5v-66.3c0-4.1-3.4-7.5-7.6-7.5-4.1 0-7.5 3.4-7.5 7.5v66.3c0 5.3 3.4 9.6 7.5 9.6 4.2 0 7.6-4.3 7.6-9.6z"/> </g> </g> </svg></span>
-      <span class="logo-lm"><img src="data:image/png;base64,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" alt="Lean Mind"></span>
-      <span class="codiguito" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1133.86 1133.86" role="img" aria-label="Codiguito"> <defs><linearGradient id="codg" x1="262.21" y1="852.35" x2="844.96" y2="269.6" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#3ebfef"/><stop offset=".26" stop-color="#53bfd1"/><stop offset=".52" stop-color="#62bfbc"/><stop offset=".77" stop-color="#6bbfaf"/><stop offset="1" stop-color="#6fc0ab"/></linearGradient><linearGradient id="codbgg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#44C1F0"/><stop offset="1" stop-color="#70C1AD"/></linearGradient><filter id="dil" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="13" result="d"/><feFlood flood-color="#000"/><feComposite in2="d" operator="in"/></filter> <g id="sol"><g transform="translate(690 505) rotate(14.5) translate(0 -38)"><rect x="-168" y="-178" width="336" height="62" rx="31"/><circle cx="226" cy="-228" r="40"/></g></g><g id="snk"></g><g id="red"><g transform="translate(690 505) rotate(14.5) translate(0 -38)"><path d="M-140,-150 C-125,-275 -20,-345 85,-335 C160,-327 205,-282 222,-240 L190,-228 C170,-262 140,-282 105,-276 C128,-232 140,-190 145,-150 Z"/></g></g><g id="hol"></g> <mask id="kn" maskUnits="userSpaceOnUse" x="0" y="0" width="1133.86" height="1133.86"><rect width="1133.86" height="1133.86" fill="#fff"/><g filter="url(#dil)" fill="#000" stroke="#000"><use xlink:href="#sol"/><use xlink:href="#red"/></g></mask> <mask id="am" maskUnits="userSpaceOnUse" x="0" y="0" width="1133.86" height="1133.86"><g fill="#fff" stroke="#fff" stroke-width="0"><use xlink:href="#sol"/><use xlink:href="#snk"/></g><g fill="#000" stroke="#000" stroke-width="0"><use xlink:href="#hol"/></g></mask> <mask id="rm" maskUnits="userSpaceOnUse" x="0" y="0" width="1133.86" height="1133.86"><g fill="#fff" stroke="#fff" stroke-width="0"><use xlink:href="#red"/></g><g fill="#000" stroke="#000" stroke-width="0"><use xlink:href="#hol"/><use xlink:href="#sol"/></g></mask> </defs> <path d="M388.27,509.19l-61.66-.24c.37,1.37.68,2.76.88,4.2.66,4.56.39,9.03-.6,13.26l61.06.24c-.27-2.37-.44-4.77-.46-7.2-.03-3.5.29-6.9.77-10.26ZM793.28,741.28c-5.91-1.43-11.51-3.6-16.69-6.47-37.68,73.45-93.41,146.14-160.02,173.76-18.75,7.77-37.71,11.68-56.76,11.82-1.05,6.15-2.96,11.99-5.57,17.45,1.49.04,2.98.12,4.47.12,21.66,0,43.22-4.42,64.55-13.27,25.16-10.43,104.38-52.32,170.03-183.42ZM410.56,817.31c-24.32-67.95-7.88-158.16,21.24-235.46-5.7-2.06-11.04-4.84-15.91-8.29-53.2,136.96-30.96,223.95-21.78,249.62,8.46,23.64,21.02,43.95,37.48,60.84,2.31-5.75,5.42-11.09,9.15-15.92-13.07-14.39-23.22-31.31-30.2-50.79ZM521.2,525.46c88.26,5.81,167.37,41.94,236.26,107.97,3.74-4.5,8.05-8.5,12.84-11.89-72.6-69.96-156.22-108-249.75-113.65.56,3.39.95,6.84.98,10.38.02,2.43-.1,4.82-.33,7.19ZM698.61,693.05c0,.28-.04.55-.03.83l44.93-3.53c-.94-4.38-1.46-8.91-1.5-13.56-.01-1.3.1-2.57.16-3.85l-45.09,3.55c.87,5.41,1.48,10.92,1.53,16.57ZM529.35,602.21l-27.51-35.92c-4.12,4.11-8.79,7.68-13.87,10.61l27.57,35.99c4.31-3.91,8.92-7.49,13.82-10.68ZM536.77,790.32l-23.8,54.44c5.66,1.69,10.98,4.16,15.91,7.2l23.88-54.63c-5.53-1.94-10.9-4.24-15.99-7.01ZM720.49,303.38l.03,6.83,9.85-.04-.02-4.71c.46.11.93.19,1.39.31h0c96.44,24.02,155.14,121.67,131.13,218.1h0c-4.42,17.73-22.37,28.52-40.1,24.11l-285.02-70.99c-17.73-4.42-28.52-22.37-24.11-40.1,23.08-92.69,114.18-150.48,206.85-133.51ZM792.41,490.51c14.4,2.32,27.96-7.47,30.29-21.88,2.32-14.4-7.47-27.96-21.88-30.28-14.4-2.32-27.96,7.47-30.28,21.88-2.32,14.4,7.47,27.96,21.88,30.29ZM651.89,417.94c-3.5,21.68,11.25,42.1,32.93,45.59,21.68,3.5,42.1-11.25,45.59-32.93,3.5-21.68-11.25-42.1-32.93-45.59-21.68-3.5-42.1,11.25-45.59,32.93ZM391.92,358.88c.92,3.17,1.14,6.38.77,9.46,25.81.59,51.95-16.99,58.92-41.76,3.85-12.07-12.15-21.04-20.42-11.22-16.1,21.35-49.48,27.65-59.73-1.31-2.82-8.02-3.15-17.59-.93-27.68,1.37-4.8-.16-10.14-4.49-13.21-5.34-3.82-12.77-2.58-16.59,2.76-15.65,20.73-13.62,52.56,2.88,72.72,2.75-2.73,6.11-4.9,10.1-6.05,12.64-3.65,25.85,3.64,29.5,16.29ZM697.08,676.48c-8.47-52.56-54.15-92.54-109.02-92.05-21.69.19-41.8,6.75-58.72,17.77-4.9,3.19-9.5,6.77-13.82,10.68-22.36,20.27-36.38,49.54-36.09,82.1.36,41.25,23.49,76.94,57.33,95.34,5.09,2.77,10.45,5.06,15.99,7.01,11.66,4.1,24.16,6.39,37.23,6.28,60.24-.53,108.67-49.58,108.59-109.72,0-.28.04-.55.03-.83-.05-5.65-.66-11.16-1.53-16.57ZM757.46,633.43c-8.99,10.83-14.57,24.53-15.29,39.5-.06,1.28-.17,2.55-.16,3.85.04,4.65.56,9.19,1.5,13.56,4.12,19.17,16.45,35.23,33.07,44.45,5.18,2.88,10.79,5.05,16.69,6.47,5.24,1.27,10.7,1.99,16.34,1.94,37.01-.33,66.76-30.6,66.43-67.61-.33-37.01-30.6-66.76-67.61-66.43-14.23.12-27.35,4.71-38.14,12.36-4.78,3.4-9.1,7.39-12.84,11.89ZM455.1,585.88c11.98-.11,23.18-3.39,32.87-8.98,5.08-2.94,9.74-6.5,13.87-10.61,10.7-10.68,17.81-24.94,19.36-40.82.23-2.36.35-4.76.33-7.19-.03-3.54-.42-6.99-.98-10.38-5.29-32.02-33.16-56.34-66.63-56.05-33.52.3-60.99,25.17-65.66,57.35-.49,3.36-.81,6.77-.77,10.26.02,2.44.19,4.84.46,7.2,2.25,19.4,12.79,36.2,27.95,46.92,4.87,3.44,10.2,6.23,15.91,8.29,7.28,2.63,15.1,4.1,23.29,4.03ZM560.82,908.4c-.21-23.92-12.97-44.75-31.93-56.44-4.93-3.04-10.24-5.51-15.91-7.2-6.26-1.87-12.9-2.85-19.77-2.79-21.4.19-40.32,10.42-52.45,26.14-3.73,4.84-6.84,10.17-9.15,15.92-3.17,7.89-4.91,16.51-4.83,25.55.33,37.01,30.6,66.76,67.61,66.43,26.46-.23,49.14-15.81,59.84-38.18,2.61-5.46,4.51-11.3,5.57-17.45.67-3.9,1.06-7.89,1.02-11.98ZM366.63,389.16c-6.01-.61-11.53-3.52-15.49-8.04l-52.6,101.84c5.88,1.1,11.31,3.65,15.87,7.31l52.22-101.11ZM327.5,513.16c-.21-1.44-.52-2.83-.88-4.2-2.02-7.57-6.4-14.02-12.21-18.68-4.56-3.66-9.99-6.21-15.87-7.31-3.78-.71-7.73-.85-11.74-.28-19.66,2.82-33.3,21.05-30.48,40.7,2.82,19.66,21.05,33.3,40.7,30.48,15.1-2.17,26.61-13.43,29.88-27.44.99-4.23,1.25-8.7.6-13.26ZM375.64,388.38c9.47-2.73,15.94-10.83,17.05-20.04.37-3.08.15-6.29-.77-9.46-3.65-12.64-16.86-19.94-29.5-16.29-3.98,1.15-7.35,3.32-10.1,6.05-5.97,5.94-8.69,14.79-6.19,23.45,1,3.47,2.77,6.48,5,9.03,3.96,4.52,9.48,7.43,15.49,8.04,2.95.3,5.99.09,9.01-.78ZM291.62,219.63c-.63-1.92-.52-4.08.47-6.03.99-1.94,2.67-3.3,4.59-3.93,1.44-.47,3.02-.53,4.54-.11.51.14,1.01.33,1.49.58h0l14.4,7.32,2.57-5.06c.89-1.75,1.82-3.46,2.78-5.15.32-.56.66-1.1.99-1.65.66-1.11,1.31-2.22,2-3.3.42-.65.86-1.28,1.29-1.92.63-.95,1.26-1.9,1.92-2.82.48-.67.98-1.32,1.47-1.98.64-.86,1.28-1.73,1.94-2.57.53-.67,1.07-1.32,1.61-1.97.66-.8,1.31-1.59,1.99-2.37.57-.65,1.15-1.29,1.73-1.93.67-.74,1.35-1.48,2.04-2.2.61-.63,1.23-1.25,1.85-1.87.69-.69,1.39-1.38,2.1-2.05.65-.61,1.3-1.21,1.96-1.81.71-.64,1.42-1.27,2.14-1.9.68-.59,1.37-1.17,2.07-1.74.72-.59,1.45-1.17,2.18-1.75.72-.56,1.45-1.12,2.18-1.67.73-.55,1.47-1.08,2.21-1.61.76-.54,1.52-1.07,2.29-1.59.73-.49,1.48-.97,2.22-1.45.8-.51,1.6-1.03,2.41-1.52.73-.44,1.46-.86,2.2-1.29.85-.49,1.7-.99,2.56-1.46.7-.38,1.41-.74,2.12-1.11.91-.47,1.82-.95,2.74-1.4.66-.32,1.33-.62,1.99-.92.99-.46,1.98-.92,2.98-1.35.54-.23,1.09-.44,1.64-.67,1.14-.47,2.28-.95,3.44-1.38.11-.04.22-.07.33-.11,6.25-2.33,12.69-4.11,19.25-5.34.31-.06.61-.13.92-.18,1.36-.25,2.73-.45,4.1-.65.42-.06.83-.13,1.25-.19,1.33-.18,2.66-.32,3.99-.45.46-.05.93-.1,1.39-.14,1.31-.11,2.63-.19,3.95-.26.49-.02.97-.06,1.46-.08,1.31-.05,2.62-.07,3.94-.08.49,0,.99,0,1.48,0,1.32,0,2.64.05,3.95.1.49.02.99.04,1.48.07,1.33.07,2.65.17,3.97.28.48.04.97.09,1.45.14,1.34.14,2.67.29,4.01.47.47.06.94.13,1.4.2,1.36.2,2.71.42,4.06.67.43.08.87.17,1.3.26,1.39.27,2.77.56,4.15.89.39.09.77.19,1.16.29,1.42.35,2.84.72,4.25,1.12.33.09.65.2.98.3,1.48.44,2.95.89,4.41,1.39.21.07.42.15.63.23,1.58.55,3.15,1.12,4.71,1.74h0c.17-.9.45-1.77.84-2.62.06-.13.11-.27.18-.41.43-.86.94-1.69,1.61-2.45h0s0,0,0,0c.49-.56,1.03-1.04,1.59-1.48.18-.14.38-.26.57-.39.4-.27.8-.53,1.22-.75.23-.12.47-.22.7-.32.41-.18.82-.33,1.25-.46.25-.07.5-.15.75-.2.44-.1.89-.17,1.34-.22.24-.03.47-.06.71-.07.54-.02,1.08,0,1.62.05.15.01.29,0,.44.03.68.09,1.36.25,2.02.46.17.05.33.14.5.2.39.15.79.28,1.17.48.07.04.13.1.2.14.77.41,1.5.89,2.18,1.48,0,0,0,0,.01,0,4.78,4.2,5.25,11.49,1.05,16.27-.08.09-.19.16-.27.25,1.42.9,2.81,1.83,4.18,2.78.18.13.37.25.56.38,1.27.89,2.5,1.81,3.72,2.74.27.21.55.41.82.62,1.16.9,2.29,1.83,3.4,2.76.31.26.63.52.93.78,1.07.92,2.12,1.86,3.15,2.82.33.3.66.6.98.91,1,.94,1.97,1.9,2.93,2.87.34.34.67.68,1.01,1.03.93.97,1.84,1.94,2.73,2.94.33.37.66.74.98,1.11.87.99,1.72,2,2.56,3.02.32.39.63.78.94,1.18.82,1.03,1.62,2.06,2.4,3.12.3.4.59.81.88,1.22.76,1.06,1.52,2.13,2.24,3.21.28.41.55.84.82,1.25.72,1.1,1.42,2.2,2.1,3.31.25.41.49.83.73,1.24.67,1.14,1.34,2.29,1.97,3.46.21.38.4.76.6,1.14.64,1.21,1.28,2.43,1.88,3.66.15.31.28.62.43.92.63,1.32,1.25,2.65,1.82,3.99.02.05.04.11.07.16,2.01,4.69,3.71,9.51,5.09,14.41.04.13.08.26.12.4.33,1.17.61,2.35.9,3.53.15.59.31,1.18.44,1.78.24,1.05.44,2.1.65,3.15.15.73.3,1.47.44,2.21.18,1,.33,2,.48,3,.12.8.25,1.61.36,2.42.13.96.23,1.93.33,2.89.09.86.19,1.71.26,2.57.08.94.14,1.87.19,2.81.05.89.11,1.79.14,2.69.03.92.05,1.84.06,2.75.01.92.02,1.84,0,2.77,0,.9-.03,1.81-.06,2.71-.03.94-.07,1.89-.13,2.83-.05.89-.11,1.77-.19,2.66-.08.96-.17,1.93-.27,2.89-.09.87-.19,1.74-.3,2.61-.13.98-.27,1.97-.43,2.95-.13.85-.27,1.7-.42,2.56-.18,1-.38,2-.59,2.99-.17.83-.34,1.66-.53,2.49-.23,1.02-.5,2.04-.76,3.06-.21.8-.41,1.6-.63,2.4-.3,1.05-.62,2.1-.95,3.15-.24.76-.46,1.53-.72,2.28-.37,1.1-.78,2.2-1.18,3.3-.26.7-.5,1.4-.77,2.09-.48,1.23-1.01,2.46-1.53,3.68-.24.55-.45,1.1-.7,1.65-.79,1.77-1.63,3.54-2.52,5.29l-2.57,5.06,14.4,7.32c1.94.99,3.3,2.67,3.93,4.59.63,1.92.52,4.08-.47,6.03-.99,1.94-2.67,3.31-4.59,3.93-1.92.63-4.08.52-6.03-.47l-14.4-7.32-208.31-105.88-14.4-7.32h0c-.49-.25-.94-.54-1.35-.87-1.23-.98-2.11-2.29-2.58-3.73ZM465.92,247.42c-2.31.23-4.08,1.41-5.09,3.41-.73,1.43-.89,2.95-.48,4.42.39,1.4,1.17,2.55,2.3,3.43.31.24.63.45.97.63.97.49,2.06.7,3.2.6l33.38-2.32c2.44-.22,4.28-1.43,5.33-3.48.67-1.31,1.15-3.44-.39-6.32l-17.83-28.51c-1.36-1.89-3.26-2.87-5.5-2.82-2.3.06-4.15,1.24-5.21,3.32-1.07,2.11-.99,4.28.25,6.26l12.51,19.74-23.45,1.64ZM416.51,238.41c-1.71,1.48-2.5,3.38-2.28,5.52.22,2.17,1.4,3.85,3.4,4.86.97.49,2.05.74,3.21.73,1.34-.01,2.61-.53,3.65-1.47l47.42-41.61c2.22-2.03,2.41-4.22,2.19-5.7-.52-3.31-3.5-5.59-6.79-5.31-1.26.1-2.4.57-3.41,1.42l-47.37,41.57ZM382.31,197.69l17.78,28.3c.59.98,1.4,1.73,2.37,2.23.34.17.69.31,1.07.42,1.39.4,2.78.35,4.14-.16,1.43-.53,2.56-1.56,3.29-2.99,1.02-2,.93-4.12-.28-6.18l-12.46-19.86,23.34-1.53c2.32-.17,4.12-1.38,5.19-3.48,1.06-2.08.92-4.27-.39-6.17-1.28-1.84-3.19-2.79-5.66-2.77l-33.55,2.41c-3.07.43-4.51,2.08-5.17,3.39-1.04,2.05-.93,4.25.35,6.39ZM566.93,162.06c-18.98,0-37.63,1.4-55.94,3.9.87.76,1.73,1.52,2.58,2.3l.26.24.84.78c1.13,1.07,2.23,2.16,3.32,3.26l.18.18h0s.96.99.96.99c1.05,1.1,2.09,2.21,3.07,3.31l1.13,1.27c.99,1.13,1.96,2.27,2.89,3.41l1.07,1.33c.43.54.83,1.09,1.25,1.63,12.63-1.24,25.43-1.9,38.38-1.9,215.9,0,391.56,175.65,391.56,391.56s-175.65,391.56-391.56,391.56-391.56-175.65-391.56-391.56c0-128.29,62.02-242.36,157.65-313.82l-20.34-10.34c-96.1,75.54-158.01,192.72-158.01,324.16,0,227.32,184.94,412.26,412.26,412.26s412.26-184.94,412.26-412.26-184.94-412.26-412.26-412.26Z" fill="url(#codg)" mask="url(#kn)"/> <rect width="1133.86" height="1133.86" fill="#D62C2C" mask="url(#rm)"/> <rect width="1133.86" height="1133.86" fill="url(#codg)" mask="url(#am)"/> </svg></span><span class="logo-sc"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="15 52 985 136" role="img" aria-label="sirviendo código;"> <defs> <style> .sc-1 { fill: #2f455c; } .sc-2 { fill: #2f455c; } .sc-3 { fill: #6fc0ab; } </style> </defs> <g> <path class="sc-2" d="M98.66,146.53c3.33-1.54,5.89-3.65,7.63-6.26,1.74-2.62,2.62-5.6,2.62-8.86,0-2.84-.69-5.39-2.05-7.58-1.35-2.17-3.59-4.09-6.64-5.71-2.99-1.58-7.1-2.9-12.2-3.92-3.57-.73-6.31-1.48-8.13-2.23-1.72-.7-2.86-1.48-3.4-2.31-.55-.84-.82-1.76-.82-2.82,0-1.62.85-2.82,2.61-3.68,1.93-.95,4.33-1.43,7.15-1.43,2.46,0,4.66.29,6.52.87,1.82.56,3.54,1.62,5.13,3.14,1.13,1.05,2.53,1.74,4.17,2.03,1.71.31,3.21.03,4.51-.86,1.28-.96,1.97-2.18,2.06-3.61.08-1.4-.43-2.75-1.5-3.97-2.1-2.59-4.97-4.65-8.52-6.11-3.52-1.45-7.61-2.19-12.15-2.19-3.52,0-6.95.58-10.19,1.72-3.29,1.15-6.02,2.93-8.13,5.29-2.16,2.41-3.25,5.47-3.25,9.11,0,4.15,1.64,7.69,4.89,10.54,3.17,2.79,8.28,4.89,15.22,6.26,5.1.92,8.63,2.09,10.5,3.48,1.77,1.32,2.6,2.81,2.54,4.54-.06,1.74-.97,3.13-2.78,4.26-1.91,1.19-4.76,1.79-8.49,1.79-2.96,0-5.69-.54-8.1-1.59-2.4-1.06-4.16-2.19-5.23-3.39-1.08-1.15-2.39-1.84-3.9-2.03-1.54-.19-3.1.32-4.62,1.53-1.33,1.02-2.1,2.35-2.3,3.96-.2,1.64.3,3.11,1.51,4.39,2.3,2.3,5.55,4.22,9.66,5.71,4.08,1.47,8.58,2.22,13.38,2.22s9.03-.77,12.33-2.3Z"/> <path class="sc-2" d="M127.26,91.45c-1.71,0-3.14.56-4.28,1.65-1.15,1.1-1.73,2.57-1.73,4.35v44.97c0,1.71.58,3.16,1.72,4.29,1.13,1.14,2.58,1.71,4.29,1.71s3.24-.58,4.35-1.72c1.1-1.14,1.65-2.58,1.65-4.28v-44.97c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66Z"/> <path class="sc-2" d="M127.26,69.11c-2.04,0-3.83.75-5.3,2.22-1.47,1.47-2.22,3.26-2.22,5.3s.75,3.83,2.22,5.3c1.48,1.47,3.26,2.22,5.3,2.22s3.83-.75,5.3-2.22c1.47-1.47,2.22-3.26,2.22-5.3s-.75-3.83-2.22-5.3c-1.48-1.47-3.26-2.22-5.3-2.22Z"/> <path class="sc-2" d="M153.25,148.43c1.92,0,3.4-.53,4.4-1.57,1-1.04,1.5-2.49,1.5-4.33v-29.51c0-2.89.89-5.21,2.74-7.08,1.86-1.89,4.45-3.2,7.71-3.91,3.3-.71,7.09-.64,11.25.2.99.23,1.92.26,2.77.11.89-.16,1.69-.55,2.39-1.16.71-.63,1.19-1.51,1.42-2.6.39-1.51.25-3.72-2.63-5.62-2.12-1.4-5.32-2.11-9.51-2.11s-8.05.99-11.53,2.94c-1.69.95-3.23,2.07-4.59,3.35-.04-1.8-.55-3.2-1.51-4.17-1-1-2.48-1.51-4.39-1.51s-3.3.53-4.34,1.56c-1.04,1.04-1.56,2.5-1.56,4.34v45.17c0,1.92.53,3.4,1.58,4.4,1.03,1,2.49,1.5,4.33,1.5Z"/> <path class="sc-1" d="M217.22,144.53c1.3,2.52,3.18,3.8,5.61,3.8s4.27-1.29,5.42-3.82l21.42-45.17c.63-1.35.71-2.72.23-4.08-.48-1.37-1.45-2.39-2.86-3.01-1.48-.7-2.96-.82-4.42-.34-1.46.47-2.56,1.39-3.29,2.78l-16.62,36.21-16.81-36.26c-.71-1.34-1.77-2.26-3.15-2.73-1.4-.48-2.81-.36-4.13.34-1.48.7-2.49,1.72-3,3.03-.53,1.34-.47,2.7.17,4.06l21.44,45.2Z"/> <path class="sc-2" d="M265.67,148.43c1.78,0,3.24-.58,4.35-1.72,1.1-1.14,1.65-2.58,1.65-4.28v-44.97c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66s-3.14.56-4.28,1.65c-1.15,1.1-1.73,2.57-1.73,4.35v44.97c0,1.71.58,3.16,1.72,4.29,1.13,1.14,2.58,1.71,4.29,1.71Z"/> <path class="sc-2" d="M265.67,69.11c-2.04,0-3.83.75-5.3,2.22-1.47,1.47-2.22,3.26-2.22,5.3s.75,3.83,2.22,5.3c1.48,1.47,3.26,2.22,5.3,2.22s3.83-.75,5.3-2.22c1.47-1.47,2.22-3.26,2.22-5.3s-.75-3.83-2.22-5.3c-1.48-1.47-3.26-2.22-5.3-2.22Z"/> <path class="sc-2" d="M333.1,142.5c1.38-1.05,2.03-2.35,1.95-3.86-.08-1.44-.79-2.76-2.12-3.94-1.04-.88-2.28-1.31-3.66-1.26-1.35.04-2.62.49-3.77,1.33-1.27.96-2.98,1.82-5.08,2.56-2.09.74-4.15,1.11-6.13,1.11-3.67,0-6.97-.81-9.78-2.41-2.82-1.6-5.06-3.81-6.66-6.56-.91-1.56-1.56-3.26-1.96-5.08h37.4c1.57,0,2.89-.5,3.93-1.5,1.05-1.01,1.58-2.28,1.58-3.8,0-5.43-1.03-10.29-3.07-14.47-2.05-4.2-5.06-7.55-8.96-9.95-3.89-2.4-8.6-3.61-13.99-3.61s-10.35,1.25-14.58,3.7c-4.22,2.46-7.58,5.9-9.97,10.23-2.39,4.32-3.59,9.37-3.59,15.02s1.28,10.61,3.81,14.93c2.53,4.33,6.07,7.77,10.53,10.22,4.45,2.45,9.6,3.69,15.32,3.69,3.18,0,6.55-.59,10.02-1.76,3.48-1.17,6.44-2.72,8.78-4.58ZM312.78,101.44c3.18,0,5.91.73,8.12,2.18,2.21,1.46,3.95,3.47,5.16,5.97.74,1.53,1.27,3.2,1.58,4.99h-31.61c.34-1.48.82-2.88,1.45-4.18,1.34-2.77,3.32-4.98,5.89-6.57,2.58-1.59,5.74-2.4,9.4-2.4Z"/> <path class="sc-2" d="M389.75,108.7c1.33,2.28,2.01,5.3,2.01,8.97v24.86c0,1.71.58,3.15,1.72,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.15-.58,4.29-1.72c1.14-1.14,1.72-2.58,1.72-4.29v-24.86c0-5.71-1.11-10.61-3.29-14.56-2.19-3.97-5.23-7.02-9.03-9.08-3.78-2.05-8.12-3.08-12.89-3.08s-8.75,1.02-12.43,3.03c-1.42.78-2.74,1.67-3.93,2.67-.15-1.42-.69-2.6-1.62-3.53-1.11-1.1-2.57-1.66-4.34-1.66s-3.14.56-4.28,1.65c-1.15,1.1-1.73,2.57-1.73,4.35v45.07c0,1.71.58,3.15,1.72,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.25-.58,4.35-1.73c1.1-1.14,1.65-2.58,1.65-4.28v-28.5c0-2.3.63-4.37,1.87-6.13,1.26-1.79,2.99-3.25,5.14-4.32,2.16-1.08,4.62-1.63,7.3-1.63,2.95,0,5.59.57,7.86,1.68,2.23,1.1,4.03,2.81,5.35,5.07Z"/> <path class="sc-2" d="M465.99,67.8c-1.7,0-3.14.56-4.28,1.65-1.14,1.11-1.73,2.57-1.73,4.35v25.04c-2.07-2.13-4.5-3.89-7.26-5.24-3.47-1.7-7.3-2.56-11.39-2.56-5.06,0-9.67,1.29-13.69,3.82-4.01,2.53-7.23,6-9.54,10.32-2.32,4.31-3.49,9.26-3.49,14.7s1.28,10.42,3.8,14.78c2.52,4.36,5.99,7.84,10.31,10.36,4.32,2.53,9.24,3.81,14.63,3.81s10.29-1.28,14.58-3.81c4.28-2.52,7.73-6.01,10.26-10.36,2.52-4.36,3.8-9.33,3.8-14.78v-46.08c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66ZM452.1,135.68c-2.54,1.56-5.49,2.35-8.75,2.35s-6.12-.79-8.7-2.35c-2.59-1.56-4.66-3.75-6.16-6.5-1.51-2.75-2.27-5.88-2.27-9.29s.76-6.6,2.27-9.28c1.5-2.68,3.57-4.84,6.16-6.41,2.58-1.56,5.51-2.35,8.7-2.35s6.2.79,8.75,2.35c2.56,1.57,4.6,3.72,6.06,6.4,1.47,2.69,2.22,5.82,2.22,9.29s-.75,6.54-2.22,9.3c-1.47,2.75-3.51,4.93-6.06,6.5Z"/> <path class="sc-2" d="M534.22,104.97c-2.46-4.33-5.88-7.77-10.17-10.22-4.29-2.45-9.26-3.7-14.77-3.7s-10.59,1.24-14.87,3.7c-4.29,2.46-7.71,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.24,10.6,3.7,14.92c2.46,4.33,5.88,7.77,10.17,10.22,4.29,2.46,9.29,3.7,14.87,3.7s10.59-1.25,14.87-3.7c4.29-2.46,7.7-5.9,10.12-10.23,2.42-4.32,3.64-9.34,3.64-14.92s-1.24-10.7-3.7-15.02ZM518.14,135.73c-2.55,1.53-5.53,2.3-8.86,2.3s-6.31-.78-8.86-2.3c-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.86,6.06-6.39,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.46s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34Z"/> <path class="sc-2" d="M611.54,94.28c-3.4-1.56-7.19-2.35-11.27-2.35-5.45,0-10.35,1.25-14.58,3.7-4.23,2.46-7.6,5.92-10.02,10.28-2.42,4.35-3.64,9.39-3.64,14.97s1.24,10.4,3.7,14.72c2.45,4.32,5.89,7.79,10.22,10.32,4.32,2.52,9.31,3.8,14.83,3.8,7.47,0,13.78-2.35,18.79-7.02,1.13-1.13,1.62-2.44,1.46-3.88-.16-1.4-.91-2.66-2.22-3.74-1.05-.89-2.29-1.27-3.66-1.16-1.31.12-2.59.67-3.8,1.65-1.39,1.14-2.95,1.99-4.62,2.53-1.69.54-3.69.82-5.95.82-3.4,0-6.41-.79-8.95-2.35-2.55-1.56-4.57-3.72-6.01-6.4-1.44-2.69-2.17-5.82-2.17-9.3,0-3.68.71-6.92,2.13-9.61,1.4-2.67,3.37-4.79,5.85-6.28,2.48-1.49,5.39-2.25,8.65-2.25,4.65,0,8.59,1.68,11.72,5,1.06,1.06,2.26,1.73,3.56,2,1.37.28,2.66.01,3.8-.8,1.38-.99,2.24-2.18,2.56-3.53.33-1.42-.07-2.8-1.2-4.09-2.69-3.11-5.78-5.48-9.18-7.04Z"/> <path class="sc-2" d="M676.29,95.63c-4.29-2.46-9.26-3.7-14.77-3.7s-10.58,1.25-14.87,3.7c-4.29,2.46-7.72,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.24,10.6,3.7,14.92c2.46,4.32,5.88,7.76,10.17,10.22,4.29,2.45,9.29,3.7,14.87,3.7s10.59-1.24,14.87-3.7c4.29-2.46,7.7-5.9,10.12-10.23,2.42-4.32,3.64-9.34,3.64-14.92s-1.24-10.7-3.7-15.02c-2.46-4.33-5.88-7.76-10.17-10.22ZM670.37,136.61c-2.55,1.53-5.53,2.3-8.86,2.3s-6.31-.78-8.86-2.3c-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.87,6.06-6.4,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.45s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34Z"/> <path class="sc-2" d="M671.52,63.63c-1.64,0-3.07.59-4.24,1.77l-9.93,9.93c-.95,1.03-1.44,2.38-1.44,4.02,0,1.71.58,3.16,1.71,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.03-.56,4.14-1.66l9.76-9.76c.65-.57,1.11-1.24,1.36-1.99.23-.69.35-1.43.35-2.19,0-1.7-.55-3.15-1.65-4.32-1.11-1.19-2.58-1.79-4.36-1.79Z"/> <path class="sc-2" d="M752.36,68.68c-1.7,0-3.14.56-4.28,1.65-1.14,1.11-1.73,2.57-1.73,4.35v25.04c-2.07-2.13-4.5-3.89-7.26-5.24-3.47-1.7-7.31-2.56-11.39-2.56-5.06,0-9.67,1.29-13.69,3.82-4.02,2.53-7.23,6-9.54,10.32-2.32,4.31-3.49,9.26-3.49,14.7s1.28,10.42,3.8,14.78c2.52,4.35,5.99,7.84,10.31,10.36,4.32,2.52,9.24,3.8,14.63,3.8s10.29-1.28,14.58-3.81c4.28-2.52,7.74-6.01,10.26-10.36,2.52-4.36,3.8-9.33,3.8-14.78v-46.08c0-1.78-.56-3.24-1.67-4.34-1.11-1.1-2.57-1.66-4.34-1.66ZM738.48,136.57c-2.55,1.56-5.49,2.35-8.75,2.35s-6.12-.79-8.7-2.35c-2.59-1.56-4.66-3.75-6.16-6.5-1.51-2.76-2.27-5.88-2.27-9.29s.76-6.6,2.27-9.28c1.5-2.68,3.57-4.84,6.16-6.41,2.58-1.56,5.51-2.35,8.7-2.35s6.2.79,8.75,2.35c2.55,1.56,4.59,3.72,6.06,6.4,1.47,2.69,2.22,5.82,2.22,9.29s-.75,6.54-2.22,9.3c-1.47,2.75-3.51,4.93-6.06,6.5Z"/> <path class="sc-2" d="M778.46,70c-2.05,0-3.83.75-5.3,2.22-1.47,1.47-2.22,3.26-2.22,5.3s.75,3.83,2.22,5.3c1.47,1.47,3.26,2.22,5.3,2.22s3.83-.75,5.3-2.22c1.47-1.47,2.22-3.26,2.22-5.3s-.75-3.83-2.22-5.3c-1.47-1.47-3.26-2.22-5.3-2.22Z"/> <path class="sc-2" d="M778.46,92.33c-1.71,0-3.15.56-4.28,1.65-1.14,1.11-1.73,2.57-1.73,4.35v44.97c0,1.71.58,3.15,1.71,4.29,1.14,1.14,2.58,1.72,4.29,1.72s3.25-.58,4.35-1.73c1.1-1.14,1.65-2.58,1.65-4.28v-44.97c0-1.78-.56-3.24-1.66-4.34-1.11-1.1-2.57-1.66-4.34-1.66Z"/> <path class="sc-2" d="M849.41,105.85c-2.46-4.33-5.88-7.76-10.17-10.22-4.29-2.46-9.26-3.7-14.77-3.7s-10.58,1.25-14.87,3.7c-4.29,2.46-7.72,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.16,10.59,3.43,14.9c2.28,4.33,5.46,7.77,9.45,10.23,3.99,2.46,8.64,3.71,13.84,3.71,4.8,0,9.11-1.26,12.8-3.73,2.41-1.61,4.5-3.65,6.25-6.08v2.09c0,4.21-.78,7.82-2.33,10.72-1.53,2.87-3.61,5.07-6.19,6.53-2.59,1.47-5.45,2.21-8.52,2.21-3.36,0-6.4-.62-9.04-1.84-2.63-1.22-4.84-2.94-6.55-5.09-.93-1.25-2.18-2.03-3.69-2.34-1.54-.32-3.03,0-4.44.94-1.26.87-2.05,2.04-2.33,3.47-.28,1.46.09,2.88,1.13,4.23,2.97,3.73,6.64,6.6,10.93,8.53,4.27,1.93,8.91,2.91,13.79,2.91,5.66,0,10.72-1.33,15.05-3.97,4.32-2.63,7.74-6.22,10.16-10.68,2.42-4.45,3.64-9.47,3.64-14.91v-22.45h0c-.09-5.4-1.33-10.24-3.69-14.4ZM824.46,138.92c-3.33,0-6.31-.78-8.86-2.3-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.87,6.06-6.4,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.45s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34-2.55,1.53-5.53,2.3-8.86,2.3Z"/> <path class="sc-2" d="M907.45,95.63c-4.29-2.46-9.26-3.7-14.77-3.7s-10.58,1.25-14.87,3.7c-4.29,2.46-7.72,5.9-10.17,10.22-2.46,4.32-3.7,9.38-3.7,15.02s1.24,10.6,3.7,14.92c2.46,4.32,5.88,7.76,10.17,10.22,4.29,2.45,9.29,3.7,14.87,3.7s10.59-1.24,14.87-3.7c4.29-2.46,7.7-5.9,10.12-10.23,2.42-4.32,3.64-9.34,3.64-14.92s-1.24-10.7-3.7-15.02c-2.46-4.33-5.88-7.76-10.17-10.22ZM901.53,136.61c-2.55,1.53-5.53,2.3-8.86,2.3s-6.31-.78-8.86-2.3c-2.55-1.53-4.59-3.67-6.06-6.35-1.47-2.69-2.22-5.85-2.22-9.39s.75-6.72,2.22-9.45c1.47-2.71,3.51-4.87,6.06-6.4,2.55-1.53,5.53-2.3,8.86-2.3s6.31.78,8.86,2.3c2.55,1.53,4.57,3.68,6,6.39,1.44,2.73,2.18,5.91,2.18,9.45s-.73,6.71-2.17,9.4c-1.43,2.68-3.45,4.81-6,6.34Z"/> </g> <path class="sc-3" d="M554.64,140.54c-1.89,0-3.52-.69-4.9-2.07-1.38-1.38-2.07-3.02-2.07-4.9s.69-3.62,2.07-5c1.38-1.38,3.01-2.07,4.9-2.07s3.6.69,4.95,2.07c1.35,1.38,2.02,3.05,2.02,5s-.67,3.52-2.02,4.9c-1.35,1.38-3,2.07-4.95,2.07Z"/> <path class="sc-3" d="M935.61,117.03c-1.77,0-3.31-.65-4.61-1.95-1.3-1.3-1.95-2.83-1.95-4.61s.65-3.4,1.95-4.7c1.3-1.3,2.84-1.95,4.61-1.95s3.39.65,4.65,1.95c1.27,1.3,1.9,2.87,1.9,4.7s-.63,3.31-1.9,4.61c-1.27,1.3-2.82,1.95-4.65,1.95ZM934,160.82c-.76,0-1.35-.25-1.76-.76-.41-.51-.62-1.08-.62-1.71,0-1.27.36-2.36,1.09-3.28.73-.92,1.46-1.92,2.19-2.99.73-1.08,1.09-2.37,1.09-3.89,0-1.08-.25-1.96-.76-2.66-.51-.7-1.08-1.34-1.71-1.95-.63-.6-1.2-1.28-1.71-2.04-.51-.76-.76-1.71-.76-2.85,0-1.71.57-3.14,1.71-4.27,1.14-1.14,2.69-1.71,4.65-1.71,2.41,0,4.23.82,5.46,2.47,1.24,1.65,1.89,3.86,1.95,6.65,0,2.03-.33,4.15-1,6.36-.66,2.22-1.55,4.27-2.66,6.17-1.11,1.9-2.3,3.45-3.56,4.66-1.27,1.2-2.47,1.81-3.61,1.81Z"/> </svg></span>
-    </div>
-    <p>Una iniciativa de Next Digital, Lean Mind y sirviendo código; | <a href="bases.html" class="legalLink">Bases legales</a> | <a href="privacidad.html" class="legalLink">Política de privacidad</a></p>
-  </div>
+  <p>Una iniciativa de Next Digital, Lean Mind y sirviendo código; | <a href="bases.html">Bases legales</a> | <a href="privacidad.html">Política de privacidad</a></p>
 </footer>
 
-<dialog id="dlg" aria-labelledby="dlgTitle">
-  <div class="dlg-head">
-    <div>
-      <div class="dlg-tag"><span id="dlgTag"></span> <span class="dlg-cierre" id="dlgCierre"></span></div>
-      <h3 id="dlgTitle"></h3>
-    </div>
-    <button class="close" id="dlgClose" aria-label="Cerrar">&times;</button>
-  </div>
-  <div class="dlg-body">
-    <div class="enunciado" id="dlgText"></div>
-    <div class="input-box">
-      <div class="input-bar">
-        <span>Tu entrada</span>
-        <span><button class="btn-sm" id="btnCopy">Copiar</button><button class="btn-sm" id="btnDown">Descargar .txt</button></span>
-      </div>
-      <pre id="dlgInput" tabindex="0" role="region" aria-label="Tu entrada"></pre>
-    </div>
-    <form id="form" autocomplete="on">
-      <div id="identity">
-        <div class="row2">
-          <label>Alias público (sale en el ranking)<input type="text" id="fAlias" maxlength="30" required></label>
-          <label>Email (no se publica)<input type="email" id="fEmail" required></label>
-        </div>
-        <label class="check" style="margin-top:12px"><input type="checkbox" id="fConsent" required><span>He leído y acepto las <a href="bases.html" class="legalLink">Bases Legales</a> y la <a href="privacidad.html" class="legalLink">Política de Privacidad</a>.</span></label>
-        <label class="check" style="margin-top:8px"><input type="checkbox" id="fNews"><span id="fNewsTxt">Acepto recibir comunicaciones comerciales e informativas del grupo We Are Next según lo especificado en las Bases Legales y la Política de Privacidad (opcional).</span></label>
-        <p class="who" style="margin:10px 0 0">¿Ya participas desde otro dispositivo? <button type="button" class="linkbtn" data-recuperar>Recupera tu progreso</button></p>
-      </div>
-      <div class="who" id="who" hidden></div>
-      <label>Tu código
-        <textarea id="fCode" rows="9" required spellcheck="false" placeholder="Pega aquí el código con el que has resuelto el reto, en el lenguaje que quieras"></textarea>
-      </label>
-      <div class="file-row">
-        <label class="btn-sm file-btn">Subir archivo<input type="file" id="fFile" class="sr"></label>
-        <span id="fileName">o pega el código arriba</span>
-      </div>
-      <div class="campo">
-        <div class="lbl-info"><label for="fRun">Cómo se ejecuta tu código</label><button type="button" class="info" id="btnInfoRun" aria-expanded="false" aria-controls="infoRun"><span aria-hidden="true">i</span><span class="sr">Qué tengo que poner aquí</span></button></div>
-        <div class="info-panel" id="infoRun" hidden>
-          <p>Cuéntanos lo justo para que cualquier persona del equipo pueda ejecutar tu código en un ordenador limpio y obtener tu resultado sin preguntarte nada:</p>
-          <ul>
-            <li><b>El comando exacto</b> que lanzas, con el nombre de tu archivo.</li>
-            <li><b>Lenguaje y versión</b>, por ejemplo Python 3.12, Node 22 o Java 21.</li>
-            <li><b>Cómo lee la entrada</b>: un archivo (entrada.txt), un argumento o la entrada estándar.</li>
-            <li><b>Dependencias</b> y cómo instalarlas, si usas alguna librería.</li>
-            <li><b>Si hay que compilar</b>, el paso de compilación antes de ejecutar.</li>
-          </ul>
-          <p>Ejemplos: <code>python3 solucion.py entrada.txt (Python 3.12, sin dependencias)</code>, <code>node solucion.js &lt; entrada.txt (Node 22)</code> o <code>javac Main.java &amp;&amp; java Main entrada.txt (Java 21)</code>.</p>
-          <p>Si tu solución tiene varios archivos, júntalos en uno o explícanos cómo colocarlos. Lo ejecutamos tal cual: si no arranca, no te llevas el punto de que funciona. <a href="bases.html" class="legalLink">Ver las bases</a></p>
-        </div>
-        <input type="text" id="fRun" required maxlength="300" autocomplete="off" spellcheck="false" aria-describedby="ayudaRun" placeholder="Por ejemplo: python3 solucion.py entrada.txt (Python 3.12)">
-        <p class="who" id="ayudaRun" style="margin:0">Lo ejecutaremos tal cual con tu entrada. Indica la versión y las dependencias si hacen falta.</p>
-      </div>
-      <label>El resultado que te da tu código<input type="text" id="fAnswer" required autocomplete="off" spellcheck="false"></label>
-      <button class="btn btn-main" id="btnSend" type="submit">Enviar respuesta</button>
-      <p class="espera" id="espera" hidden></p>
-      <div class="msg" id="msg" role="status" aria-live="polite"></div>
-      <div class="reveal" id="reveal"></div>
-    </form>
-  </div>
-</dialog>
-
-<dialog id="dlgRec" aria-labelledby="recTitle">
-  <div class="dlg-head">
-    <div><div class="dlg-tag">TU PROGRESO</div><h3 id="recTitle">Recupera tus retos y tus pistas</h3></div>
-    <button class="close" id="recClose" aria-label="Cerrar">&times;</button>
-  </div>
-  <div class="dlg-body">
-    <p style="margin-top:0;color:var(--ink-soft)">Escribe el email con el que participas y te mandamos un enlace. Al abrirlo, este dispositivo recupera los retos que has resuelto y las personas sospechosas que has descubierto.</p>
-    <form id="formRec">
-      <label>Email<input type="email" id="recEmail" required></label>
-      <button class="btn btn-main" id="btnRec" type="submit">Enviarme el enlace</button>
-      <div class="msg" id="recMsg" role="status" aria-live="polite"></div>
-    </form>
-  </div>
-</dialog>
-
-<dialog id="dlgRank" aria-labelledby="rankTitle">
-  <div class="dlg-head">
-    <div>
-      <div class="dlg-tag">RANKING</div>
-      <h3 id="rankTitle">Clasificación completa</h3>
-      <p class="who" id="rankAllInfo" style="margin:6px 0 0"></p>
-    </div>
-    <button class="close" id="rankClose" aria-label="Cerrar">&times;</button>
-  </div>
-  <div class="dlg-body"><div class="rank-scroll" id="rankAll"></div></div>
-</dialog>
-
-<dialog id="dlgCase" aria-labelledby="caseTag caseName">
-  <div class="dlg-head">
-    <div class="dlg-tag" id="caseTag">PISTA</div>
-    <button class="close" id="caseClose" aria-label="Cerrar">&times;</button>
-  </div>
-  <div class="dlg-body"><div class="reveal show" id="caseBody" style="border:0;background:none;padding:0"></div></div>
-</dialog>
-
 <script>
-/* ======================= CONFIGURACIÓN ======================= */
-const CONFIG = {
-  // Pega aquí la URL de la aplicación web de Apps Script (termina en /exec).
-  // Si se deja vacía, la web funciona en modo demostración con datos de ejemplo.
-  API_URL: 'https://script.google.com/macros/s/AKfycbyFS5pAY0F-6AunO0MuDjk5amJI2MKkBH_x1pTYR7p4KBzn3HpsOq-YOBz6C_MuUmAp4w/exec',
-  URL_PRIVACIDAD: 'privacidad.html',
-  URL_BASES: 'bases.html',
-  ACUSACIONES_HASTA: '2026-12-25T00:00:00+01:00', // igual que en Code.gs
-  BONUS_ACUSACION: 10,       // igual que en Code.gs
-  CASO: {
-    titulo: 'Muerte en la cena de Navidad',
-    intro: 'El sábado 28 de noviembre, el equipo de Next Digital y sirviendo código; voló a Canarias para celebrar por primera vez la cena de Navidad con la oficina de Lean Mind. Casa rural en el monte, ron miel, villancicos y un Papá Noel con una lista de traviesos que pensaba leer en voz alta. A las 23:40 apareció sin vida junto al árbol. Esa noche un temporal cortó la carretera y nadie pudo entrar ni salir hasta el lunes. Cuando por fin llegó ayuda, Papá Noel ya no era la única víctima.',
-    cierre: 'Hay 24 personas sospechosas. Una de ellas lo hizo.',
-    portada: 'Papá Noel ha aparecido muerto junto al árbol en la primera cena de Navidad que reúne a las oficinas de Madrid y Canarias. Resuelve un reto de código cada día, descubre a una nueva persona sospechosa y averigua quién lo hizo antes de Nochebuena.'
-  }
-};
-// Colores de las tres marcas, mezclados en el calendario, el árbol y las fichas
-// Solo colores claros para las bombillas, para que parezcan encendidas
-const LUCES = ['#44C1F0', '#F2A900', '#3AB2C1', '#70C1AD', '#71C5E8', '#F2A900', '#05707E'];
 const PALETA = ['#44C1F0', '#3AB2C1', '#F2A900', '#70C1AD', '#05707E', '#2F455C', '#71C5E8', '#333F48'];
-/* ============================================================= */
 
-const DEMO = !CONFIG.API_URL;
 const $ = s => document.querySelector(s);
-// Se guarda en el navegador; si el navegador no deja (algunos modos privados), se guarda en memoria mientras la pestaña esté abierta
-const MEMORIA = {};
-const store = {
-  get(k, d) {
-    try { const v = localStorage.getItem(k); if (v !== null) return JSON.parse(v) ?? d; } catch (e) { /* sin localStorage */ }
-    return k in MEMORIA ? MEMORIA[k] : d;
-  },
-  set(k, v) {
-    MEMORIA[k] = v;
-    try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* se queda en memoria */ }
-  }
-};
 const color = n => PALETA[(n - 1) % PALETA.length];
 // Texto oscuro sobre colores claros y blanco sobre oscuros, para que siempre se lea bien
 function textoSobre(hex) {
   const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(x => x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4);
   return (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) > 0.25 ? '#1B2A38' : '#FFFFFF';
 }
-
-/* ---------- Datos de demostración ---------- */
-const DEMO_RETOS = [];
-const DEMO_REVELACIONES = {};
-const DEMO_RANKING = [
-  { alias: 'turron_driven_dev', puntos: 8, resueltos: 3, funciona: 3, cleanCode: 2, minutos: 41, dias: [1, 2, 3] },
-  { alias: 'polvoron404', puntos: 7, resueltos: 3, funciona: 3, cleanCode: 1, minutos: 97, dias: [1, 2, 3] },
-  { alias: 'reno.js', puntos: 6, resueltos: 2, funciona: 2, cleanCode: 2, minutos: 30, dias: [1, 2] },
-  { alias: 'git_merge_navidad', puntos: 6, resueltos: 3, funciona: 2, cleanCode: 1, minutos: 188, dias: [1, 2, 3] },
-  { alias: 'la_del_wifi', puntos: 5, resueltos: 2, funciona: 2, cleanCode: 1, minutos: 12, dias: [1, 3] },
-  { alias: 'mazapan_ops', puntos: 5, resueltos: 2, funciona: 2, cleanCode: 1, minutos: 64, dias: [1, 2] },
-  { alias: 'bienmesabe_dev', puntos: 4, resueltos: 2, funciona: 1, cleanCode: 1, minutos: 51, dias: [2, 3] },
-  { alias: 'feliz_null', puntos: 3, resueltos: 1, funciona: 1, cleanCode: 1, minutos: 22, dias: [1] },
-  { alias: 'demo', puntos: 2, resueltos: 1, funciona: 1, cleanCode: 0, minutos: 35, dias: [1] },
-  { alias: 'zambomba.py', puntos: 2, resueltos: 1, funciona: 1, cleanCode: 0, minutos: 80, dias: [1] },
-  { alias: 'ron_miel_rocks', puntos: 2, resueltos: 2, funciona: 0, cleanCode: 0, minutos: 140, dias: [1, 2] },
-  { alias: 'teide_404', puntos: 1, resueltos: 1, funciona: 0, cleanCode: 0, minutos: 300, dias: [2] }
-];
-function aperturaDia(d) { return new Date(`2026-12-${String(d).padStart(2, '0')}T00:00:00+01:00`); }
-function cierreDia(d) { return new Date(aperturaDia(d).getTime() + 864e5); }
-
-/* ---------- API ---------- */
-async function apiRetos() {
-  if (DEMO) {
-    // En la demo, los días 1 y 2 ya pasaron (se pueden hacer fuera de plazo), el 3 es hoy y el resto aún no ha llegado
-    return {
-      ahora: new Date().toISOString(),
-      retos: Array.from({ length: 24 }, (_, i) => {
-        const dia = i + 1;
-        const r = DEMO_RETOS.find(x => x.dia === dia);
-        const estado = dia < 3 ? 'atrasado' : dia === 3 ? 'abierto' : 'pendiente';
-        const cierre = dia === 3 ? new Date(Date.now() + 5 * 36e5) : cierreDia(dia);
-        const base = { dia, apertura: aperturaDia(dia).toISOString(), cierre: cierre.toISOString(), estado, abierto: estado === 'abierto' };
-        if (estado === 'abierto' || estado === 'atrasado') return Object.assign(base, { titulo: r.titulo, enunciado: r.enunciado, entrada: r.entrada });
-        return base;
-      })
-    };
-  }
-  const r = await fetch(CONFIG.API_URL + '?accion=retos');
-  return r.json();
-}
-async function apiProgreso(clave) {
-  if (DEMO) return { ok: true, alias: (perfil() || {}).alias, resueltos: resueltos(), revelaciones: revelaciones(), notas: store.get('notas', {}), acusacion: store.get('acusacion', null) };
-  const r = await fetch(CONFIG.API_URL + '?accion=progreso&clave=' + encodeURIComponent(clave));
-  return r.json();
-}
-async function apiRecuperar(email) {
-  if (DEMO) { await new Promise(res => setTimeout(res, 400)); return { ok: true, mensaje: 'En la demo no se mandan correos. Con la web conectada, llegaría un enlace a ' + email + '.' }; }
-  const r = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ accion: 'recuperar', email }) });
-  return r.json();
-}
-async function apiInicio(clave) {
-  if (DEMO) {
-    const progreso = clave ? await apiProgreso(clave) : null;
-    if (progreso && progreso.ok) aplicarProgreso(progreso);
-    return { retos: await apiRetos(), ranking: await apiRanking(), progreso };
-  }
-  const r = await fetch(CONFIG.API_URL + '?accion=inicio' + (clave ? '&clave=' + encodeURIComponent(clave) : ''));
-  return r.json();
-}
-async function apiRanking() {
-  if (DEMO) return { actualizado: new Date().toISOString(), ranking: DEMO_RANKING };
-  const r = await fetch(CONFIG.API_URL + '?accion=ranking');
-  return r.json();
-}
-async function apiEnviar(datos) {
-  if (DEMO) {
-    await new Promise(res => setTimeout(res, 500));
-    const r = DEMO_RETOS.find(x => x.dia === datos.dia);
-    const norm = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').trim().toLowerCase().replace(/\s+/g, ' ');
-    const ok = norm(datos.respuesta) === norm(r.solucion);
-    const alias = datos.alias || (perfil() || {}).alias;
-    const clave = datos.clave || 'demo-' + Date.now();
-    return ok ? { ok: true, correcto: true, alias, clave, revelacion: DEMO_REVELACIONES[datos.dia] } : { ok: true, correcto: false, alias, clave, espera: 0 };
-  }
-  // Sin cabecera Content-Type para que Apps Script lo acepte sin preflight CORS
-  const r = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ accion: 'enviar' }, datos)) });
-  return r.json();
-}
-
-/* ---------- Utilidades ---------- */
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-function mini(md) {
-  return esc(md).split(/\n\s*\n/).map(p =>
-    '<p>' + p.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>') + '</p>'
-  ).join('');
-}
-function fmtMin(m) {
-  m = Math.max(0, Math.round(Number(m) || 0));
-  if (m < 60) return m + ' min';
-  const h = Math.floor(m / 60), r = m % 60;
-  if (h < 24) return h + ' h ' + r + ' min';
-  return Math.floor(h / 24) + ' d ' + (h % 24) + ' h';
-}
-const fechaCorta = iso => new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', timeZone: 'Europe/Madrid' });
-const SILUETA = '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="14" r="7" fill="#C9D4D9"/><path d="M6 37c1.5-8 7-12 14-12s12.5 4 14 12" fill="#C9D4D9"/></svg>';
-
-
-/* ---------- Guirnalda y nieve ---------- */
-function pintarGuirnalda(sel, semilla) {
-  const W = 1600, n = 30, paso = W / n;
-  let cable = 'M0 8';
-  for (let i = 0; i < n; i++) cable += ` Q${i * paso + paso / 2} 30 ${(i + 1) * paso} 8`;
-  let bombillas = '';
-  for (let i = 0; i < n; i++) {
-    const x = i * paso + paso / 2, y = 19;
-    const c = LUCES[(i + semilla) % LUCES.length];
-    const giro = ((i * 37) % 30) - 15;
-    bombillas += `<g class="bulb" style="--d:${((i * 7 + semilla) % 11) * .2}s" transform="rotate(${giro} ${x} ${y})">
-      <ellipse class="halo" cx="${x}" cy="${y + 16}" rx="17" ry="19" fill="${c}" filter="url(#brillo)"/>
-      <rect x="${x - 4}" y="${y - 3}" width="8" height="7" rx="1.5" fill="#7E8E98"/>
-      <path class="glass" d="M${x} ${y + 4}c-7 3-9 10-7 15 2 5 12 5 14 0 2-5 0-12-7-15z" fill="${c}"/>
-      <ellipse cx="${x - 2.5}" cy="${y + 11}" rx="1.6" ry="3" fill="#fff" opacity=".7"/>
-    </g>`;
-  }
-  $(sel).innerHTML = `<svg viewBox="0 0 ${W} 58" preserveAspectRatio="xMidYMin slice">
-    <defs><filter id="brillo" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6"/></filter></defs>
-    <path d="${cable}" fill="none" stroke="#5D6E7A" stroke-width="2"/>${bombillas}</svg>`;
-}
-function pintarNieve() {
-  const cont = $('#snow');
-  let html = '';
-  for (let i = 0; i < 46; i++) {
-    const s = 3 + (i * 7) % 6;
-    html += `<i style="left:${(i * 37) % 100}%;width:${s}px;height:${s}px;opacity:${.35 + ((i * 13) % 5) / 10};--dx:${((i * 17) % 60) - 30}px;animation-duration:${9 + (i * 11) % 9}s;animation-delay:-${(i * 3) % 14}s"></i>`;
-  }
-  cont.innerHTML = html;
-}
-const LAZO = c => `<svg class="bow" viewBox="0 0 44 26" aria-hidden="true"><path d="M22 13C14 2 4 2 4 9s10 8 18 4ZM22 13c8-11 18-11 18-4s-10 8-18 4Z" fill="${c}"/><path d="M22 13 15 25M22 13l7 12" stroke="${c}" stroke-width="4" stroke-linecap="round"/><circle cx="22" cy="13" r="4.5" fill="${c}" stroke="#fff" stroke-width="1.5"/></svg>`;
-
-
-/* ---------- Acusación ---------- */
-async function apiAcusar(dia) {
-  if (DEMO) { await new Promise(r => setTimeout(r, 300)); const rv = pistasVisibles()[dia]; return { ok: true, acusacion: { dia, persona: rv.persona } }; }
-  const r = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify({ accion: 'acusar', clave: (perfil() || {}).clave, dia }) });
-  return r.json();
-}
-function pintarAcusacion() {
-  const cuerpo = $('#acusarCuerpo');
-  const actual = store.get('acusacion', null);
-  const cerrado = new Date() >= new Date(CONFIG.ACUSACIONES_HASTA);
-  const pistas = Object.values(pistasVisibles()).sort((a, b) => a.dia - b.dia);
-  const linea = actual ? `<p class="actual">Tu acusación: <b>Nº ${actual.dia}, ${esc(actual.persona)}</b></p>` : '';
-  if (cerrado) { cuerpo.innerHTML = linea + '<p class="actual">Las acusaciones están cerradas. El 25 de diciembre contamos quién fue.</p>'; return; }
-  if (!perfil() || !pistas.length) { cuerpo.innerHTML = '<div class="empty">Resuelve tu primer reto para descubrir a la primera persona sospechosa y poder acusar.</div>'; return; }
-  cuerpo.innerHTML = `${linea}<form id="formAcusar">
-      <label>Acuso a
-        <select id="selAcusar">${pistas.map(p => `<option value="${p.dia}" ${actual && actual.dia === p.dia ? 'selected' : ''}>Nº ${p.dia}: ${esc(p.persona)}${p.cargo ? ' (' + esc(p.cargo) + ')' : ''}</option>`).join('')}</select>
-      </label>
-      <button class="btn btn-main" type="submit" style="margin-top:12px">${actual ? 'Cambiar mi acusación' : 'Acusar'}</button>
-      <div class="msg" id="msgAcusar" role="status" aria-live="polite" style="margin-top:12px"></div>
-    </form>`;
-  // La acusación se enseña al momento y se guarda en la hoja por detrás; si falla, se deshace
-  $('#formAcusar').addEventListener('submit', async e => {
-    e.preventDefault();
-    const dia = Number($('#selAcusar').value);
-    const anterior = store.get('acusacion', null);
-    store.set('acusacion', { dia, persona: pistasVisibles()[dia].persona });
-    pintarAcusacion();
-    const aviso = (clase, texto) => { const m = $('#msgAcusar'); if (m) { m.className = 'msg ' + clase; m.textContent = texto; } };
-    aviso('ok', 'Acusación guardada. Puedes cambiarla hasta el 24 a medianoche.');
-    try {
-      const res = await apiAcusar(dia);
-      if (!res.ok) throw new Error(res.error);
-      store.set('acusacion', res.acusacion);
-    } catch (err) {
-      store.set('acusacion', anterior);
-      pintarAcusacion();
-      aviso('ko', (err && err.message && err.message !== 'Failed to fetch' ? err.message : 'No hemos podido guardar tu acusación.') + ' Prueba otra vez.');
-    }
-  });
-}
-
-/* ---------- Árbol de nodos con los colores de las tres marcas ---------- */
-// Árbol con 24 bolas, una por reto. Se van encendiendo a medida que la persona resuelve retos.
-function pintarArbol() {
-  // 23 bolas y la estrella. El día 1 está abajo a la izquierda y se sube en zigzag; el 24 es la estrella.
-  const filas = [1, 2, 3, 4, 6, 7];
-  const W = 380, top = 92, gapY = 46, gapX = 46;
-  const nodos = [];
-  filas.forEach((n, f) => {
-    for (let i = 0; i < n; i++) nodos.push({ x: W / 2 + (i - (n - 1) / 2) * gapX, y: top + f * gapY, f, i });
-  });
-  let dia = 1;
-  for (let f = filas.length - 1; f >= 0; f--) {
-    const fila = nodos.filter(p => p.f === f).sort((a, b) => a.x - b.x);
-    ((filas.length - 1 - f) % 2 ? fila.reverse() : fila).forEach(p => { p.dia = dia++; });
-  }
-  // Un cable de luces recorre las bolas en orden, de lado a lado de cada fila, como una guirnalda
-  const ruta = nodos.slice().sort((a, b) => a.dia - b.dia);
-  let d = `M${ruta[0].x} ${ruta[0].y}`;
-  for (let i = 1; i < ruta.length; i++) {
-    const a = ruta[i - 1], b = ruta[i];
-    d += a.f === b.f ? ` Q${(a.x + b.x) / 2} ${a.y + 12} ${b.x} ${b.y}` : ` C${a.x + (a.x > W / 2 ? 30 : -30)} ${a.y + 10} ${b.x + (b.x > W / 2 ? 30 : -30)} ${b.y - 10} ${b.x} ${b.y}`;
-  }
-  const cima = ruta[ruta.length - 1];
-  d += ` Q${cima.x} ${cima.y - 30} ${W / 2} ${top - 36}`;
-  const lineas = `<path d="${d}" fill="none"/>`;
-  const ultima = top + (filas.length - 1) * gapY;
-  const silueta = `<path d="M${W / 2} ${top - 70} L${W / 2 + 220} ${ultima + 34} L${W / 2 - 220} ${ultima + 34} Z" fill="#E4F1F1"/>`;
-  const hechos = resueltos();
-  const estadoDe = d => { const r = RETOS.find(x => x.dia === d); return r ? r.estado : 'pendiente'; };
-  const bolas = nodos.map(p => {
-    const c = PALETA[(p.dia * 3) % PALETA.length];
-    const est = estadoDe(p.dia);
-    const titulo = `Día ${p.dia}`;
-    if (hechos.includes(p.dia)) {
-      return `<g class="node" style="animation-delay:${(p.dia * 0.37) % 2.8}s"><title>${titulo}: resuelto</title><circle cx="${p.x}" cy="${p.y}" r="21" fill="${c}" opacity=".25"/><circle cx="${p.x}" cy="${p.y}" r="14" fill="${c}"/><text x="${p.x}" y="${p.y + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Poppins, sans-serif">${p.dia}</text></g>`;
-    }
-    const abierto = est === 'abierto';
-    return `<g><title>${titulo}${abierto ? ': hoy' : est === 'atrasado' ? ': sin hacer' : est === 'cerrado' ? ': cerrado' : ''}</title><circle cx="${p.x}" cy="${p.y}" r="14" fill="#fff" stroke="${abierto ? '#F2A900' : c}" stroke-width="${abierto ? 3 : 2}" ${est === 'pendiente' ? 'stroke-dasharray="3 3" opacity=".7"' : ''}/><text x="${p.x}" y="${p.y + 4}" text-anchor="middle" font-size="11" font-weight="600" fill="${abierto ? '#8A5A00' : '#8A9BA5'}" font-family="Poppins, sans-serif">${p.dia}</text></g>`;
-  }).join('');
-  // La estrella es el día 24: se enciende al resolver el último reto
-  const e24 = estadoDe(24), hecha = hechos.includes(24), ey = top - 50;
-  const forma = 'M0-16 4.7-6.5 15.2-5 7.6 2.5 9.4 13 0 8 -9.4 13 -7.6 2.5 -15.2-5 -4.7-6.5Z';
-  const estrella = hecha
-    ? `<g><title>Día 24: resuelto</title><circle class="glow" cx="${W / 2}" cy="${ey}" r="30" fill="#F2A900" opacity=".22"/><g transform="translate(${W / 2} ${ey}) scale(1.5)"><path d="${forma}" fill="#F2A900"/></g><text x="${W / 2}" y="${ey + 5}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Poppins, sans-serif">24</text></g>`
-    : `<g><title>Día 24${e24 === 'abierto' ? ': abierto' : ''}</title><g transform="translate(${W / 2} ${ey}) scale(1.5)"><path d="${forma}" fill="#fff" stroke="#F2A900" stroke-width="${e24 === 'abierto' ? 2 : 1.3}" ${e24 === 'pendiente' ? 'stroke-dasharray="2.5 2"' : ''} stroke-linejoin="round"/></g><text x="${W / 2}" y="${ey + 5}" text-anchor="middle" font-size="11" font-weight="600" fill="${e24 === 'abierto' ? '#8A5A00' : '#B08A2E'}" font-family="Poppins, sans-serif">24</text></g>`;
-  const base = top + (filas.length - 1) * gapY;
-  $('#tree').innerHTML = `<svg viewBox="0 0 ${W} ${base + 80}" role="img" aria-label="Árbol con una bola por reto: ${hechos.length} de 24 encendidas">
-    ${silueta}
-    <g stroke="#9DB8BF" stroke-width="1.6">${lineas}</g>
-    ${bolas}
-    <rect x="${W / 2 - 18}" y="${base + 26}" width="36" height="36" rx="7" fill="#2F455C"/>
-    ${estrella}
-  </svg>
-  <p class="tree-cap">${hechos.length ? `Has encendido ${hechos.length} de 24 bolas` : 'Cada bola es un reto. Resuélvelos para encender el árbol'}</p>`;
-}
-
-/* ---------- Estado ---------- */
-let RETOS = [];
-let ACTUAL = null;
-let CARGANDO = false, PROMESA_INICIO = null, ENLACE_RECUPERACION = false;
-
-// Estado de un reto calculado con la hora de este dispositivo, para pintar al instante antes de que conteste el script
-function estadoLocal(dia) {
-  const ahora = new Date();
-  if (ahora < aperturaDia(dia)) return 'pendiente';
-  if (ahora >= new Date(CONFIG.ACUSACIONES_HASTA)) return 'cerrado';
-  return ahora < cierreDia(dia) ? 'abierto' : 'atrasado';
-}
-function retosAlInstante() {
-  const guardados = store.get('cache-retos', []);
-  return Array.from({ length: 24 }, (_, i) => {
-    const dia = i + 1, g = guardados.find(r => r.dia === dia) || {};
-    return Object.assign({}, g, { dia, apertura: aperturaDia(dia).toISOString(), cierre: cierreDia(dia).toISOString(), estado: estadoLocal(dia) });
-  });
-}
-const perfil = () => store.get('perfil', null);
-const resueltos = () => store.get('resueltos', []);
-const revelaciones = () => store.get('revelaciones', {});
-function guardarRevelacion(r) { if (!r) return; const all = revelaciones(); all[r.dia] = r; store.set('revelaciones', all); }
-
-function fotoHTML(r) {
-  if (r.foto) return `<img src="${esc(r.foto)}" alt="${esc(r.persona)}" loading="lazy">`;
-  const ini = String(r.persona || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
-  return `<div class="avatar" aria-hidden="true" style="background:${color(r.dia)};color:${textoSobre(color(r.dia))}">${esc(ini)}</div>`;
-}
-function revelacionHTML(r, nueva) {
-  return `<div class="ph">${fotoHTML(r)}</div>
-    <div>
-      <div class="tag">${nueva ? 'NUEVA PISTA | ' : ''}PERSONA SOSPECHOSA Nº ${r.dia}</div>
-      <h4 id="caseName">${esc(r.persona)}</h4>
-      <div class="cg">${esc(r.cargo)}</div>
-      <div class="txt">${mini(r.historia)}</div>
-    </div>`;
-}
-
-/* ---------- Pintar ---------- */
-// Pistas visibles: las que la persona ha ganado y las de los retos ya cerrados, que son públicas
-// Cada persona solo ve los expedientes de los retos que ha acertado.
-// (Si en el script se activa PISTA_PUBLICA_AL_CERRAR, se añaden también las pistas de los retos cerrados.)
-function pistasVisibles() {
-  const todas = {};
-  RETOS.forEach(r => { if (r.estado === 'cerrado' && r.revelacion) todas[r.dia] = r.revelacion; });
-  return Object.assign(todas, revelaciones());
-}
-
-function pintarCaso() {
-  $('#heroIntro').textContent = CONFIG.CASO.intro;
-  $('#heroCierre').textContent = CONFIG.CASO.cierre;
-}
-function puntosDia(dia) {
-  const n = store.get('notas', {})[dia];
-  return 1 + (n && n.funciona ? 1 : 0) + (n && n.cleanCode ? 1 : 0);
-}
-function notaHTML(dia) {
-  const n = store.get('notas', {})[dia];
-  if (!n) return '';
-  const linea = (ok, si, no) => `<li class="${ok ? 'si' : 'no'}">${ok ? si : no}</li>`;
-  return `<div class="nota${n.funciona ? '' : ' ko'}"><b>Revisión del día ${dia}: ${puntosDia(dia)} de 3 puntos</b>
-    <ul>${linea(true, 'Solución correcta: +1', '')}${linea(n.funciona, 'Tu código funciona: +1', 'Tu código no funcionó al ejecutarlo: 0')}${linea(n.cleanCode, 'Clean code: +1', 'Clean code: 0')}</ul>
-    ${n.comentario ? `<p class="coment"><b>Comentario del equipo:</b> ${esc(n.comentario)}</p>` : ''}</div>`;
-}
 const ICONOS = {"x": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z\"/></svg>", "bluesky": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026\"/></svg>", "telegram": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z\"/></svg>", "whatsapp": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z\"/></svg>", "instagram": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077\"/></svg>", "threads": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z\"/></svg>", "linkedin": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"1\" y=\"1\" width=\"22\" height=\"22\" rx=\"4\"/><path fill=\"#fff\" d=\"M5.5 9.5h2.7V18H5.5zM6.85 5.3a1.55 1.55 0 1 1 0 3.1 1.55 1.55 0 0 1 0-3.1zM9.9 9.5h2.6v1.2c.4-.7 1.3-1.4 2.7-1.4 2.8 0 3.3 1.8 3.3 4.2V18h-2.7v-4c0-1 0-2.2-1.4-2.2s-1.6 1-1.6 2.1V18H9.9z\"/></svg>", "copiar": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 3h11a2 2 0 0 1 2 2v11h-2V5H8zM4 7h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v11h11V9z\"/></svg>", "mas": "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z\"/></svg>"};
 
 // ---------- Compartir el reto resuelto ----------
@@ -1065,499 +365,36 @@ $('#calIcs').addEventListener('click', () => {
 
 $('#compartirGeneral').innerHTML = compartirHTML(0);
 
-let DIA_PISTA = 0;
-function verPista(r, nueva) {
-  DIA_PISTA = r.dia;
-  $('#caseTag').textContent = nueva ? '¡Correcto! Has desbloqueado una pista' : 'PISTA';
-  const enRevision = !store.get('notas', {})[r.dia] && resueltos().includes(r.dia);
-  $('#caseBody').innerHTML = revelacionHTML(r, nueva) + (notaHTML(r.dia) || (enRevision ? `<div class="nota espera-rev"><b>Tu código está en la cola de revisión.</b> Ya tienes 1 punto por acertar. Los de «funciona» y clean code llegarán en cuanto lo revisemos, normalmente en uno o dos días. Si un día tardamos un poco más, es que el equipo también tiene villancicos, cenas y derecho a siesta navideña. Paciencia, que llegan.</div>` : '')) + compartirHTML(r.dia);
-  $('#dlgCase').showModal();
-}
 
-const retoDeHoy = () => RETOS.find(r => r.estado === 'abierto');
 
-function pintarGrid() {
-  const grid = $('#grid');
-  grid.innerHTML = '';
-  const hecho = resueltos();
-  const hoy = retoDeHoy();
-  RETOS.forEach(r => {
-    const b = document.createElement('button');
-    const done = hecho.includes(r.dia);
-    const esHoy = hoy && hoy.dia === r.dia;
-    let estado, texto;
-    const nota = store.get('notas', {})[r.dia];
-    const etNota = nota ? `${puntosDia(r.dia)} de 3 pts` : (done && r.estado !== 'abierto' ? '1 pt<br>en revisión' : '');
-    const botonPista = pistasVisibles()[r.dia] ? '<br><span class="see">Abrir pista</span>' : '';
-    if (r.estado === 'abierto') { estado = done ? 'open done' : 'open'; texto = done ? 'Resuelto <span aria-hidden="true">✓</span>' + botonPista : esc(r.titulo || 'Abierto'); }
-    else if (r.estado === 'atrasado') { estado = done ? 'closed done' : 'open late'; texto = done ? 'Resuelto <span aria-hidden="true">✓</span>' + (etNota ? '<br>' + etNota : '') + botonPista : esc(r.titulo || 'Sin hacer') + '<br><span class="lock">Aún puedes hacerlo</span>'; }
-    else if (r.estado === 'cerrado') { estado = 'closed' + (done ? ' done' : ''); texto = done ? 'Resuelto <span aria-hidden="true">✓</span>' + (etNota ? '<br>' + etNota : '') + botonPista : 'Cerrado<br><span class="lock">Pista bloqueada</span>'; }
-    else { estado = 'locked'; texto = 'Se abre el ' + fechaCorta(r.apertura); }
-    b.className = 'day ' + estado + (esHoy && !done ? ' today' : '');
-    const puedeHacer = (r.estado === 'abierto' || r.estado === 'atrasado') && !(done && pistasVisibles()[r.dia]);
-    const accion = puedeHacer ? 'Abrir el reto' : (pistasVisibles()[r.dia] && !botonPista ? 'Abrir la pista' : '');
-    b.style.setProperty('--c', color(r.dia));
-    const pista = pistasVisibles()[r.dia];
-    b.innerHTML = `${pista ? `<span class="mini" aria-hidden="true">${fotoHTML(pista)}</span>` : ''}${r.estado === 'pendiente' ? LAZO(color(r.dia)) : ''}${esHoy ? '<span class="flag">Hoy</span>' : ''}<span class="n"><span class="sr">Día </span>${r.dia}</span>
-      <span class="state">${texto}</span>${accion ? `<span class="sr">. ${accion}</span>` : ''}`;
-    // Si ya está resuelto, la puerta solo abre el expediente, aunque el reto siga abierto
-    if ((r.estado === 'abierto' || r.estado === 'atrasado') && !(done && pistasVisibles()[r.dia])) b.addEventListener('click', () => abrirReto(r));
-    else if (pistasVisibles()[r.dia]) { b.addEventListener('click', () => verPista(pistasVisibles()[r.dia])); b.title = 'Abrir la pista de este día'; }
-    else b.disabled = true;
-    grid.appendChild(b);
-  });
-  pintarArbol();
-  pintarAcusacion();
-  if (hoy && resueltos().includes(hoy.dia) && pistasVisibles()[hoy.dia]) {
-    $('#ctaHoy').textContent = 'Ver la persona sospechosa del día ' + hoy.dia;
-    $('#ctaHoy').onclick = e => { e.preventDefault(); verPista(pistasVisibles()[hoy.dia]); };
-  } else if (hoy) { $('#ctaHoy').textContent = 'Abrir el reto del día ' + hoy.dia; $('#ctaHoy').onclick = e => { e.preventDefault(); abrirReto(hoy); }; }
-}
-
-function cuenta(ms) {
-  const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
-  return `${d ? d + 'd ' : ''}${h}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
-}
-// Diferencia entre la hora del servidor y la de este dispositivo (por si el reloj del móvil va adelantado o atrasado)
-let DESFASE = 0;
-const ahoraServidor = () => new Date(Date.now() + DESFASE);
-
-// Trae del script los retos, el ranking y el progreso, y lo pinta. Si una parte falla, se usa lo que haya llegado.
-async function cargarDatos(rankingGuardado) {
-  const p = perfil();
-  const enviadoA = Date.now();
-  PROMESA_INICIO = apiInicio(p && p.clave);
-  let data = null;
-  try { data = await PROMESA_INICIO; } catch (e) { data = null; }
-  CARGANDO = false;
-  const retosOk = data && data.retos && Array.isArray(data.retos.retos);
-  const rankingOk = data && data.ranking && Array.isArray(data.ranking.ranking);
-  if (data && data.progreso) {
-    const claveUsada = p && p.clave;
-    aplicarProgreso(data.progreso);
-    if (data.progreso.codigo === 'clave' && claveUsada && ENLACE_RECUPERACION) {
-      avisoCarga('Ese enlace para recuperar tu progreso ya no funciona. Pide uno nuevo con "Recupera tu progreso".');
-    }
+// ---------- Guirnalda y árbol ----------
+(function () {
+  const n = 18, ancho = 1800, paso = ancho / n;
+  let d = 'M0 12', bombillas = '';
+  for (let i = 0; i < n; i++) {
+    const x = i * paso, c = PALETA[i % PALETA.length];
+    d += ` Q ${x + paso / 2} 34 ${x + paso} 12`;
+    bombillas += `<rect x="${x + paso / 2 - 5}" y="22" width="10" height="7" rx="1.5" fill="#7A8894"/><ellipse cx="${x + paso / 2}" cy="38" rx="7.5" ry="10" fill="${c}" style="filter:drop-shadow(0 0 6px ${c})"/>`;
   }
-  if (retosOk) {
-    if (data.retos.ahora) DESFASE = new Date(data.retos.ahora).getTime() - (enviadoA + Date.now()) / 2;
-    RETOS = data.retos.retos.sort((a, b) => a.dia - b.dia);
-    store.set('cache-retos', RETOS);
-    if (!$('#avisoCarga').textContent.includes('enlace')) avisoCarga('');
-  } else {
-    avisoCarga('No hemos podido conectar con el calendario. Lo que ves puede no estar al día: recarga la página en un momento.');
-  }
-  pintarIdentidad();
-  pintarGrid();
-  pintarCaso();
-  pintarCountdown();
-  if ($('#dlg').open && ACTUAL) {
-    const n = RETOS.find(x => x.dia === ACTUAL.dia);
-    if (n) { ACTUAL = Object.assign({}, ACTUAL, { estado: n.estado, apertura: n.apertura, cierre: n.cierre }); cabeceraReto(ACTUAL); }
-  }
-  if (rankingOk) { dibujarRanking(data.ranking); store.set('cache-ranking', data.ranking); }
-  else if (!rankingGuardado && !RANKING.length) $('#rankWrap').innerHTML = '<div class="empty">No se ha podido cargar el ranking. Prueba a recargar en un rato.</div>';
-}
-
-let RELOJ_CUENTA = null, ULTIMO_INTENTO = 0, INTENTOS_CAMBIO = 0;
-function pintarCountdown() {
-  clearInterval(RELOJ_CUENTA);
-  const el = $('#countdown');
-  const tick = () => {
-    const hoy = retoDeHoy();
-    const prox = RETOS.find(r => r.estado === 'pendiente');
-    // Cuando llega la hora, se piden los datos nuevos sin recargar la página (así nadie pierde lo que estaba escribiendo).
-    // Una sola vez por cada cambio de día, para no entrar en bucle si el servidor aún no ha cambiado.
-    const limite = hoy ? new Date(hoy.cierre) : prox ? new Date(prox.apertura) : null;
-    if (!limite) { el.hidden = true; return; }
-    const ms = limite - ahoraServidor();
-    if (ms <= 0) {
-      // Se reintenta cada 5 segundos (hasta 2 minutos) por si el servidor tarda un poco en cambiar de día
-      if (Date.now() - ULTIMO_INTENTO > 5000 && INTENTOS_CAMBIO < 24) {
-        ULTIMO_INTENTO = Date.now(); INTENTOS_CAMBIO++;
-        setTimeout(() => cargarDatos(true), 1500);
-      }
-      el.innerHTML = 'Abriendo el reto nuevo...';
-      return;
-    }
-    INTENTOS_CAMBIO = 0;
-    el.hidden = false;
-    el.innerHTML = hoy ? (hoy.dia < 24 ? `El reto ${hoy.dia + 1} se abre en <b>${cuenta(ms)}</b>` : `El concurso termina en <b>${cuenta(ms)}</b>`) : `El día ${prox.dia} se abre en <b>${cuenta(ms)}</b>`;
-  };
-  tick();
-  RELOJ_CUENTA = setInterval(tick, 1000);
-}
-
-async function pintarRanking() {
-  try { dibujarRanking(await apiRanking()); }
-  catch (e) { $('#rankWrap').innerHTML = '<div class="empty">No se ha podido cargar el ranking. Prueba a recargar en un rato.</div>'; }
-}
-// Ranking: en la página, los 5 primeros (y tu fila si no estás entre ellos); el resto en la ventana completa
-let RANKING = [];
-const CABECERA_RANKING = `<thead><tr><th>#</th><th>Alias</th><th>Puntos</th><th>Retos</th><th class="col-rev">Funciona</th><th class="col-rev">Clean code</th><th class="col-dots">Tiempo</th><th class="col-dots">Días</th></tr></thead>`;
-function soyYo(p) {
-  const yo = perfil();
-  return !!p.yo || !!(yo && yo.alias && String(p.alias).toLowerCase() === String(yo.alias).toLowerCase());
-}
-function filaRanking(p, i) {
-  const yo = soyYo(p);
-  return `<tr class="${i < 3 ? 'p' + (i + 1) : ''}${yo ? ' yo' : ''}">
-      <td class="pos">${i + 1}</td>
-      <td class="alias">${esc(p.alias)}${yo ? ' <span class="chip">Tú</span>' : ''}${p.acusacion ? ' <span class="chip ok">Acertó quién fue</span>' : ''}</td>
-      <td class="num pts">${p.puntos}</td>
-      <td class="num">${p.resueltos}</td>
-      <td class="num col-rev">${p.funciona || 0}</td>
-      <td class="num col-rev">${p.cleanCode || 0}</td>
-      <td class="num col-dots">${fmtMin(p.minutos)}</td>
-      <td class="col-dots"><span class="dots" role="img" aria-label="${(p.dias || []).length ? 'Días resueltos: ' + (p.dias || []).slice().sort((a, b) => a - b).join(', ') : 'Ningún día resuelto'}">${Array.from({ length: 24 }, (_, d) => `<i class="${(p.dias || []).includes(d + 1) ? 'on' : ''}"></i>`).join('')}</span></td>
-    </tr>`;
-}
-function textoPosicion() {
-  const i = RANKING.findIndex(soyYo);
-  if (i >= 0) return `Vas en la posición <b>${i + 1}</b> de ${RANKING.length} ${RANKING.length === 1 ? 'persona' : 'personas'}.`;
-  return perfil() ? 'Todavía no apareces: resuelve tu primer reto para entrar en el ranking.' : `${RANKING.length} ${RANKING.length === 1 ? 'persona participa' : 'personas participan'}.`;
-}
-function dibujarRanking(data) {
-  RANKING = data.ranking || [];
-  $('#rankUpd').textContent = 'Actualizado a las ' + new Date(data.actualizado).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-  if (!RANKING.length) {
-    $('#rankWrap').innerHTML = '<div class="empty">Todavía nadie ha resuelto un reto. ¿Serás la primera persona?</div>';
-    $('#miPosicion').innerHTML = ''; $('#btnRankAll').hidden = true;
-    return;
-  }
-  const yo = RANKING.findIndex(soyYo);
-  let filas = RANKING.slice(0, 5).map(filaRanking).join('');
-  if (yo >= 5) filas += `<tr class="salto"><td colspan="8">...</td></tr>` + filaRanking(RANKING[yo], yo);
-  $('#rankWrap').innerHTML = `<table>${CABECERA_RANKING}<tbody>${filas}</tbody></table>`;
-  $('#miPosicion').innerHTML = textoPosicion();
-  $('#btnRankAll').hidden = RANKING.length <= 5;
-}
-function abrirRankingCompleto() {
-  $('#rankAll').innerHTML = `<table>${CABECERA_RANKING}<tbody>${RANKING.map(filaRanking).join('')}</tbody></table>`;
-  $('#rankAllInfo').innerHTML = textoPosicion();
-  $('#dlgRank').showModal();
-  const mia = $('#rankAll tr.yo');
-  if (mia) mia.scrollIntoView({ block: 'center' });
-}
-$('#btnRankAll').onclick = abrirRankingCompleto;
-$('#rankClose').onclick = () => $('#dlgRank').close();
-$('#dlgRank').addEventListener('click', e => { if (e.target.id === 'dlgRank') $('#dlgRank').close(); });
-
-/* ---------- Ventana del reto ---------- */
-function pintarIdentidad() {
-  const p = perfil();
-  $('#identity').hidden = !!p;
-  ['#fAlias', '#fEmail', '#fConsent'].forEach(s => $(s).required = !p);
-  const who = $('#who');
-  if (p) {
-    who.hidden = false;
-    who.innerHTML = `Participas como <strong>${esc(p.alias)}</strong>${p.email ? ` (${esc(p.email)})` : ''}. <button type="button" class="linkbtn" id="btnChange">No soy yo</button>`;
-    $('#btnChange').onclick = salir;
-  } else {
-    who.hidden = true;
-  }
-  pintarYo();
-}
-
-// Quita la sesión de este dispositivo. El progreso sigue guardado en la hoja y se recupera con el email.
-function salir() {
-  ['perfil', 'resueltos', 'revelaciones', 'notas', 'bonus'].forEach(k => store.set(k, k === 'perfil' ? null : k === 'resueltos' ? [] : {}));
-  store.set('acusacion', null);
-  pintarIdentidad(); pintarGrid(); pintarCaso();
-}
-
-// Puntos de la persona: 1 por reto acertado, +1 si funciona y +1 por clean code (según la revisión publicada)
-function misPuntos() {
-  const notas = store.get('notas', {});
-  let total = 0, funciona = 0, clean = 0, aciertos = 0;
-  resueltos().forEach(d => {
-    const n = notas[d];
-    aciertos++; total += 1;
-    if (n && n.funciona) { total += 1; funciona++; }
-    if (n && n.cleanCode) { total += 1; clean++; }
-  });
-  const bonus = store.get('bonus', {});
-  const bAcus = bonus.acusacion ? CONFIG.BONUS_ACUSACION : 0;
-  total += bAcus;
-  return { total, funciona, clean, aciertos, bAcus };
-}
-
-function pintarMarcador() {
-  const p = perfil();
-  const m = $('#marcador');
-  const { total, funciona, clean, aciertos, bAcus } = (p && p.alias) ? misPuntos() : { total: 0, funciona: 0, clean: 0, aciertos: 0, bAcus: 0 };
-  m.hidden = false;
-  m.innerHTML = `<div><div class="etq">Tus puntos</div><div class="total">${total}<small>pts</small></div></div>
-    <div class="desglose"><b>${aciertos}</b> por ${aciertos === 1 ? 'reto acertado' : 'retos acertados'}<br><b>${funciona}</b> por código que funciona<br><b>${clean}</b> por clean code${bAcus ? `<br><b>${bAcus}</b> por acertar quién fue` : ''}</div>`;
-}
-
-function pintarYo() {
-  const p = perfil();
-  const me = $('#me');
-  if (p && p.alias) { me.hidden = false; me.textContent = `${p.alias} | ${misPuntos().total} pts`; }
-  else me.hidden = true;
-  pintarMarcador();
-  const acc = $('#calActions');
-  acc.innerHTML = p
-    ? `<span aria-hidden="true">💾</span> Tu progreso está guardado. Si entras desde otro dispositivo, <button type="button" class="linkbtn" data-recuperar>recupéralo con tu email</button>.`
-    : `<span aria-hidden="true">💾</span> ¿Ya participas desde otro dispositivo? <button type="button" class="linkbtn" data-recuperar>Recupera tu progreso</button>`;
-}
-
-// Carga desde la hoja los retos resueltos y los expedientes conseguidos por esta persona
-async function cargarProgreso() {
-  const p = perfil();
-  if (!p || !p.clave) return;
-  try {
-    aplicarProgreso(await apiProgreso(p.clave));
-  } catch (e) { /* sin conexión: se usa lo guardado en este navegador */ }
-}
-function aplicarProgreso(res) {
-  const p = perfil();
-  if (!res || !p) return;
-  {
-    if (!res.ok) { if (res.codigo === 'clave') salir(); return; }
-    store.set('perfil', { alias: res.alias, clave: p.clave, email: res.email || p.email || '' });
-    store.set('resueltos', res.resueltos || []);
-    store.set('revelaciones', res.revelaciones || {});
-    store.set('notas', res.notas || {});
-    store.set('bonus', res.bonus || {});
-    store.set('acusacion', res.acusacion || null);
-  }
-}
-
-function abrirRecuperar() {
-  $('#recMsg').className = 'msg'; $('#recMsg').textContent = '';
-  if ($('#dlg').open) $('#dlg').close();
-  $('#dlgRec').showModal();
-}
-$('#btnInfoRun').addEventListener('click', () => {
-  const b = $('#btnInfoRun'), abierto = b.getAttribute('aria-expanded') === 'true';
-  b.setAttribute('aria-expanded', String(!abierto));
-  $('#infoRun').hidden = abierto;
-});
-document.addEventListener('click', e => { if (e.target.closest('[data-cerrar]')) { document.querySelectorAll('dialog[open]').forEach(d => d.close()); } });
-document.addEventListener('click', e => { if (e.target.closest('[data-recuperar]')) { e.preventDefault(); abrirRecuperar(); } });
-$('#recClose').onclick = () => $('#dlgRec').close();
-$('#formRec').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = $('#btnRec'), msg = $('#recMsg');
-  btn.disabled = true;
-  try {
-    const res = await apiRecuperar($('#recEmail').value.trim());
-    msg.className = res.ok ? 'msg ok' : 'msg ko';
-    msg.textContent = res.ok ? res.mensaje : res.error;
-  } catch (err) {
-    msg.className = 'msg ko'; msg.textContent = 'No hemos podido enviar el enlace. Prueba otra vez en un rato.';
-  } finally { btn.disabled = false; }
-});
-
-function avisoCarga(texto) {
-  const a = $('#avisoCarga');
-  a.hidden = !texto;
-  a.textContent = texto || '';
-  if (texto) a.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-// Cabecera de la ventana del reto: se repinta también si cambia el día con la ventana abierta
-function cabeceraReto(r) {
-  $('#dlgTag').textContent = 'Día ' + r.dia;
-  $('#dlgCierre').textContent = r.estado === 'atrasado'
-    ? `Fuera de plazo: tu tiempo cuenta desde el ${fechaCorta(r.apertura)} a las 00:00`
-    : 'Tu tiempo cuenta desde las 00:00 de hoy';
-}
-function abrirReto(r) {
-  if (!CARGANDO && r.enunciado === undefined) {
-    avisoCarga('No hemos podido cargar este reto. Comprueba tu conexión y recarga la página en un momento.');
-    return;
-  }
-  if (CARGANDO && PROMESA_INICIO) {
-    PROMESA_INICIO.then(() => { const nuevo = RETOS.find(x => x.dia === r.dia); if (nuevo && nuevo.enunciado !== undefined) abrirReto(nuevo); });
-    return;
-  }
-  ACTUAL = r;
-  cabeceraReto(r);
-  $('#dlgTitle').textContent = r.titulo;
-  $('#dlgText').innerHTML = mini(r.enunciado);
-  $('#dlgInput').textContent = r.entrada;
-  $('#fAnswer').value = '';
-  $('#fCode').value = store.get('codigo-' + r.dia, '');
-  $('#fFile').value = '';
-  $('#fRun').value = store.get('ejecucion', '');
-  $('#fileName').textContent = 'o pega el código arriba';
-  const msg = $('#msg'); msg.className = 'msg'; msg.textContent = '';
-  const rv = $('#reveal'); rv.className = 'reveal'; rv.innerHTML = '';
-  if (resueltos().includes(r.dia)) {
-    msg.className = 'msg ok'; msg.textContent = 'Este ya lo tienes resuelto. ¡Bien hecho!';
-    const prev = revelaciones()[r.dia];
-    if (prev) { rv.innerHTML = revelacionHTML(prev, false); rv.className = 'reveal show'; }
-  }
-  pintarIdentidad();
-  pintarEspera();
-  $('#dlg').showModal();
-}
-
-$('#dlgClose').onclick = () => $('#dlg').close();
-$('#dlg').addEventListener('close', () => clearInterval(relojEspera));
-$('#dlg').addEventListener('click', e => { if (e.target.id === 'dlg') $('#dlg').close(); });
-$('#caseClose').onclick = () => $('#dlgCase').close();
-// Al cerrar la pista, el foco vuelve al regalo de ese día si se ha quedado sin sitio (por ejemplo, tras acertar)
-$('#dlgCase').addEventListener('close', () => setTimeout(() => {
-  const a = document.activeElement;
-  if (!a || a === document.body || a.closest('dialog:not([open])')) { const d = document.querySelectorAll('.day')[DIA_PISTA - 1]; if (d) d.focus(); }
-}, 0));
-$('#dlgCase').addEventListener('click', e => { if (e.target.id === 'dlgCase') $('#dlgCase').close(); });
-$('#btnCopy').onclick = async () => {
-  try { await navigator.clipboard.writeText(ACTUAL.entrada); $('#btnCopy').textContent = 'Copiado'; setTimeout(() => $('#btnCopy').textContent = 'Copiar', 1500); } catch (e) {}
-};
-$('#btnDown').onclick = () => {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([ACTUAL.entrada], { type: 'text/plain' }));
-  a.download = `dia-${ACTUAL.dia}.txt`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-};
-
-// El archivo se lee como texto en el navegador: no se sube ningún archivo, solo su contenido
-$('#fFile').addEventListener('change', () => {
-  const f = $('#fFile').files[0];
-  if (!f) return;
-  if (f.size > 40000) { $('#fileName').textContent = 'El archivo es demasiado grande (máximo 40 KB)'; return; }
-  const lector = new FileReader();
-  lector.onload = () => {
-    const txt = String(lector.result);
-    if (txt.includes('\u0000')) { $('#fileName').textContent = 'Ese archivo no parece de texto'; return; }
-    $('#fCode').value = txt;
-    store.set('codigo-' + ACTUAL.dia, txt);
-    $('#fileName').textContent = f.name;
-  };
-  lector.readAsText(f);
-});
-$('#fCode').addEventListener('input', () => { if (ACTUAL) store.set('codigo-' + ACTUAL.dia, $('#fCode').value); });
-
-// Espera tras una respuesta incorrecta: el botón se bloquea y debajo sale la cuenta atrás
-let relojEspera = null;
-function pintarEspera() {
-  clearInterval(relojEspera);
-  const btn = $('#btnSend'), aviso = $('#espera');
-  const tick = () => {
-    const falta = ACTUAL ? Math.ceil((store.get('espera-' + ACTUAL.dia, 0) - Date.now()) / 1000) : 0;
-    if (falta > 0) {
-      btn.disabled = true;
-      aviso.hidden = false;
-      aviso.innerHTML = `Podrás volver a intentarlo en <b>${Math.floor(falta / 60)}:${String(falta % 60).padStart(2, '0')}</b>`;
-    } else {
-      clearInterval(relojEspera);
-      aviso.hidden = true;
-      btn.disabled = false;
-    }
-  };
-  tick();
-  relojEspera = setInterval(tick, 1000);
-}
-function iniciarEspera(segundos) {
-  store.set('espera-' + ACTUAL.dia, Date.now() + (segundos || 60) * 1000);
-  pintarEspera();
-}
-
-$('#form').addEventListener('submit', async e => {
-  e.preventDefault();
-  const msg = $('#msg');
-  if ($('#fCode').value.trim().length < 10) { msg.className = 'msg ko'; msg.textContent = 'Pega tu código o sube el archivo con tu solución.'; return; }
-  const p = perfil();
-  const btn = $('#btnSend');
-  btn.disabled = true; btn.textContent = 'Comprobando...';
-  try {
-    // Con clave se identifica a la persona; sin clave es un alta nueva con alias y email
-    const datos = { dia: ACTUAL.dia, respuesta: $('#fAnswer').value, codigo: $('#fCode').value, ejecucion: $('#fRun').value.trim() };
-    store.set('ejecucion', datos.ejecucion);
-    if (p && p.clave) datos.clave = p.clave;
-    else Object.assign(datos, { alias: $('#fAlias').value.trim(), email: $('#fEmail').value.trim(), consentimiento: $('#fConsent').checked, newsletter: $('#fNews').checked });
-    const res = await apiEnviar(datos);
-    if (!res.ok) {
-      msg.className = 'msg ko';
-      msg.innerHTML = esc(res.error) + (res.codigo === 'registrado' ? ' <button type="button" class="linkbtn" data-recuperar>Recuperar mi progreso</button>' : '');
-      if (res.codigo === 'clave') salir();
-      if (res.codigo === 'espera' && res.espera > 0) { msg.className = 'msg'; msg.textContent = ''; iniciarEspera(res.espera); }
-      return;
-    }
-    store.set('perfil', { alias: res.alias, clave: res.clave, email: (p && p.email) || datos.email || '' });
-    if (res.correcto) {
-      const r = resueltos(); if (!r.includes(ACTUAL.dia)) { r.push(ACTUAL.dia); store.set('resueltos', r); }
-      msg.className = 'msg ok';
-      msg.textContent = res.yaResuelto ? 'Este reto ya lo tenías resuelto.' : '¡Correcto! Ya cuenta para el ranking y tienes una pista nueva.';
-      if (res.revelacion) {
-        guardarRevelacion(res.revelacion);
-        // Al acertar se cierra el reto y se abre directamente la tarjeta de la pista
-        $('#dlg').close();
-        verPista(res.revelacion, !res.yaResuelto);
-      }
-      pintarGrid(); pintarRanking(); pintarCaso(); pintarYo();
-    } else {
-      msg.className = 'msg ko';
-      msg.textContent = 'Esa no es la respuesta. Revisa tu solución y vuelve a probar.';
-      if (res.espera > 0) iniciarEspera(res.espera);
-    }
-    pintarIdentidad();
-  } catch (err) {
-    msg.className = 'msg ko'; msg.textContent = 'No hemos podido enviar tu respuesta. Comprueba tu conexión y prueba otra vez.';
-  } finally {
-    btn.textContent = 'Enviar respuesta';
-    pintarEspera();
-  }
-});
-
-document.querySelectorAll('.legalLink').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; a.insertAdjacentHTML('beforeend', '<span class="sr"> (se abre en otra pestaña)</span>'); });
-
-/* ---------- Arranque ---------- */
-(async function init() {
-  if (DEMO) {
-    $('#demoBanner').hidden = false;
-    // En la demo, el día 1 aparece ya resuelto para enseñar cómo queda una puerta con su pista
-    if (!perfil()) {
-      store.set('perfil', { alias: 'demo', clave: 'demo' });
-      store.set('resueltos', [1]);
-      store.set('revelaciones', { 1: DEMO_REVELACIONES[1] });
-      store.set('notas', { 1: { funciona: true, cleanCode: false, comentario: 'Funciona a la primera. Para el punto de clean code, separa la lectura de la entrada del cálculo y ponle nombre a ese 24.' } });
-    }
-  }
-  pintarGuirnalda('#garland', 0);
-  pintarGuirnalda('#garland2', 3);
-  pintarNieve();
-  // Enlace de recuperación: ?clave=... guarda la sesión en este dispositivo y se quita de la barra de direcciones
-  const params = new URLSearchParams(location.search);
-  const claveUrl = params.get('clave');
-  // Enlace compartido: ?reto=5 abre directamente ese reto (o su pista, si ya lo has resuelto)
-  const retoUrl = Math.floor(Number(params.get('reto')));
-  if (retoUrl) { params.delete('reto'); const q = params.toString(); history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash); }
-  ENLACE_RECUPERACION = !!claveUrl;
-  if (claveUrl) {
-    store.set('perfil', { alias: '', clave: claveUrl });
-    history.replaceState(null, '', location.pathname + location.hash);
-  }
-  // 1. Al instante: el caso, el calendario, el árbol, tus puntos y el ranking de la última visita
-  pintarCaso();
-  RETOS = retosAlInstante();
-  CARGANDO = true;
-  pintarGrid();
-  pintarCountdown();
-  pintarIdentidad();
-  const rankingGuardado = store.get('cache-ranking', null);
-  if (rankingGuardado) dibujarRanking(rankingGuardado);
-  // 2. Una sola llamada al script para traer lo último
-  await cargarDatos(rankingGuardado);
-  if (retoUrl >= 1 && retoUrl <= 24) abrirRetoPorEnlace(retoUrl);
+  $('#garland').innerHTML = `<svg viewBox="0 0 ${ancho} 58" preserveAspectRatio="xMidYMin slice"><path d="${d}" fill="none" stroke="#4A5A68" stroke-width="2"/>${bombillas}</svg>`;
+  const filas = [[24], [23], [21, 22], [18, 19, 20], [14, 15, 16, 17], [8, 9, 10, 11, 12, 13], [1, 2, 3, 4, 5, 6, 7]];
+  $('#arbol').innerHTML = '<div class="estrella">★</div>' + filas.slice(1).map(f => `<div class="fila">${f.map(k => `<span class="bola" style="--c:${color(k)}">${k}</span>`).join('')}</div>`).join('') + '<div class="tronco"></div>';
 })();
 
-function abrirRetoPorEnlace(n) {
-  const r = RETOS.find(x => x.dia === n);
-  const boton = document.querySelectorAll('.day')[n - 1];
-  $('#calendario').scrollIntoView({ block: 'start' });
-  if (!r) return;
-  const pista = pistasVisibles()[n];
-  if (pista) { verPista(pista); return; }
-  if ((r.estado === 'abierto' || r.estado === 'atrasado') && r.enunciado) { abrirReto(r); return; }
-  // Aún no se ha abierto o el concurso ya terminó: se queda en el calendario con ese día enfocado
-  if (boton) { boton.setAttribute('tabindex', '-1'); boton.focus(); }
-}
+// ---------- Cuenta atrás ----------
+(function () {
+  const dos = v => String(v).padStart(2, '0');
+  let ultimoMinuto = -1;
+  function tic() {
+    const falta = LANZAMIENTO - Date.now();
+    if (falta <= 0) { location.replace(WEB_RETOS + location.search + location.hash); return; }
+    const s = Math.floor(falta / 1000), dias = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+    $('#cDias').textContent = dias; $('#cHoras').textContent = dos(h); $('#cMin').textContent = dos(m); $('#cSeg').textContent = dos(s % 60);
+    // Para lectores de pantalla, el texto se actualiza una vez por minuto, sin anunciarse cada segundo
+    if (m !== ultimoMinuto) { ultimoMinuto = m; $('#cuentaTexto').textContent = `Faltan ${dias} días, ${h} horas y ${m} minutos.`; }
+  }
+  tic(); setInterval(tic, 1000);
+})();
 </script>
 </body>
 </html>
