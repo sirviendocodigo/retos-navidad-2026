@@ -73,13 +73,30 @@
   .stamp { display: inline-block; font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600; color: var(--lm-deep); border: 2px solid var(--lm-deep); border-radius: 6px; padding: 2px 8px; transform: rotate(-3deg); margin-bottom: 10px; }
 
   .arriba { padding: 18px 0 8px; }
+  .arriba .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
   .cuenta { text-align: center; }
+  .avisame { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; display: grid; gap: 12px; }
+  .avisame h2 { font-family: var(--display); font-weight: 800; font-size: 20px; line-height: 1.25; color: var(--sc-navy); margin: 0; }
+  .avisame .sub { margin: -4px 0 2px; font-size: 14px; color: var(--ink-soft); }
+  .avisame .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .avisame label { display: grid; gap: 4px; font-size: 13px; font-weight: 500; color: var(--ink-soft); }
+  .avisame input[type=text], .avisame input[type=email] { font: inherit; font-size: 15px; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%; min-width: 0; background: #fff; }
+  .avisame input:focus-visible { outline: 3px solid var(--lm-deep); outline-offset: 1px; }
+  .avisame .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 13px; line-height: 1.45; }
+  .avisame .check input { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--lm-deep); }
+  .avisame .check a { color: var(--lm-deep); }
+  .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .btn { font: inherit; font-weight: 600; font-size: 15px; border: 0; border-radius: 12px; padding: 12px 22px; cursor: pointer; background: var(--sc-navy); color: #fff; justify-self: start; }
+  .btn:hover { background: var(--lm-deep); }
+  .btn:disabled { background: #E3EAED; color: #6B7B85; cursor: wait; }
+  .msg { margin: 0; font-size: 14px; min-height: 1.2em; }
+  .msg.ok { color: var(--lm-deep); font-weight: 600; } .msg.ko { color: #B42318; }
   .cuenta h2 { font-family: var(--display); font-weight: 800; font-size: clamp(20px, 2.6vw, 28px); color: var(--sc-navy); margin: 0 0 14px; display: inline-flex; align-items: center; gap: 10px; }
   .reloj { color: var(--nd-yellow); width: 1.05em; height: 1.05em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
   .reloj .arena { fill: currentColor; stroke: none; }
   .cajas { display: flex; gap: 14px; justify-content: center; }
-  .caja { background: var(--nd-yellow); color: var(--sc-navy); border-radius: 16px; min-width: 120px; padding: 16px 12px 12px; text-align: center; box-shadow: 0 8px 22px rgba(242, 169, 0, .35); }
-  .caja b { display: block; font-family: var(--display); font-weight: 900; font-size: 56px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .caja { background: var(--nd-yellow); color: var(--sc-navy); border-radius: 16px; min-width: 104px; padding: 16px 12px 12px; text-align: center; box-shadow: 0 8px 22px rgba(242, 169, 0, .35); }
+  .caja b { display: block; font-family: var(--display); font-weight: 900; font-size: 50px; line-height: 1; font-variant-numeric: tabular-nums; }
   .caja span { font-size: 13px; font-weight: 500; }
   .cuenta .nota { margin: 12px 0 0; font-size: 13px; color: var(--ink-soft); }
 
@@ -113,7 +130,8 @@
   footer a { color: var(--lm-deep); }
 
   @media (max-width: 1000px) { .hero .wrap { gap: 28px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } .arbol { gap: 9px; } }
-  @media (max-width: 860px) { .tarjetas { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .tarjetas { grid-template-columns: 1fr; } .arriba .wrap { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .avisame .dos { grid-template-columns: 1fr; } }
   @media (max-width: 680px) { .hero .wrap { grid-template-columns: 1fr; } }
   @media (max-width: 560px) { .logos .lbl { display: none; } .logos { gap: 12px; } .logo-lm img { height: 20px; } .logo-nd svg { height: 12px; } .logo-sc svg { height: 13px; } .codiguito { margin-right: -14px; } .codiguito svg { height: 30px; } .topbar .wrap { padding: 0 16px; } .cajas { gap: 8px; } .caja { min-width: 0; flex: 1; padding: 12px 4px 10px; } .caja b { font-size: 32px; } .caja span { font-size: 11px; } .bola { width: 34px; height: 34px; font-size: 12px; } .arbol .fila { gap: 8px; } }
   @media (max-width: 380px) { .logos { gap: 8px; } .logo-lm img { height: 16px; } .logo-nd svg { height: 10px; } .logo-sc svg { height: 11px; } .codiguito svg { height: 24px; } .codiguito { margin-right: -11px; } .wrap { padding: 0 18px; } }
@@ -148,6 +166,20 @@
       <p class="sr" id="cuentaTexto"></p>
       <p class="nota">El 1 de diciembre a las 00:00 (23:00 del 30 de noviembre en Canarias). Esta misma página te llevará a los retos.</p>
     </div>
+    <form class="avisame" id="avisame" novalidate>
+      <h2 id="avisameTit">¿Quieres que te avisemos cuando el calendario esté abierto?</h2>
+      <p class="sub">Déjanos tus datos y te escribimos el 1 de diciembre en cuanto se abra el primer reto.</p>
+      <div class="dos">
+        <label>Nombre<input type="text" id="aNombre" name="nombre" autocomplete="given-name" maxlength="80" required></label>
+        <label>Apellidos<input type="text" id="aApellidos" name="apellidos" autocomplete="family-name" maxlength="120" required></label>
+      </div>
+      <label>Email<input type="email" id="aEmail" name="email" autocomplete="email" maxlength="254" required></label>
+      <label class="trampa" aria-hidden="true">Web<input type="text" id="aWeb" name="web" tabindex="-1" autocomplete="off"></label>
+      <label class="check"><input type="checkbox" id="aPriv" required><span>He leído y acepto la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad<span class="sr"> (se abre en otra pestaña)</span></a>.</span></label>
+      <label class="check"><input type="checkbox" id="aCom"><span>Acepto recibir comunicaciones comerciales e informativas del grupo We Are Next según lo especificado en las Bases Legales y la Política de Privacidad (opcional).</span></label>
+      <button type="submit" class="btn" id="aEnviar">Avisadme</button>
+      <p class="msg" id="aMsg" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 <section class="hero">
@@ -388,6 +420,36 @@ $('#compartirGeneral').innerHTML = compartirHTML(0);
   $('#garland').innerHTML = `<svg viewBox="0 0 ${ancho} 58" preserveAspectRatio="xMidYMin slice"><path d="${d}" fill="none" stroke="#4A5A68" stroke-width="2"/>${bombillas}</svg>`;
   const filas = [[24], [23], [21, 22], [18, 19, 20], [14, 15, 16, 17], [8, 9, 10, 11, 12, 13], [1, 2, 3, 4, 5, 6, 7]];
   $('#arbol').innerHTML = '<svg class="estrella" viewBox="0 0 64 62"><path d="M32 3l8.5 17.6 19.3 2.6-14.1 13.4 3.5 19.2L32 46.6 14.8 55.8l3.5-19.2L4.2 23.2l19.3-2.6z" fill="#fff" stroke="#F2A900" stroke-width="3" stroke-dasharray="5 3.5" stroke-linejoin="round"/><text x="32" y="38" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="15" fill="#2F455C">24</text></svg>' + filas.slice(1).map(f => `<div class="fila">${f.map(k => `<span class="bola" style="--c:${color(k)}">${k}</span>`).join('')}</div>`).join('') + '<div class="tronco"></div>';
+})();
+
+// ---------- Avisadme ----------
+const API_URL = 'https://script.google.com/macros/s/AKfycbyFS5pAY0F-6AunO0MuDjk5amJI2MKkBH_x1pTYR7p4KBzn3HpsOq-YOBz6C_MuUmAp4w/exec';
+(function () {
+  const f = $('#avisame'), msg = $('#aMsg'), boton = $('#aEnviar');
+  const di = (t, ok) => { msg.textContent = t; msg.className = 'msg ' + (ok ? 'ok' : 'ko'); };
+  try { if (localStorage.getItem('avisoApuntado')) di('Ya estás en la lista: te avisaremos el 1 de diciembre. Si quieres cambiar tus datos, vuelve a enviarlos.', true); } catch (e) {}
+  f.addEventListener('submit', async e => {
+    e.preventDefault();
+    const nombre = $('#aNombre').value.trim(), apellidos = $('#aApellidos').value.trim(), email = $('#aEmail').value.trim();
+    const falta = !nombre ? '#aNombre' : !apellidos ? '#aApellidos' : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? '#aEmail' : !$('#aPriv').checked ? '#aPriv' : '';
+    if (falta) {
+      di({ '#aNombre': 'Escribe tu nombre.', '#aApellidos': 'Escribe tus apellidos.', '#aEmail': 'Revisa el email: no parece válido.', '#aPriv': 'Para apuntarte tienes que aceptar la Política de Privacidad.' }[falta], false);
+      $(falta).focus(); return;
+    }
+    boton.disabled = true; boton.textContent = 'Enviando...';
+    try {
+      // Sin cabecera Content-Type para que Apps Script lo acepte sin preflight CORS
+      const r = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: 'avisame', nombre, apellidos, email, web: $('#aWeb').value, privacidad: true, comunicaciones: $('#aCom').checked }) });
+      const res = await r.json();
+      if (res.ok) {
+        di(`¡Hecho, ${nombre}! Te escribiremos a ${email} en cuanto se abra el calendario.`, true);
+        try { localStorage.setItem('avisoApuntado', '1'); } catch (e2) {}
+        f.querySelectorAll('input[type=text], input[type=email]').forEach(i => i.value = ''); $('#aPriv').checked = false; $('#aCom').checked = false;
+      } else di(res.error || 'No se ha podido guardar. Prueba otra vez en un rato.', false);
+    } catch (err) {
+      di('No hemos podido conectar. Revisa tu conexión y prueba otra vez.', false);
+    } finally { boton.disabled = false; boton.textContent = 'Avisadme'; }
+  });
 })();
 
 // ---------- Cuenta atrás ----------
